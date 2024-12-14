@@ -57,6 +57,24 @@ void main() {
       ).called(1);
     });
 
+    group('isFirstTimeUser', () {
+      test('returns true when there is no saved encrypted keypass', () async {
+        when(
+          () => secureStorage.read(key: any(named: 'key')),
+        ).thenAnswer((_) async => null);
+        final actual = await passkeyRepository.isFirstTimeUser();
+        expect(actual, isTrue);
+      });
+
+      test('returns false when there is a saved encrypted keypass', () async {
+        when(
+          () => secureStorage.read(key: any(named: 'key')),
+        ).thenAnswer((_) async => 'something');
+        final actual = await passkeyRepository.isFirstTimeUser();
+        expect(actual, isFalse);
+      });
+    });
+
     group('verifyPasskey', () {
       setUp(() {
         when(

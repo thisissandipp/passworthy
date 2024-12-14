@@ -49,6 +49,14 @@ class PasskeyRepository {
     await _secureStorage.write(key: kPasskeyStorageKey, value: encrypted);
   }
 
+  // TODO(thecodexhub): This is not an ideal way, find a better solution.
+  /// Returns true if the user is first time user. This method searches
+  /// for saved keypass, if not found, the user is first time user.
+  Future<bool> isFirstTimeUser() async {
+    final encrypted = await _secureStorage.read(key: kPasskeyStorageKey);
+    return encrypted == null;
+  }
+
   /// Verifies the provided [input] with the locally stored passkey.
   ///
   /// Defaults to `false` if encrypted passkey is not found
