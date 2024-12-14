@@ -1,0 +1,25 @@
+name: cryptography
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    paths:
+      - "packages/cyptography/**"
+      - ".github/workflows/cryptography.yaml"
+    branches:
+      - main
+  pull_request:
+    paths:
+      - "packages/cyptography/**"
+      - ".github/workflows/cryptography.yaml"
+    branches:
+      - main
+
+jobs:
+  build:
+    uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/dart_package.yml@v1
+    with:
+      working_directory: packages/cryptography
