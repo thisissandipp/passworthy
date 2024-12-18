@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:isolate';
+
 import 'package:cryptography/cryptography.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -45,7 +48,9 @@ class PasskeyRepository {
 
   /// Saves the [passkey] in the secure storage.
   Future<void> savePasskey(String passkey) async {
-    final encrypted = _passkeyCryptography.hash(passkey);
+    final encrypted = await runInBackground<String>(
+      () => _passkeyCryptography.hash(passkey),
+    );
     await _secureStorage.write(key: kPasskeyStorageKey, value: encrypted);
   }
 
@@ -64,7 +69,11 @@ class PasskeyRepository {
   Future<bool> verifyPasskey(String input) async {
     final encrypted = await _secureStorage.read(key: kPasskeyStorageKey);
     if (encrypted == null) return false;
-    return _passkeyCryptography.verify(input, encrypted);
+
+    final result = await runInBackground<bool>(
+      () => _passkeyCryptography.verify(input, encrypted),
+    );
+    return result;
   }
 
   /// Updates the [oldPasskey], and stores the [newPasskey].
@@ -76,8 +85,18 @@ class PasskeyRepository {
     }
 
     // hash the new passkey
-    final newEncrypted = _passkeyCryptography.hash(newPasskey);
+    final newEncrypted = await runInBackground<String>(
+      () => _passkeyCryptography.hash(newPasskey),
+    );
     // save the encrypted new passkey in the storage
     await _secureStorage.write(key: kPasskeyStorageKey, value: newEncrypted);
+  }
+
+  /// Common method to run an isolate with complex computation.
+  /// 
+  /// This is only exposed for testing and shouldn't be used by consumers.
+  @visibleForTesting
+  FutureOr<T> runInBackground<T>(FutureOr<T> Function() computation) {
+    return Isolate.run(computation);
   }
 }

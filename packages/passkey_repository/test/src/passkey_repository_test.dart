@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +11,18 @@ import 'package:passkey_repository/passkey_repository.dart';
 class MockPasskeyCryptography extends Mock implements PasskeyCryptography {}
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
+
+class PasskeyRepositoryTest extends PasskeyRepository {
+  PasskeyRepositoryTest({
+    super.passkeyCryptography,
+    super.secureStorage,
+  });
+
+  @override
+  FutureOr<T> runInBackground<T>(FutureOr<T> Function() computation) {
+    return computation();
+  }
+}
 
 void main() {
   group('PasskeyFailure', () {
@@ -26,7 +40,7 @@ void main() {
     setUp(() {
       passkeyCryptography = MockPasskeyCryptography();
       secureStorage = MockFlutterSecureStorage();
-      passkeyRepository = PasskeyRepository(
+      passkeyRepository = PasskeyRepositoryTest(
         passkeyCryptography: passkeyCryptography,
         secureStorage: secureStorage,
       );
@@ -171,6 +185,16 @@ void main() {
             value: 'newencrypted',
           ),
         ).called(1);
+      });
+    });
+
+    group('runInBackground', () {
+      test('executes computation in isolate and returns result', () async {
+        final repository = PasskeyRepository();
+        Future<int> computation() async => 42;
+
+        final result = await repository.runInBackground(computation);
+        expect(result, equals(42));
       });
     });
   });
