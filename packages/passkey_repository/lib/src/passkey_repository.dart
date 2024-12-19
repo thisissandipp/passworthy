@@ -93,7 +93,7 @@ class PasskeyRepository {
   }
 
   /// Common method to run an isolate with complex computation.
-  /// 
+  ///
   /// This is only exposed for testing and shouldn't be used by consumers.
   @visibleForTesting
   FutureOr<T> runInBackground<T>(FutureOr<T> Function() computation) {
