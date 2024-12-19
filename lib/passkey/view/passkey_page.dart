@@ -23,7 +23,7 @@ class PasskeyPage extends StatelessWidget {
 
 /// {@template passkey_view}
 /// View that decides which subsequent view to render.
-/// 
+///
 /// - For first time users, it renders [FirstTimePasskeyView].
 /// - For existing users, it renders [ExistingPasskeyView].
 /// {@endtemplate}
