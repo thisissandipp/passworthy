@@ -1,22 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:passworthy/counter/counter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:passkey_repository/passkey_repository.dart';
+import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/l10n/l10n.dart';
+import 'package:passworthy/passkey/passkey.dart';
+import 'package:passworthy/typography/typography.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({
+    required PasskeyRepository passkeyRepository,
+    super.key,
+  }) : _passkeyRepository = passkeyRepository;
+
+  final PasskeyRepository _passkeyRepository;
 
   @override
   Widget build(BuildContext context) {
+    return RepositoryProvider.value(
+      value: _passkeyRepository,
+      child: const AppView(),
+    );
+  }
+}
+
+class AppView extends StatelessWidget {
+  const AppView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final appBarTheme = Theme.of(context).appBarTheme;
+    final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
+
     return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      theme: ThemeData.dark(useMaterial3: false).copyWith(
+        scaffoldBackgroundColor: PassworthyColors.backgroundDefault,
+        appBarTheme: appBarTheme.copyWith(
+          elevation: 0,
+          color: PassworthyColors.appBarDefault,
         ),
-        useMaterial3: true,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: PassworthyColors.elevatedButtonBackground,
+            minimumSize: const Size.fromHeight(56),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            textStyle: PassworthyTextStyle.buttonText,
+          ),
+        ),
+        inputDecorationTheme: inputDecorationTheme.copyWith(
+          hintStyle: PassworthyTextStyle.inputHintText,
+          border: InputBorder.none,
+        ),
+        textTheme: GoogleFonts.poppinsTextTheme(textTheme),
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const PasskeyPage(),
     );
   }
 }

@@ -1,7 +1,39 @@
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+  "@@locale": "en",
+  "firstTimePasskeyTitle": "set up your\nsecret password",
+  "@firstTimePasskeyTitle": {
+    "description": "Text shown in the title of the Passkey Page for first time users"
+  },
+  "firstTimePasskeyCaption": "only password you need to\nremember, we take care of the rest.",
+  "@firstTimePasskeyCaption": {
+    "description": "Text shown in the caption of the Passkey Page for first time users"
+  },
+  "passkeyTextFieldHint": "enter secret password",
+  "@passkeyTextFieldHint": {
+    "description": "Text shown in the passkey text field hint of the Passkey Page"
+  },
+  "confirmPasskeyTextFieldHint": "confirm secret password",
+  "@confirmPasskeyTextFieldHint": {
+    "description": "Text shown in the confirm passkey text field hint of the Passkey Page"
+  },
+  "appDisclaimerText": "by clicking on continue, you are\nindicating that you have read and\nagree to our ",
+  "@appDisclaimerText": {
+    "description": "Text shown in the disclaimer text of the Passkey Page for the first time users"
+  },
+  "appDisclaimerHighlightedText": "terms of use & privacy policy",
+  "@appDisclaimerHighlightedText": {
+    "description": "Text shown in the disclaimer text of the Passkey Page for the first time users"
+  },
+  "passkeySubmitButtonText": "Continue",
+  "@passkeySubmitButtonText": {
+    "description": "Text shown in the elevated button of the Passkey Page"
+  },
+  "existingPasskeyTitle": "unlock it\nwith your secret",
+  "@existingPasskeyTitle": {
+    "description": "Text shown in the title of the Passkey Page for exisitng users"
+  },
+  "existingPasskeyCaption": "the one password that opens\neverything, you know what to do.",
+  "@existingPasskeyCaption": {
+    "description": "Text shown in the caption of the Passkey Page for exisitng users"
+  }
 }
