@@ -2,6 +2,8 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/passkey/passkey.dart';
@@ -53,7 +55,10 @@ void main() {
         build: buildBloc,
         act: (bloc) => bloc.add(PasskeyInputChanged('a')),
         expect: () => [
-          PasskeyState(passkeyInput: 'a'),
+          PasskeyState(
+            passkey: Passkey.dirty('a'),
+            confirmPasskey: ConfirmPasskey.dirty(passkey: 'a'),
+          ),
         ],
       );
     });
@@ -64,68 +69,43 @@ void main() {
         build: buildBloc,
         act: (bloc) => bloc.add(ConfirmPasskeyInputChanged('a')),
         expect: () => [
-          PasskeyState(confirmPasskeyInput: 'a'),
+          PasskeyState(
+            confirmPasskey: ConfirmPasskey.dirty(
+              passkey: '',
+              value: 'a',
+            ),
+          ),
         ],
       );
     });
 
     group('PasskeyInputSubmitted', () {
       blocTest<PasskeyBloc, PasskeyState>(
-        'emits error message for first time user when passkey input is empty',
+        'returns when isValid is false',
         build: buildBloc,
         seed: PasskeyState.new,
         act: (bloc) => bloc.add(PasskeyInputSubmitted()),
-        expect: () => <PasskeyState>[
-          PasskeyState(
-            errorMessage: 'Either the inputs are empty or they do not match',
-          ),
-        ],
+        expect: () => <PasskeyState>[],
       );
 
       blocTest<PasskeyBloc, PasskeyState>(
-        'emits error for first time user when confirm passskey input is empty',
-        build: buildBloc,
-        seed: () => PasskeyState(passkeyInput: 'abc'),
-        act: (bloc) => bloc.add(PasskeyInputSubmitted()),
-        expect: () => <PasskeyState>[
-          PasskeyState(
-            passkeyInput: 'abc',
-            errorMessage: 'Either the inputs are empty or they do not match',
-          ),
-        ],
-      );
-
-      blocTest<PasskeyBloc, PasskeyState>(
-        'emits error for first time user when passkey and confirm '
-        'passskey do not match',
+        'emits progress, success for first time user after saving the passkey',
         build: buildBloc,
         seed: () => PasskeyState(
-          passkeyInput: 'abc',
-          confirmPasskeyInput: 'def',
+          passkey: Passkey.dirty('abc'),
+          isValid: true,
         ),
         act: (bloc) => bloc.add(PasskeyInputSubmitted()),
         expect: () => <PasskeyState>[
           PasskeyState(
-            passkeyInput: 'abc',
-            confirmPasskeyInput: 'def',
-            errorMessage: 'Either the inputs are empty or they do not match',
+            passkey: Passkey.dirty('abc'),
+            isValid: true,
+            status: FormzSubmissionStatus.inProgress,
           ),
-        ],
-      );
-
-      blocTest<PasskeyBloc, PasskeyState>(
-        'emits verified for first time user after encrypting passkey',
-        build: buildBloc,
-        seed: () => PasskeyState(
-          passkeyInput: 'abc',
-          confirmPasskeyInput: 'abc',
-        ),
-        act: (bloc) => bloc.add(PasskeyInputSubmitted()),
-        expect: () => <PasskeyState>[
           PasskeyState(
-            passkeyInput: 'abc',
-            confirmPasskeyInput: 'abc',
-            isVerified: true,
+            passkey: Passkey.dirty('abc'),
+            isValid: true,
+            status: FormzSubmissionStatus.success,
           ),
         ],
         verify: (_) {
@@ -134,22 +114,63 @@ void main() {
       );
 
       blocTest<PasskeyBloc, PasskeyState>(
-        'emits result from repository verify passkey method for old user',
+        'emits progress, success for existing user after verifying the passkey',
         build: buildBloc,
         seed: () => PasskeyState(
+          passkey: Passkey.dirty('abc'),
+          isValid: true,
           isFirstTimeUser: false,
-          passkeyInput: 'xyz',
         ),
         act: (bloc) => bloc.add(PasskeyInputSubmitted()),
         expect: () => <PasskeyState>[
           PasskeyState(
+            passkey: Passkey.dirty('abc'),
+            isValid: true,
             isFirstTimeUser: false,
-            passkeyInput: 'xyz',
-            isVerified: true,
+            status: FormzSubmissionStatus.inProgress,
+          ),
+          PasskeyState(
+            passkey: Passkey.dirty('abc'),
+            isValid: true,
+            isFirstTimeUser: false,
+            status: FormzSubmissionStatus.success,
           ),
         ],
         verify: (_) {
-          verify(() => passkeyRepository.verifyPasskey('xyz')).called(1);
+          verify(() => passkeyRepository.verifyPasskey('abc')).called(1);
+        },
+      );
+
+      blocTest<PasskeyBloc, PasskeyState>(
+        'emits progress, failure for existing user after verifying the passkey',
+        build: buildBloc,
+        setUp: () {
+          when(() => passkeyRepository.verifyPasskey(any())).thenAnswer(
+            (_) async => false,
+          );
+        },
+        seed: () => PasskeyState(
+          passkey: Passkey.dirty('abc'),
+          isValid: true,
+          isFirstTimeUser: false,
+        ),
+        act: (bloc) => bloc.add(PasskeyInputSubmitted()),
+        expect: () => <PasskeyState>[
+          PasskeyState(
+            passkey: Passkey.dirty('abc'),
+            isValid: true,
+            isFirstTimeUser: false,
+            status: FormzSubmissionStatus.inProgress,
+          ),
+          PasskeyState(
+            passkey: Passkey.dirty('abc'),
+            isValid: true,
+            isFirstTimeUser: false,
+            status: FormzSubmissionStatus.failure,
+          ),
+        ],
+        verify: (_) {
+          verify(() => passkeyRepository.verifyPasskey('abc')).called(1);
         },
       );
     });

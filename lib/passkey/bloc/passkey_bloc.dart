@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 
 part 'passkey_event.dart';
@@ -25,15 +27,27 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     Emitter<PasskeyState> emit,
   ) async {
     final isFirstTimeUser = await _passkeyRepository.isFirstTimeUser();
-    emit(state.copyWith(isFirstTimeUser: isFirstTimeUser));
+    emit(
+      state.copyWith(isFirstTimeUser: isFirstTimeUser),
+    );
   }
 
   FutureOr<void> _onPasskeyInputChanged(
     PasskeyInputChanged event,
     Emitter<PasskeyState> emit,
   ) async {
+    final passkey = Passkey.dirty(event.value);
+    final confirmPasskey = ConfirmPasskey.dirty(
+      passkey: passkey.value,
+      value: state.confirmPasskey.value,
+    );
+
     emit(
-      state.copyWith(passkeyInput: event.value, errorMessage: ''),
+      state.copyWith(
+        passkey: passkey,
+        confirmPasskey: confirmPasskey,
+        isValid: Formz.validate([passkey, confirmPasskey]),
+      ),
     );
   }
 
@@ -41,8 +55,15 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     ConfirmPasskeyInputChanged event,
     Emitter<PasskeyState> emit,
   ) async {
+    final confirmPasskey = ConfirmPasskey.dirty(
+      passkey: state.passkey.value,
+      value: event.value,
+    );
     emit(
-      state.copyWith(confirmPasskeyInput: event.value, errorMessage: ''),
+      state.copyWith(
+        confirmPasskey: confirmPasskey,
+        isValid: Formz.validate([state.passkey, confirmPasskey]),
+      ),
     );
   }
 
@@ -50,23 +71,23 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     PasskeyInputSubmitted event,
     Emitter<PasskeyState> emit,
   ) async {
-    if (state.isFirstTimeUser) {
-      if (state.passkeyInput.isEmpty ||
-          state.confirmPasskeyInput.isEmpty ||
-          state.passkeyInput != state.confirmPasskeyInput) {
-        emit(
-          state.copyWith(
-            errorMessage: 'Either the inputs are empty or they do not match',
-          ),
-        );
-        return;
-      }
+    if (!state.isValid) return;
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
-      await _passkeyRepository.savePasskey(state.passkeyInput);
-      emit(state.copyWith(isVerified: true, errorMessage: ''));
+    if (state.isFirstTimeUser) {
+      await _passkeyRepository.savePasskey(state.passkey.value);
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
     } else {
-      final result = await _passkeyRepository.verifyPasskey(state.passkeyInput);
-      emit(state.copyWith(isVerified: result, errorMessage: ''));
+      final result = await _passkeyRepository.verifyPasskey(
+        state.passkey.value,
+      );
+      emit(
+        state.copyWith(
+          status: result
+              ? FormzSubmissionStatus.success
+              : FormzSubmissionStatus.failure,
+        ),
+      );
     }
   }
 }

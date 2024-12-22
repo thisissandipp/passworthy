@@ -32,6 +32,7 @@ class AppView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final appBarTheme = Theme.of(context).appBarTheme;
     final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
+    final snackBarTheme = Theme.of(context).snackBarTheme;
 
     return MaterialApp(
       theme: ThemeData.dark(useMaterial3: false).copyWith(
@@ -48,11 +49,25 @@ class AppView extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
             ),
             textStyle: PassworthyTextStyle.buttonText,
+            disabledBackgroundColor:
+                PassworthyColors.elevatedButtonBackground.withAlpha(96),
           ),
         ),
         inputDecorationTheme: inputDecorationTheme.copyWith(
           hintStyle: PassworthyTextStyle.inputHintText,
           border: InputBorder.none,
+        ),
+        snackBarTheme: snackBarTheme.copyWith(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+            ),
+          ),
+          insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+          backgroundColor: PassworthyColors.backgroundLight,
+          contentTextStyle: PassworthyTextStyle.disclaimerText.copyWith(
+            color: PassworthyColors.disclaimerHighlightText,
+          ),
         ),
         textTheme: GoogleFonts.poppinsTextTheme(textTheme),
       ),

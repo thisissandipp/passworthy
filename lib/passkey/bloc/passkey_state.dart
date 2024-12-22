@@ -4,40 +4,61 @@ part of 'passkey_bloc.dart';
 class PasskeyState extends Equatable {
   const PasskeyState({
     this.isFirstTimeUser = true,
-    this.passkeyInput = '',
-    this.confirmPasskeyInput = '',
-    this.errorMessage = '',
-    this.isVerified = false,
+    this.passkey = const Passkey.pure(),
+    this.confirmPasskey = const ConfirmPasskey.pure(),
+    this.status = FormzSubmissionStatus.initial,
+    this.isValid = false,
   });
 
   final bool isFirstTimeUser;
-  final String passkeyInput;
-  final String confirmPasskeyInput;
-  final String errorMessage;
-  final bool isVerified;
+  final Passkey passkey;
+  final ConfirmPasskey confirmPasskey;
+  final FormzSubmissionStatus status;
+  final bool isValid;
 
   @override
   List<Object?> get props => [
         isFirstTimeUser,
-        passkeyInput,
-        confirmPasskeyInput,
-        errorMessage,
-        isVerified,
+        passkey,
+        confirmPasskey,
+        status,
+        isValid,
       ];
 
   PasskeyState copyWith({
     bool? isFirstTimeUser,
-    String? passkeyInput,
-    String? confirmPasskeyInput,
-    String? errorMessage,
-    bool? isVerified,
+    Passkey? passkey,
+    ConfirmPasskey? confirmPasskey,
+    FormzSubmissionStatus? status,
+    bool? isValid,
   }) {
     return PasskeyState(
       isFirstTimeUser: isFirstTimeUser ?? this.isFirstTimeUser,
-      passkeyInput: passkeyInput ?? this.passkeyInput,
-      confirmPasskeyInput: confirmPasskeyInput ?? this.confirmPasskeyInput,
-      errorMessage: errorMessage ?? this.errorMessage,
-      isVerified: isVerified ?? this.isVerified,
+      passkey: passkey ?? this.passkey,
+      confirmPasskey: confirmPasskey ?? this.confirmPasskey,
+      status: status ?? this.status,
+      isValid: isValid ?? this.isValid,
     );
+  }
+}
+
+extension PasskeyValidationErrorExt on List<PasskeyValidationError> {
+  PasskeyValidationError get prioritized {
+    final error = switch (this) {
+      final x when x.contains(PasskeyValidationError.invalid) =>
+        PasskeyValidationError.invalid,
+      final x when x.contains(PasskeyValidationError.characterLength) =>
+        PasskeyValidationError.characterLength,
+      final x when x.contains(PasskeyValidationError.missingUppercaseLetter) =>
+        PasskeyValidationError.missingUppercaseLetter,
+      final x when x.contains(PasskeyValidationError.missingLowercaseLetter) =>
+        PasskeyValidationError.missingLowercaseLetter,
+      final x when x.contains(PasskeyValidationError.missingNumber) =>
+        PasskeyValidationError.missingNumber,
+      final x when x.contains(PasskeyValidationError.missingSpecialCharacter) =>
+        PasskeyValidationError.missingSpecialCharacter,
+      _ => PasskeyValidationError.invalid,
+    };
+    return error;
   }
 }

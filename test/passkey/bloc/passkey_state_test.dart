@@ -1,23 +1,25 @@
 // ignore_for_file: avoid_redundant_argument_values
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
 void main() {
   group('PasskeyState', () {
     PasskeyState createSubject({
       bool isFirstTimeUser = false,
-      String passkeyInput = '',
-      String confirmPasskeyInput = '',
-      String errorMessage = '',
-      bool isVerified = false,
+      Passkey passkey = const Passkey.pure(),
+      ConfirmPasskey confirmPasskey = const ConfirmPasskey.pure(),
+      FormzSubmissionStatus status = FormzSubmissionStatus.initial,
+      bool isValid = false,
     }) {
       return PasskeyState(
         isFirstTimeUser: isFirstTimeUser,
-        passkeyInput: passkeyInput,
-        confirmPasskeyInput: confirmPasskeyInput,
-        errorMessage: errorMessage,
-        isVerified: isVerified,
+        passkey: passkey,
+        confirmPasskey: confirmPasskey,
+        status: status,
+        isValid: isValid,
       );
     }
 
@@ -35,10 +37,10 @@ void main() {
         equals(
           <Object?>[
             false, // isFirstTimeUser
-            '', // passkeyInput
-            '', // confirmPasskeyInput
-            '', // errorMessage
-            false, // isVerified
+            const Passkey.pure(), // passkey
+            const ConfirmPasskey.pure(), // confirmPasskey
+            FormzSubmissionStatus.initial, // status
+            false, // isValid
           ],
         ),
       );
@@ -56,10 +58,10 @@ void main() {
         expect(
           createSubject().copyWith(
             isFirstTimeUser: null,
-            passkeyInput: null,
-            confirmPasskeyInput: null,
-            errorMessage: null,
-            isVerified: null,
+            passkey: null,
+            confirmPasskey: null,
+            status: null,
+            isValid: null,
           ),
           equals(createSubject()),
         );
@@ -69,18 +71,24 @@ void main() {
         expect(
           createSubject().copyWith(
             isFirstTimeUser: true,
-            passkeyInput: 'hello',
-            confirmPasskeyInput: 'hello',
-            errorMessage: 'error',
-            isVerified: true,
+            passkey: const Passkey.dirty('abc'),
+            confirmPasskey: const ConfirmPasskey.dirty(
+              passkey: 'a',
+              value: 'x',
+            ),
+            status: FormzSubmissionStatus.success,
+            isValid: true,
           ),
           equals(
             createSubject(
               isFirstTimeUser: true,
-              passkeyInput: 'hello',
-              confirmPasskeyInput: 'hello',
-              errorMessage: 'error',
-              isVerified: true,
+              passkey: const Passkey.dirty('abc'),
+              confirmPasskey: const ConfirmPasskey.dirty(
+                passkey: 'a',
+                value: 'x',
+              ),
+              status: FormzSubmissionStatus.success,
+              isValid: true,
             ),
           ),
         );

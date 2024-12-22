@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/home/home.dart';
@@ -17,13 +18,26 @@ class ExistingPasskeyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PasskeyBloc, PasskeyState>(
-      listenWhen: (prev, curr) => prev.isVerified != curr.isVerified,
+      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
-        if (state.isVerified) {
+        if (state.status.isSuccess) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute<void>(builder: (_) => const HomePage()),
           );
+        }
+
+        if (state.status.isFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(
+                  context.l10n.wrongPasskeyError,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
         }
       },
       child: Scaffold(
@@ -72,17 +86,21 @@ class _PasskeyInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final errors = context.select(
+      (PasskeyBloc bloc) => bloc.state.passkey.displayError,
+    );
     return TextField(
       key: const Key('existingPasskeyView_passkeyInput_textField'),
       obscureText: true,
-      onChanged: (value) => context.read<PasskeyBloc>().add(
-            PasskeyInputChanged(value),
-          ),
+      onChanged: (value) => context.read<PasskeyBloc>()
+        ..add(PasskeyInputChanged(value))
+        ..add(ConfirmPasskeyInputChanged(value)),
       style: PassworthyTextStyle.inputText,
       autofocus: true,
       cursorColor: PassworthyColors.inputCursor,
       decoration: InputDecoration(
         hintText: l10n.passkeyTextFieldHint,
+        errorText: errors == null ? null : l10n.existingPasskeyInputError,
       ),
     ).padding(const EdgeInsets.symmetric(horizontal: 24));
   }
@@ -94,15 +112,21 @@ class _PasskeySubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final valid = context.select(
-      (PasskeyBloc bloc) => bloc.state.errorMessage.isEmpty,
+      (PasskeyBloc bloc) => bloc.state.isValid,
+    );
+    final status = context.select(
+      (PasskeyBloc bloc) => bloc.state.status,
     );
     final l10n = context.l10n;
+
     return ElevatedButton(
       key: const Key('existingPasskeyView_passkeySubmit_elevatedButton'),
-      onPressed: () => valid
-          ? context.read<PasskeyBloc>().add(const PasskeyInputSubmitted())
+      onPressed: valid
+          ? () => context.read<PasskeyBloc>().add(const PasskeyInputSubmitted())
           : null,
-      child: Text(l10n.passkeySubmitButtonText),
+      child: status.isInProgress
+          ? const CircularProgressIndicator.adaptive()
+          : Text(l10n.passkeySubmitButtonText),
     ).padding(const EdgeInsets.symmetric(horizontal: 24));
   }
 }

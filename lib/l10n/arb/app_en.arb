@@ -35,5 +35,45 @@
   "existingPasskeyCaption": "the one password that opens\neverything, you know what to do.",
   "@existingPasskeyCaption": {
     "description": "Text shown in the caption of the Passkey Page for exisitng users"
+  },
+  "passkeyCharactersLengthError": "passkey must be at least 12 characters long",
+  "@passkeyCharactersLengthError": {
+    "description": "Error text shown when the passkey is length is less than 12 characters"
+  },
+  "passkeyUppercaseMissingError": "passkey must contain an uppercase letter",
+  "@passkeyUppercaseMissingError": {
+    "description": "Error text shown when the passkey does not contain an uppercase letter"
+  },
+  "passkeyLowercaseMissingError": "passkey must contain a lowercase letter",
+  "@passkeyLowercaseMissingError": {
+    "description": "Error text shown when the passkey does not contain a lowercase letter"
+  },
+  "passkeyNumberMissingError": "passkey must contain a number",
+  "@passkeyNumberMissingError": {
+    "description": "Error text shown when the passkey does not contain a number"
+  },
+  "passkeySpecialCharacterMissingError": "passkey must contain a special character\n@ ! # $ % ^ & * ( ) _ - + = {opencurly} {closecurly} [ ] : ; < > , . ? / | \\ ~",
+  "@passkeySpecialCharacterMissingError": {
+    "description": "Error text shown when the passkey does not contain a special character",
+    "placeholders": {
+      "opencurly": {},
+      "closecurly": {}
+    }
+  },
+  "passkeyInvalidError": "passkey must not contain invalid characters",
+  "@passkeyInvalidError": {
+    "description": "Error text shown when the passkey contains an invalid character"
+  },
+  "confirmPasskeyDoNotMatchError": "passkeys are not matching",
+  "@confirmPasskeyDoNotMatchError": {
+    "description": "Error text shown when the confirm passkey does not match passkey"
+  },
+  "existingPasskeyInputError": "this is not a valid secret",
+  "@existingPasskeyInputError": {
+    "description": "Error text shown when the existing passkey does not pass validation"
+  },
+  "wrongPasskeyError": "the secret password did not match,\nplease try again",
+  "@wrongPasskeyError": {
+    "description": "Error text shown in snackbar when the passkey do not match"
   }
 }

@@ -3,6 +3,8 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:form_inputs/form_inputs.dart';
+import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:passworthy/home/home.dart';
 import 'package:passworthy/passkey/passkey.dart';
@@ -41,6 +43,7 @@ void main() {
       testWidgets(
         '[PasskeyInputSubmitted] when passkey submit button is pressed',
         (tester) async {
+          when(() => passkeyBloc.state).thenReturn(PasskeyState(isValid: true));
           await tester.pumpApp(
             ExistingPasskeyView(),
             passkeyBloc: passkeyBloc,
@@ -52,12 +55,50 @@ void main() {
       );
     });
 
-    group('navigates', () {
-      testWidgets('to [HomePage] when passkey is verified', (tester) async {
+    group('renders', () {
+      testWidgets('error snackbar when submission fails', (tester) async {
         whenListen(
           passkeyBloc,
           Stream.fromIterable([
-            PasskeyState(isVerified: true),
+            PasskeyState(status: FormzSubmissionStatus.inProgress),
+            PasskeyState(status: FormzSubmissionStatus.failure),
+          ]),
+        );
+
+        await tester.pumpApp(ExistingPasskeyView(), passkeyBloc: passkeyBloc);
+        await tester.pump();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+      });
+
+      testWidgets('error text when passkey is invalid', (tester) async {
+        final passkey = MockPasskey();
+        when(() => passkeyBloc.state).thenReturn(
+          PasskeyState(passkey: passkey),
+        );
+        when(() => passkey.displayError).thenReturn(
+          [PasskeyValidationError.characterLength],
+        );
+
+        await tester.pumpApp(ExistingPasskeyView(), passkeyBloc: passkeyBloc);
+        expect(
+          find.byWidgetPredicate(
+            (widget) =>
+                widget is TextField &&
+                widget.key == passkeyInputKey &&
+                widget.decoration?.errorText != null,
+          ),
+          findsOneWidget,
+        );
+      });
+    });
+
+    group('navigates', () {
+      testWidgets('to [HomePage] when form status is success', (tester) async {
+        whenListen(
+          passkeyBloc,
+          Stream.fromIterable([
+            PasskeyState(status: FormzSubmissionStatus.success),
           ]),
         );
         await tester.pumpApp(ExistingPasskeyView(), passkeyBloc: passkeyBloc);
