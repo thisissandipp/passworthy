@@ -19,8 +19,11 @@ dependencies:
   formz: ^0.8.0
   google_fonts: ^6.2.1
   intl: ^0.19.0
+  onboarding_repository:
+    path: packages/onboarding_repository
   passkey_repository:
     path: packages/passkey_repository
+  shared_preferences: ^2.3.4
 
 dev_dependencies:
   bloc_test: ^9.1.7

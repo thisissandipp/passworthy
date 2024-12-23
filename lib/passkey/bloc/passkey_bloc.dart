@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 
 part 'passkey_event.dart';
@@ -11,8 +12,10 @@ part 'passkey_state.dart';
 
 class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
   PasskeyBloc({
+    required OnboardingRepository onboardingRepository,
     required PasskeyRepository passkeyRepository,
-  })  : _passkeyRepository = passkeyRepository,
+  })  : _onboardingRepository = onboardingRepository,
+        _passkeyRepository = passkeyRepository,
         super(const PasskeyState()) {
     on<FirstTimeUserCheckRequested>(_onFirstTimeUserCheckRequested);
     on<PasskeyInputChanged>(_onPasskeyInputChanged);
@@ -20,13 +23,14 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     on<PasskeyInputSubmitted>(_onPasskeyInputSubmitted);
   }
 
+  final OnboardingRepository _onboardingRepository;
   final PasskeyRepository _passkeyRepository;
 
   FutureOr<void> _onFirstTimeUserCheckRequested(
     FirstTimeUserCheckRequested event,
     Emitter<PasskeyState> emit,
-  ) async {
-    final isFirstTimeUser = await _passkeyRepository.isFirstTimeUser();
+  ) {
+    final isFirstTimeUser = _onboardingRepository.isFirstTimeUser();
     emit(
       state.copyWith(isFirstTimeUser: isFirstTimeUser),
     );
@@ -76,6 +80,7 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
 
     if (state.isFirstTimeUser) {
       await _passkeyRepository.savePasskey(state.passkey.value);
+      await _onboardingRepository.setOnboarded();
       emit(state.copyWith(status: FormzSubmissionStatus.success));
     } else {
       final result = await _passkeyRepository.verifyPasskey(

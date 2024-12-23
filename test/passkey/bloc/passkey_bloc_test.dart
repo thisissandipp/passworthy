@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
@@ -12,10 +13,17 @@ import '../../helpers/helpers.dart';
 
 void main() {
   group('PasskeyBloc', () {
+    late OnboardingRepository onboardingRepository;
     late PasskeyRepository passkeyRepository;
 
     setUp(() {
+      onboardingRepository = MockOnboardingRepository();
       passkeyRepository = MockPasskeyRepository();
+
+      when(() => onboardingRepository.isFirstTimeUser()).thenReturn(false);
+      when(() => onboardingRepository.setOnboarded()).thenAnswer(
+        (_) async => true,
+      );
       when(() => passkeyRepository.savePasskey(any())).thenAnswer((_) async {});
       when(() => passkeyRepository.verifyPasskey(any())).thenAnswer(
         (_) async => true,
@@ -23,7 +31,10 @@ void main() {
     });
 
     PasskeyBloc buildBloc() {
-      return PasskeyBloc(passkeyRepository: passkeyRepository);
+      return PasskeyBloc(
+        onboardingRepository: onboardingRepository,
+        passkeyRepository: passkeyRepository,
+      );
     }
 
     test('constructor works correctly', () {
@@ -44,7 +55,7 @@ void main() {
         act: (bloc) => bloc.add(FirstTimeUserCheckRequested()),
         expect: () => [PasskeyState(isFirstTimeUser: false)],
         verify: (_) {
-          verify(() => passkeyRepository.isFirstTimeUser()).called(1);
+          verify(() => onboardingRepository.isFirstTimeUser()).called(1);
         },
       );
     });
@@ -110,6 +121,7 @@ void main() {
         ],
         verify: (_) {
           verify(() => passkeyRepository.savePasskey('abc')).called(1);
+          verify(() => onboardingRepository.setOnboarded()).called(1);
         },
       );
 

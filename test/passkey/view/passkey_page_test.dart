@@ -2,24 +2,25 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:passkey_repository/passkey_repository.dart';
+import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
 import '../../helpers/helpers.dart';
 
 void main() {
   group('PasskeyPage', () {
-    late PasskeyRepository passkeyRepository;
+    late OnboardingRepository onboardingRepository;
 
     setUp(() {
-      passkeyRepository = MockPasskeyRepository();
-      when(() => passkeyRepository.isFirstTimeUser()).thenAnswer(
-        (_) async => true,
-      );
+      onboardingRepository = MockOnboardingRepository();
+      when(() => onboardingRepository.isFirstTimeUser()).thenReturn(true);
     });
 
     testWidgets('renders [PaskeyView]', (tester) async {
-      await tester.pumpApp(PasskeyPage(), passkeyRepository: passkeyRepository);
+      await tester.pumpApp(
+        PasskeyPage(),
+        onboardingRepository: onboardingRepository,
+      );
       expect(find.byType(PasskeyView), findsOneWidget);
     });
 
@@ -28,7 +29,7 @@ void main() {
       (tester) async {
         await tester.pumpApp(
           PasskeyPage(),
-          passkeyRepository: passkeyRepository,
+          onboardingRepository: onboardingRepository,
         );
         expect(find.byType(FirstTimePasskeyView), findsOneWidget);
       },
@@ -37,13 +38,11 @@ void main() {
     testWidgets(
       'renders [ExistingPasskeyView] for existing users',
       (tester) async {
-        when(() => passkeyRepository.isFirstTimeUser()).thenAnswer(
-          (_) async => Future.value(false),
-        );
+        when(() => onboardingRepository.isFirstTimeUser()).thenReturn(false);
 
         await tester.pumpApp(
           PasskeyPage(),
-          passkeyRepository: passkeyRepository,
+          onboardingRepository: onboardingRepository,
         );
         await tester.pumpAndSettle();
         expect(find.byType(ExistingPasskeyView), findsOneWidget);

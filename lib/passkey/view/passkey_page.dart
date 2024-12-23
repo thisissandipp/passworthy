@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
@@ -14,6 +15,7 @@ class PasskeyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<PasskeyBloc>(
       create: (context) => PasskeyBloc(
+        onboardingRepository: context.read<OnboardingRepository>(),
         passkeyRepository: context.read<PasskeyRepository>(),
       )..add(const FirstTimeUserCheckRequested()),
       child: const PasskeyView(),

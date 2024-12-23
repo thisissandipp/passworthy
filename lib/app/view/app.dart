@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/l10n/l10n.dart';
@@ -9,16 +10,26 @@ import 'package:passworthy/typography/typography.dart';
 
 class App extends StatelessWidget {
   const App({
+    required OnboardingRepository onboardingRepository,
     required PasskeyRepository passkeyRepository,
     super.key,
-  }) : _passkeyRepository = passkeyRepository;
+  })  : _onboardingRepository = onboardingRepository,
+        _passkeyRepository = passkeyRepository;
 
+  final OnboardingRepository _onboardingRepository;
   final PasskeyRepository _passkeyRepository;
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _passkeyRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<OnboardingRepository>.value(
+          value: _onboardingRepository,
+        ),
+        RepositoryProvider<PasskeyRepository>.value(
+          value: _passkeyRepository,
+        ),
+      ],
       child: const AppView(),
     );
   }
