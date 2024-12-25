@@ -3,37 +3,27 @@ part of 'passkey_bloc.dart';
 
 class PasskeyState extends Equatable {
   const PasskeyState({
-    this.isFirstTimeUser = true,
     this.passkey = const Passkey.pure(),
     this.confirmPasskey = const ConfirmPasskey.pure(),
     this.status = FormzSubmissionStatus.initial,
     this.isValid = false,
   });
 
-  final bool isFirstTimeUser;
   final Passkey passkey;
   final ConfirmPasskey confirmPasskey;
   final FormzSubmissionStatus status;
   final bool isValid;
 
   @override
-  List<Object?> get props => [
-        isFirstTimeUser,
-        passkey,
-        confirmPasskey,
-        status,
-        isValid,
-      ];
+  List<Object?> get props => [passkey, confirmPasskey, status, isValid];
 
   PasskeyState copyWith({
-    bool? isFirstTimeUser,
     Passkey? passkey,
     ConfirmPasskey? confirmPasskey,
     FormzSubmissionStatus? status,
     bool? isValid,
   }) {
     return PasskeyState(
-      isFirstTimeUser: isFirstTimeUser ?? this.isFirstTimeUser,
       passkey: passkey ?? this.passkey,
       confirmPasskey: confirmPasskey ?? this.confirmPasskey,
       status: status ?? this.status,

@@ -7,10 +7,6 @@ sealed class PasskeyEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class FirstTimeUserCheckRequested extends PasskeyEvent {
-  const FirstTimeUserCheckRequested();
-}
-
 final class PasskeyInputChanged extends PasskeyEvent {
   const PasskeyInputChanged(this.value);
   final String value;

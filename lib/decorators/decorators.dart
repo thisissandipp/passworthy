@@ -23,4 +23,13 @@ extension WidgetDecorators on Widget {
       child: this,
     );
   }
+
+  /// Wraps the child with a [SingleChildScrollView] when the device height
+  /// is less than 640px.
+  Widget wrapScrollableConditionally(double height) {
+    if (height < 640) {
+      return SingleChildScrollView(child: this);
+    }
+    return this;
+  }
 }

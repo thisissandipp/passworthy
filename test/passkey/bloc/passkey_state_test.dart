@@ -8,14 +8,12 @@ import 'package:passworthy/passkey/passkey.dart';
 void main() {
   group('PasskeyState', () {
     PasskeyState createSubject({
-      bool isFirstTimeUser = false,
       Passkey passkey = const Passkey.pure(),
       ConfirmPasskey confirmPasskey = const ConfirmPasskey.pure(),
       FormzSubmissionStatus status = FormzSubmissionStatus.initial,
       bool isValid = false,
     }) {
       return PasskeyState(
-        isFirstTimeUser: isFirstTimeUser,
         passkey: passkey,
         confirmPasskey: confirmPasskey,
         status: status,
@@ -36,7 +34,6 @@ void main() {
         createSubject().props,
         equals(
           <Object?>[
-            false, // isFirstTimeUser
             const Passkey.pure(), // passkey
             const ConfirmPasskey.pure(), // confirmPasskey
             FormzSubmissionStatus.initial, // status
@@ -57,7 +54,6 @@ void main() {
       test('returns the old value for each parameter if null is provided', () {
         expect(
           createSubject().copyWith(
-            isFirstTimeUser: null,
             passkey: null,
             confirmPasskey: null,
             status: null,
@@ -70,7 +66,6 @@ void main() {
       test('returns the updated copy of this for every non-null parameter', () {
         expect(
           createSubject().copyWith(
-            isFirstTimeUser: true,
             passkey: const Passkey.dirty('abc'),
             confirmPasskey: const ConfirmPasskey.dirty(
               passkey: 'a',
@@ -81,7 +76,6 @@ void main() {
           ),
           equals(
             createSubject(
-              isFirstTimeUser: true,
               passkey: const Passkey.dirty('abc'),
               confirmPasskey: const ConfirmPasskey.dirty(
                 passkey: 'a',

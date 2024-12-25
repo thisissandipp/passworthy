@@ -45,21 +45,6 @@ void main() {
       expect(buildBloc().state, equals(PasskeyState()));
     });
 
-    group('FirstTimeUserCheckRequested', () {
-      blocTest<PasskeyBloc, PasskeyState>(
-        'emits state with correct [isFirstTimeUser] as repository method',
-        build: buildBloc,
-        setUp: () => when(() => passkeyRepository.isFirstTimeUser()).thenAnswer(
-          (_) async => false,
-        ),
-        act: (bloc) => bloc.add(FirstTimeUserCheckRequested()),
-        expect: () => [PasskeyState(isFirstTimeUser: false)],
-        verify: (_) {
-          verify(() => onboardingRepository.isFirstTimeUser()).called(1);
-        },
-      );
-    });
-
     group('PasskeyInputChanged', () {
       blocTest<PasskeyBloc, PasskeyState>(
         'emits state with updated [passkeyInput]',
@@ -102,6 +87,9 @@ void main() {
       blocTest<PasskeyBloc, PasskeyState>(
         'emits progress, success for first time user after saving the passkey',
         build: buildBloc,
+        setUp: () {
+          when(() => onboardingRepository.isFirstTimeUser()).thenReturn(true);
+        },
         seed: () => PasskeyState(
           passkey: Passkey.dirty('abc'),
           isValid: true,
@@ -128,23 +116,23 @@ void main() {
       blocTest<PasskeyBloc, PasskeyState>(
         'emits progress, success for existing user after verifying the passkey',
         build: buildBloc,
+        setUp: () {
+          when(() => onboardingRepository.isFirstTimeUser()).thenReturn(false);
+        },
         seed: () => PasskeyState(
           passkey: Passkey.dirty('abc'),
           isValid: true,
-          isFirstTimeUser: false,
         ),
         act: (bloc) => bloc.add(PasskeyInputSubmitted()),
         expect: () => <PasskeyState>[
           PasskeyState(
             passkey: Passkey.dirty('abc'),
             isValid: true,
-            isFirstTimeUser: false,
             status: FormzSubmissionStatus.inProgress,
           ),
           PasskeyState(
             passkey: Passkey.dirty('abc'),
             isValid: true,
-            isFirstTimeUser: false,
             status: FormzSubmissionStatus.success,
           ),
         ],
@@ -164,20 +152,17 @@ void main() {
         seed: () => PasskeyState(
           passkey: Passkey.dirty('abc'),
           isValid: true,
-          isFirstTimeUser: false,
         ),
         act: (bloc) => bloc.add(PasskeyInputSubmitted()),
         expect: () => <PasskeyState>[
           PasskeyState(
             passkey: Passkey.dirty('abc'),
             isValid: true,
-            isFirstTimeUser: false,
             status: FormzSubmissionStatus.inProgress,
           ),
           PasskeyState(
             passkey: Passkey.dirty('abc'),
             isValid: true,
-            isFirstTimeUser: false,
             status: FormzSubmissionStatus.failure,
           ),
         ],

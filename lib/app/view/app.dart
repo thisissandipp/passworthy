@@ -5,7 +5,7 @@ import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/l10n/l10n.dart';
-import 'package:passworthy/passkey/passkey.dart';
+import 'package:passworthy/onboarding/onboarding.dart';
 import 'package:passworthy/typography/typography.dart';
 
 class App extends StatelessWidget {
@@ -84,7 +84,7 @@ class AppView extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const PasskeyPage(),
+      home: const OnbaordingPage(),
     );
   }
 }

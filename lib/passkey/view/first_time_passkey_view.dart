@@ -2,12 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
+import 'package:onboarding_repository/onboarding_repository.dart';
+import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/home/home.dart';
 import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/passkey/passkey.dart';
 import 'package:passworthy/typography/typography.dart';
+
+class FirstTimePasskeyPage extends StatelessWidget {
+  const FirstTimePasskeyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<PasskeyBloc>(
+      create: (context) => PasskeyBloc(
+        onboardingRepository: context.read<OnboardingRepository>(),
+        passkeyRepository: context.read<PasskeyRepository>(),
+      ),
+      child: const FirstTimePasskeyView(),
+    );
+  }
+}
 
 /// {@template first_time_passkey_view}
 /// Renders the passkey view for the first time users.
@@ -18,6 +35,7 @@ class FirstTimePasskeyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return BlocListener<PasskeyBloc, PasskeyState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
@@ -29,18 +47,20 @@ class FirstTimePasskeyView extends StatelessWidget {
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(),
-        body: const Column(
+        body: Column(
           spacing: 16,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _BuildTitleAndCaption(),
-            _PasskeyInputField(),
-            _ConfirmPasskeyInputField(),
-            Spacer(),
-            _PasskeySubmitButton(),
+            const _BuildTitleAndCaption(),
+            const _PasskeyInputField(),
+            const _ConfirmPasskeyInputField(),
+            if (size.height < 640) const SizedBox(height: 48),
+            if (size.height >= 640) const Spacer(),
+            const _PasskeySubmitButton(),
           ],
-        ),
+        ).wrapScrollableConditionally(size.height),
       ),
     );
   }

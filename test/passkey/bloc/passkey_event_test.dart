@@ -5,22 +5,6 @@ import 'package:passworthy/passkey/passkey.dart';
 
 void main() {
   group('PasskeyEvent', () {
-    group('FirstTimeUserCheckRequested', () {
-      test('supports value equality', () {
-        expect(
-          FirstTimeUserCheckRequested(),
-          equals(FirstTimeUserCheckRequested()),
-        );
-      });
-
-      test('props are correct', () {
-        expect(
-          FirstTimeUserCheckRequested().props,
-          equals(<Object?>[]),
-        );
-      });
-    });
-
     group('ConfirmPasskeyInputChanged', () {
       test('supports value equality', () {
         expect(

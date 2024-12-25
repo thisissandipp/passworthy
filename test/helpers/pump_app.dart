@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/l10n/l10n.dart';
+import 'package:passworthy/onboarding/onboarding.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
 import 'helpers.dart';
@@ -13,6 +14,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     OnboardingRepository? onboardingRepository,
     PasskeyRepository? passkeyRepository,
+    OnboardingBloc? onboardingBloc,
     PasskeyBloc? passkeyBloc,
   }) {
     return pumpWidget(
@@ -27,6 +29,9 @@ extension PumpApp on WidgetTester {
         ],
         child: MultiBlocProvider(
           providers: [
+            BlocProvider<OnboardingBloc>.value(
+              value: onboardingBloc ?? MockOnboardingBloc(),
+            ),
             BlocProvider<PasskeyBloc>.value(
               value: passkeyBloc ?? MockPasskeyBloc(),
             ),

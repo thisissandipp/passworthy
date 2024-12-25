@@ -3,7 +3,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/app/app.dart';
-import 'package:passworthy/passkey/passkey.dart';
+import 'package:passworthy/onboarding/onboarding.dart';
 
 import '../../helpers/helpers.dart';
 
@@ -25,7 +25,7 @@ void main() {
           passkeyRepository: passkeyRepository,
         ),
       );
-      expect(find.byType(PasskeyPage), findsOneWidget);
+      expect(find.byType(OnbaordingPage), findsOneWidget);
     });
   });
 }

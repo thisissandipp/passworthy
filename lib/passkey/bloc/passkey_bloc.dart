@@ -17,7 +17,6 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
   })  : _onboardingRepository = onboardingRepository,
         _passkeyRepository = passkeyRepository,
         super(const PasskeyState()) {
-    on<FirstTimeUserCheckRequested>(_onFirstTimeUserCheckRequested);
     on<PasskeyInputChanged>(_onPasskeyInputChanged);
     on<ConfirmPasskeyInputChanged>(_onConfirmPasskeyInputChanged);
     on<PasskeyInputSubmitted>(_onPasskeyInputSubmitted);
@@ -25,16 +24,6 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
 
   final OnboardingRepository _onboardingRepository;
   final PasskeyRepository _passkeyRepository;
-
-  FutureOr<void> _onFirstTimeUserCheckRequested(
-    FirstTimeUserCheckRequested event,
-    Emitter<PasskeyState> emit,
-  ) {
-    final isFirstTimeUser = _onboardingRepository.isFirstTimeUser();
-    emit(
-      state.copyWith(isFirstTimeUser: isFirstTimeUser),
-    );
-  }
 
   FutureOr<void> _onPasskeyInputChanged(
     PasskeyInputChanged event,
@@ -78,7 +67,8 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     if (!state.isValid) return;
     emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
 
-    if (state.isFirstTimeUser) {
+    final isFirstTimeUser = _onboardingRepository.isFirstTimeUser();
+    if (isFirstTimeUser) {
       await _passkeyRepository.savePasskey(state.passkey.value);
       await _onboardingRepository.setOnboarded();
       emit(state.copyWith(status: FormzSubmissionStatus.success));

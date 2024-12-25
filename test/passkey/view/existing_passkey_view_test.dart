@@ -12,6 +12,13 @@ import 'package:passworthy/passkey/passkey.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  group('ExistingPasskeyPage', () {
+    testWidgets('renders correctly', (tester) async {
+      await tester.pumpApp(ExistingPasskeyPage());
+      expect(find.byType(ExistingPasskeyView), findsOneWidget);
+    });
+  });
+
   group('ExistingPasskeyView', () {
     const passkey = 'abcxyz';
     const passkeyInputKey = Key('existingPasskeyView_passkeyInput_textField');

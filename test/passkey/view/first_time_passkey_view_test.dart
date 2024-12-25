@@ -12,6 +12,13 @@ import 'package:passworthy/passkey/passkey.dart';
 import '../../helpers/helpers.dart';
 
 void main() {
+  group('FirstTimePasskeyPage', () {
+    testWidgets('renders correctly', (tester) async {
+      await tester.pumpApp(FirstTimePasskeyPage());
+      expect(find.byType(FirstTimePasskeyView), findsOneWidget);
+    });
+  });
+
   group('FirstTimePasskeyView', () {
     const passkey = 'abc';
     const confirmPasskey = 'abc';
