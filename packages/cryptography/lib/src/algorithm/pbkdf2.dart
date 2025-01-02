@@ -17,7 +17,7 @@ class PBKDF2 extends Algorithm {
     _iteration = iteration ?? 9000 + Random().nextInt(1000);
 
     final mac = HMac(SHA512Digest(), 64);
-    final pbkdf2Params = Pbkdf2Parameters(_salt, _iteration, 64);
+    final pbkdf2Params = Pbkdf2Parameters(_salt, _iteration, 32);
     _derivator = PBKDF2KeyDerivator(mac)..init(pbkdf2Params);
   }
 

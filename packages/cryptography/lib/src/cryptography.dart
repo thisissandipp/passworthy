@@ -21,3 +21,21 @@ class PasskeyCryptography {
     return algorithm.hash(passkey) == hash;
   }
 }
+
+/// {@template password_cryptography}
+/// Encrypts and decrypts the password with the AES algorithm.
+/// {@endtemplate}
+class PasswordCryptography {
+  /// {@macro password_cryptography}
+  const PasswordCryptography({AES? aes}) : _aes = aes ?? const AES();
+
+  final AES _aes;
+
+  /// Encrypts the password and returns the encrypted result.
+  String encrypt(String password, String hash) => _aes.encrypt(password, hash);
+
+  /// Decrypts the [encrypted] and returns the original password.
+  String decrypt(String encrypted, String hash) {
+    return _aes.decrypt(encrypted, hash);
+  }
+}
