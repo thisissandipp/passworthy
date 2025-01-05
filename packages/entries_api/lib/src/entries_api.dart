@@ -17,7 +17,9 @@ abstract class EntriesApi {
   final PasswordCryptography _passwordCryptography;
 
   /// Provides a [Stream] of all entries.
-  Stream<List<Entry>> getEntries();
+  /// 
+  /// The [passkey] is passed to decrypt the entries.
+  Stream<List<Entry>> getEntries(String passkey);
 
   /// Saves the [entry].
   ///
