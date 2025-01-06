@@ -1,0 +1,26 @@
+name: objectbox_entries_api
+description: An implementation of the EntriesApi that uses Objectbox persistent library.
+version: 0.1.0+1
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+  flutter: ^3.24.0
+
+dependencies:
+  cryptography:
+    path: ../cryptography
+  entries_api:
+    path: ../entries_api
+  flutter:
+    sdk: flutter
+  objectbox: ^4.0.3
+  objectbox_flutter_libs: ^4.0.3
+
+dev_dependencies:
+  build_runner: ^2.4.14
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  objectbox_generator: ^4.0.3
+  very_good_analysis: ^6.0.0

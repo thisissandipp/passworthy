@@ -1,0 +1,64 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6100215952033375227",
+      "lastPropertyId": "7:7747267446288063515",
+      "name": "EntryDto",
+      "properties": [
+        {
+          "id": "1:7788624754513047223",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8948857680733145495",
+          "name": "uid",
+          "type": 9,
+          "flags": 34848,
+          "indexId": "1:4073036465608811623"
+        },
+        {
+          "id": "3:7845620516496505716",
+          "name": "platform",
+          "type": 9
+        },
+        {
+          "id": "4:4317148113589121615",
+          "name": "identity",
+          "type": 9
+        },
+        {
+          "id": "5:4328688467648663387",
+          "name": "password",
+          "type": 9
+        },
+        {
+          "id": "6:3247140918347397447",
+          "name": "createdAt",
+          "type": 12
+        },
+        {
+          "id": "7:7747267446288063515",
+          "name": "isFavorite",
+          "type": 1
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:6100215952033375227",
+  "lastIndexId": "1:4073036465608811623",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
