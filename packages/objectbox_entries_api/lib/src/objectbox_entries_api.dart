@@ -16,12 +16,12 @@ class ObjectboxEntriesApi extends EntriesApi {
 
   /// Initializes the store for the application.
   static Future<ObjectboxEntriesApi> init({
-    required PasswordCryptography passwordCryptography,
     required String storeDirectory,
+    PasswordCryptography? cryptography,
   }) async {
     final store = await openStore(directory: storeDirectory);
     return ObjectboxEntriesApi._create(
-      passwordCryptography: passwordCryptography,
+      passwordCryptography: cryptography ?? const PasswordCryptography(),
       store: store,
     );
   }
