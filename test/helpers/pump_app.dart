@@ -1,3 +1,4 @@
+import 'package:entries_repository/entries_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -14,6 +15,7 @@ extension PumpApp on WidgetTester {
     Widget widget, {
     OnboardingRepository? onboardingRepository,
     PasskeyRepository? passkeyRepository,
+    EntriesRepository? entriesRepository,
     OnboardingBloc? onboardingBloc,
     PasskeyBloc? passkeyBloc,
   }) {
@@ -25,6 +27,9 @@ extension PumpApp on WidgetTester {
           ),
           RepositoryProvider<PasskeyRepository>.value(
             value: passkeyRepository ?? MockPasskeyRepository(),
+          ),
+          RepositoryProvider<EntriesRepository>.value(
+            value: entriesRepository ?? MockEntriesRepository(),
           ),
         ],
         child: MultiBlocProvider(

@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:entries_repository/entries_repository.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
@@ -19,3 +20,5 @@ class MockPasskeyBloc extends MockBloc<PasskeyEvent, PasskeyState>
 class MockPasskey extends Mock implements Passkey {}
 
 class MockConfirmPasskey extends Mock implements ConfirmPasskey {}
+
+class MockEntriesRepository extends Mock implements EntriesRepository {}

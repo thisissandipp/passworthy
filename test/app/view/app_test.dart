@@ -1,3 +1,4 @@
+import 'package:entries_repository/entries_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
@@ -11,10 +12,12 @@ void main() {
   group('App', () {
     late OnboardingRepository onboardingRepository;
     late PasskeyRepository passkeyRepository;
+    late EntriesRepository entriesRepository;
 
     setUp(() {
       onboardingRepository = MockOnboardingRepository();
       passkeyRepository = MockPasskeyRepository();
+      entriesRepository = MockEntriesRepository();
       when(() => onboardingRepository.isFirstTimeUser()).thenReturn(true);
     });
 
@@ -23,6 +26,7 @@ void main() {
         App(
           onboardingRepository: onboardingRepository,
           passkeyRepository: passkeyRepository,
+          entriesRepository: entriesRepository,
         ),
       );
       expect(find.byType(OnbaordingPage), findsOneWidget);
