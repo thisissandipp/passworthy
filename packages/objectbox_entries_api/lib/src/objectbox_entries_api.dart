@@ -31,7 +31,9 @@ class ObjectboxEntriesApi extends EntriesApi {
 
   @override
   Stream<List<Entry>> getEntries(String passkey) async* {
-    final queryStream = store.box<EntryDto>().query().watch();
+    final queryStream = store.box<EntryDto>().query().watch(
+          triggerImmediately: true,
+        );
 
     yield* queryStream.asyncMap((query) async {
       final entryDtoList = await query.findAsync();
