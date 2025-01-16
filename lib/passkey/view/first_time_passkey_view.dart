@@ -6,8 +6,8 @@ import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/decorators/decorators.dart';
-import 'package:passworthy/home/home.dart';
 import 'package:passworthy/l10n/l10n.dart';
+import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/passkey/passkey.dart';
 import 'package:passworthy/typography/typography.dart';
 
@@ -42,7 +42,7 @@ class FirstTimePasskeyView extends StatelessWidget {
         if (state.status.isSuccess) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute<void>(builder: (_) => const HomePage()),
+            MaterialPageRoute<void>(builder: (_) => const OverviewPage()),
           );
         }
       },

@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   bloc: ^8.1.4
+  cache:
+    path: packages/cache
   entries_api:
     path: packages/entries_api
   entries_repository:

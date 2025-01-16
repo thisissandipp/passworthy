@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cache/cache.dart';
 import 'package:entries_repository/entries_repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:objectbox_entries_api/objectbox_entries_api.dart';
@@ -13,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final cacheClient = CacheClient();
 
   final appsDirectory = await path_provider.getApplicationDocumentsDirectory();
   final entriesApi = await ObjectboxEntriesApi.init(
@@ -23,7 +25,7 @@ Future<void> main() async {
     plugin: await SharedPreferences.getInstance(),
   );
 
-  final passkeyRepository = PasskeyRepository();
+  final passkeyRepository = PasskeyRepository(cacheClient: cacheClient);
   final entriesRepository = EntriesRepository(
     entriesApi: entriesApi,
   );
