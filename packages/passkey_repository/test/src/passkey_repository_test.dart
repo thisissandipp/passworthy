@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:cache/cache.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,8 +13,11 @@ class MockPasskeyCryptography extends Mock implements PasskeyCryptography {}
 
 class MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 
+class MockCacheClient extends Mock implements CacheClient {}
+
 class PasskeyRepositoryTest extends PasskeyRepository {
   PasskeyRepositoryTest({
+    required super.cacheClient,
     super.passkeyCryptography,
     super.secureStorage,
   });
@@ -36,13 +40,17 @@ void main() {
     late MockPasskeyCryptography passkeyCryptography;
     late MockFlutterSecureStorage secureStorage;
     late PasskeyRepository passkeyRepository;
+    late CacheClient cacheClient;
 
     setUp(() {
       passkeyCryptography = MockPasskeyCryptography();
       secureStorage = MockFlutterSecureStorage();
+      cacheClient = MockCacheClient();
+
       passkeyRepository = PasskeyRepositoryTest(
         passkeyCryptography: passkeyCryptography,
         secureStorage: secureStorage,
+        cacheClient: cacheClient,
       );
 
       when(() => passkeyCryptography.hash(any())).thenReturn('encrypted');
@@ -52,6 +60,8 @@ void main() {
           value: any(named: 'value'),
         ),
       ).thenAnswer((_) async {});
+
+      when(() => cacheClient.read(key: any(named: 'key'))).thenReturn('cached');
     });
 
     test(
@@ -66,6 +76,12 @@ void main() {
       verify(
         () => secureStorage.write(
           key: PasskeyRepository.kPasskeyStorageKey,
+          value: 'encrypted',
+        ),
+      ).called(1);
+      verify(
+        () => cacheClient.write(
+          key: PasskeyRepository.kPasskeyCacheKey,
           value: 'encrypted',
         ),
       ).called(1);
@@ -132,6 +148,13 @@ void main() {
         verify(
           () => passkeyCryptography.verify('mypasskey', 'encryptedpasskey'),
         ).called(1);
+
+        verify(
+          () => cacheClient.write(
+            key: PasskeyRepository.kPasskeyCacheKey,
+            value: 'encryptedpasskey',
+          ),
+        ).called(1);
       });
     });
 
@@ -188,9 +211,20 @@ void main() {
       });
     });
 
+    group('cachedPasskey', () {
+      test('returns cached passkey', () {
+        passkeyRepository.cachedPasskey();
+        verify(
+          () => cacheClient.read<String>(
+            key: PasskeyRepository.kPasskeyCacheKey,
+          ),
+        ).called(1);
+      });
+    });
+
     group('runInBackground', () {
       test('executes computation in isolate and returns result', () async {
-        final repository = PasskeyRepository();
+        final repository = PasskeyRepository(cacheClient: cacheClient);
         Future<int> computation() async => 42;
 
         final result = await repository.runInBackground(computation);

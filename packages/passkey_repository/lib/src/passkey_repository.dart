@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:cache/cache.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -31,13 +32,16 @@ class WrongOldPasskeyFailure extends PasskeyFailure {
 class PasskeyRepository {
   /// {@macro passkey_repository}
   PasskeyRepository({
+    required CacheClient cacheClient,
     PasskeyCryptography? passkeyCryptography,
     FlutterSecureStorage? secureStorage,
-  })  : _passkeyCryptography = passkeyCryptography ?? PasskeyCryptography(),
+  })  : _cacheClient = cacheClient,
+        _passkeyCryptography = passkeyCryptography ?? PasskeyCryptography(),
         _secureStorage = secureStorage ?? const FlutterSecureStorage();
 
   final PasskeyCryptography _passkeyCryptography;
   final FlutterSecureStorage _secureStorage;
+  final CacheClient _cacheClient;
 
   // TODO(thecodexhub): find a way to get the value from environment variable.
   /// The key used for storing the passkey locally.
@@ -46,11 +50,24 @@ class PasskeyRepository {
   @visibleForTesting
   static const kPasskeyStorageKey = '__passkey_storage_key__';
 
+  // TODO(thecodexhub): find a way to get the value from environment variable.
+  /// The key used for storing the passkey in memory/cache.
+  ///
+  /// This is only exposed for testing and shouldn't be used by consumers.
+  @visibleForTesting
+  static const kPasskeyCacheKey = '__passkey_cache_key__';
+
   /// Saves the [passkey] in the secure storage.
   Future<void> savePasskey(String passkey) async {
     final encrypted = await runInBackground<String>(
       () => _passkeyCryptography.hash(passkey),
     );
+
+    // Cache the encrypted passkey, so that it can be used to encrypt
+    // entry passwords.
+    _cacheClient.write<String>(key: kPasskeyCacheKey, value: encrypted);
+
+    // Securely store the user's passkey locally.
     await _secureStorage.write(key: kPasskeyStorageKey, value: encrypted);
   }
 
@@ -60,6 +77,14 @@ class PasskeyRepository {
   Future<bool> isFirstTimeUser() async {
     final encrypted = await _secureStorage.read(key: kPasskeyStorageKey);
     return encrypted == null;
+  }
+
+  /// Retrieves cached passkey from the point when users verified their
+  /// passkey to enter the app.
+  ///
+  /// Returns null if the cache is empty.
+  String? cachedPasskey() {
+    return _cacheClient.read<String>(key: kPasskeyCacheKey);
   }
 
   /// Verifies the provided [input] with the locally stored passkey.
@@ -73,10 +98,22 @@ class PasskeyRepository {
     final result = await runInBackground<bool>(
       () => _passkeyCryptography.verify(input, encrypted),
     );
+
+    // If the passkey is correct, cache it.
+    // This passkey will be used to encrypt and decrypt entry passwords.
+    if (result) {
+      _cacheClient.write<String>(key: kPasskeyCacheKey, value: encrypted);
+    }
+
     return result;
   }
 
   /// Updates the [oldPasskey], and stores the [newPasskey].
+  ///
+  /// Make sure to prompt user to the passkey enter zone, otherwise
+  /// the new passwords won't be encrypted correctly.
+  ///
+  /// Old passwords also need to encrypted again!
   Future<void> updatePasskey(String oldPasskey, String newPasskey) async {
     // verify the old passkey first
     final verifyOldPasskey = await verifyPasskey(oldPasskey);
