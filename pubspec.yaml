@@ -33,7 +33,7 @@ dependencies:
     path: packages/passkey_repository
   path: ^1.9.0
   path_provider: ^2.1.5
-  shared_preferences: ^2.3.4
+  shared_preferences: ^2.4.0
 
 dev_dependencies:
   bloc_test: ^9.1.7
