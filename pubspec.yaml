@@ -31,7 +31,7 @@ dependencies:
     path: packages/onboarding_repository
   passkey_repository:
     path: packages/passkey_repository
-  path: ^1.9.0
+  path: ^1.9.1
   path_provider: ^2.1.5
   shared_preferences: ^2.3.4
 
