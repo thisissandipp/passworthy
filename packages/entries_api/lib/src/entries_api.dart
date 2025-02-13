@@ -17,7 +17,7 @@ abstract class EntriesApi {
   final PasswordCryptography _passwordCryptography;
 
   /// Provides a [Stream] of all entries.
-  /// 
+  ///
   /// The [passkey] is passed to decrypt the entries.
   Stream<List<Entry>> getEntries(String passkey);
 
@@ -45,8 +45,9 @@ abstract class EntriesApi {
     required String passkey,
     required void Function(Entry encryptedEntry) operation,
   }) async {
-    final encryptedPassword = await runInBackground(
-      () => _passwordCryptography.encrypt(entry.password, passkey),
+    final encryptedPassword = _passwordCryptography.encrypt(
+      entry.password,
+      passkey,
     );
     final encryptedEntry = entry.copyWith(password: encryptedPassword);
     operation.call(encryptedEntry);
@@ -59,8 +60,9 @@ abstract class EntriesApi {
     required Entry Function() operation,
   }) async {
     final encryptedEntry = operation.call();
-    final password = await runInBackground(
-      () => _passwordCryptography.decrypt(encryptedEntry.password, passkey),
+    final password = _passwordCryptography.decrypt(
+      encryptedEntry.password,
+      passkey,
     );
     return encryptedEntry.copyWith(password: password);
   }
