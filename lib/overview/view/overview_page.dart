@@ -2,6 +2,7 @@ import 'package:entries_repository/entries_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passkey_repository/passkey_repository.dart';
+import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/typography/typography.dart';
@@ -31,6 +32,16 @@ class OverviewView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (_) => const CreateEntryPage(),
+            fullscreenDialog: true,
+          ),
+        ),
+        child: const Icon(Icons.add),
+      ),
       body: BlocBuilder<OverviewBloc, OverviewState>(
         builder: (context, state) {
           if (state.entries.isEmpty) {
@@ -51,11 +62,16 @@ class OverviewView extends StatelessWidget {
             );
           }
 
-          return Center(
-            child: Text(
-              '${state.entries.length} Entries',
-              style: PassworthyTextStyle.captionText,
-            ),
+          return ListView.builder(
+            itemCount: state.entries.length,
+            itemBuilder: (context, index) {
+              final entry = state.entries[index];
+              return Text(
+                'Platform: ${entry.platform}, identity: ${entry.identity}, '
+                'password: ${entry.password}',
+                style: PassworthyTextStyle.disclaimerText,
+              ).padding(const EdgeInsets.symmetric(horizontal: 24));
+            },
           );
         },
       ),

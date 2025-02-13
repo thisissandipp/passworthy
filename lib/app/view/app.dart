@@ -51,6 +51,7 @@ class AppView extends StatelessWidget {
     final appBarTheme = Theme.of(context).appBarTheme;
     final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
     final snackBarTheme = Theme.of(context).snackBarTheme;
+    final fabTheme = Theme.of(context).floatingActionButtonTheme;
 
     return MaterialApp(
       theme: ThemeData.dark(useMaterial3: false).copyWith(
@@ -58,6 +59,10 @@ class AppView extends StatelessWidget {
         appBarTheme: appBarTheme.copyWith(
           elevation: 0,
           color: PassworthyColors.appBarDefault,
+        ),
+        floatingActionButtonTheme: fabTheme.copyWith(
+          backgroundColor: PassworthyColors.elevatedButtonBackground,
+          foregroundColor: PassworthyColors.inputText,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -73,6 +78,7 @@ class AppView extends StatelessWidget {
         ),
         inputDecorationTheme: inputDecorationTheme.copyWith(
           hintStyle: PassworthyTextStyle.inputHintText,
+          helperStyle: PassworthyTextStyle.disclaimerText,
           border: InputBorder.none,
         ),
         snackBarTheme: snackBarTheme.copyWith(
