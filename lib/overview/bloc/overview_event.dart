@@ -18,3 +18,11 @@ final class OverviewEntryDeleted extends OverviewEvent {
   @override
   List<Object> get props => [entryToBeDeleted];
 }
+
+final class OverviewSearchInputChanged extends OverviewEvent {
+  const OverviewSearchInputChanged(this.value);
+  final String value;
+
+  @override
+  List<Object> get props => [value];
+}

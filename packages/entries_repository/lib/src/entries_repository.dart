@@ -18,6 +18,14 @@ class EntriesRepository {
     return _entriesApi.getEntries(passkey);
   }
 
+  /// Provides a [Stream] of entries that matches the `searchText` filter.
+  Stream<List<Entry>> getEntriesWithFilter({
+    required String passkey,
+    required String searchText,
+  }) {
+    return _entriesApi.getEntriesWithFilter(passkey, searchText);
+  }
+
   /// Saves an [entry].
   ///
   /// If there's already an entry with the same id, it will be replaced.

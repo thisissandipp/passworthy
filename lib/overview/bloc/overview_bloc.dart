@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:entries_api/entries_api.dart';
 import 'package:entries_repository/entries_repository.dart';
 import 'package:equatable/equatable.dart';
@@ -16,8 +17,12 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
   })  : _entriesRepository = entriesRepository,
         _passkeyRepository = passkeyRepository,
         super(const OverviewState()) {
-    on<OverviewSubscriptionRequested>(_onOverviewSubscriptionRequested);
+    on<OverviewSubscriptionRequested>(
+      _onOverviewSubscriptionRequested,
+      transformer: restartable(),
+    );
     on<OverviewEntryDeleted>(_onOverviewEntryDeleted);
+    on<OverviewSearchInputChanged>(_onOverviewSearchInputChanged);
   }
 
   final EntriesRepository _entriesRepository;
@@ -42,7 +47,12 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
     }
 
     await emit.forEach(
-      _entriesRepository.getEntries(passkey: passkey),
+      state.searchText.isEmpty
+          ? _entriesRepository.getEntries(passkey: passkey)
+          : _entriesRepository.getEntriesWithFilter(
+              passkey: passkey,
+              searchText: state.searchText,
+            ),
       onData: (entries) => state.copyWith(
         entries: () => entries,
         status: () => OverviewStatus.success,
@@ -60,5 +70,13 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
     Emitter<OverviewState> emit,
   ) async {
     await _entriesRepository.deleteEntry(entry: event.entryToBeDeleted);
+  }
+
+  FutureOr<void> _onOverviewSearchInputChanged(
+    OverviewSearchInputChanged event,
+    Emitter<OverviewState> emit,
+  ) async {
+    emit(state.copyWith(searchText: () => event.value));
+    add(const OverviewSubscriptionRequested());
   }
 }

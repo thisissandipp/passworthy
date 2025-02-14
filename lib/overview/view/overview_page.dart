@@ -47,72 +47,122 @@ class OverviewView extends StatelessWidget {
         ),
         child: const Icon(Icons.add),
       ),
-      body: BlocBuilder<OverviewBloc, OverviewState>(
-        builder: (context, state) {
-          if (state.entries.isEmpty) {
-            if (state.status == OverviewStatus.loading) {
-              return const Center(child: CircularProgressIndicator.adaptive());
-            }
-            if (state.status != OverviewStatus.success) {
-              return const SizedBox();
-            }
+      body: const Column(
+        children: [
+          _SearchEntryInput(),
+          Expanded(
+            child: _EntriesListViewBuilder(),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-            return Center(
-              child: Text(
-                'No Entries',
-                style: PassworthyTextStyle.titleText.copyWith(
-                  color: PassworthyTextStyle.captionText.color,
-                ),
-              ).padding(const EdgeInsets.only(bottom: kToolbarHeight * 2)),
-            );
+class _SearchEntryInput extends StatelessWidget {
+  const _SearchEntryInput();
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: PassworthyTextStyle.inputText.copyWith(
+        fontSize: 14,
+      ),
+      cursorColor: PassworthyColors.inputCursor,
+      onChanged: (value) => context.read<OverviewBloc>().add(
+            OverviewSearchInputChanged(value),
+          ),
+      decoration: InputDecoration(
+        hintText: 'search entries',
+        icon: const Icon(
+          Icons.search,
+          color: PassworthyColors.disclaimerText,
+        ).padding(
+          const EdgeInsets.only(left: 16),
+        ),
+      ),
+    )
+        .decoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: PassworthyColors.backgroundLight,
+          ),
+        )
+        .padding(const EdgeInsets.symmetric(horizontal: 16, vertical: 4));
+  }
+}
+
+class _EntriesListViewBuilder extends StatelessWidget {
+  const _EntriesListViewBuilder();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<OverviewBloc, OverviewState>(
+      buildWhen: (previous, current) => previous.entries != current.entries,
+      builder: (context, state) {
+        if (state.entries.isEmpty) {
+          if (state.status == OverviewStatus.loading) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          }
+          if (state.status != OverviewStatus.success) {
+            return const SizedBox();
           }
 
-          return ListView.builder(
-            itemCount: state.entries.length,
-            itemBuilder: (context, index) {
-              final entry = state.entries[index];
-              return GestureDetector(
-                onTap: () => showModalBottomSheet<void>(
-                  context: context,
-                  backgroundColor: PassworthyColors.backgroundLight,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                  ),
-                  builder: (_) {
-                    return _BuildEntryDetails(
-                      entry: entry,
-                      onUpdatePressed: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (_) => CreateEntryPage(
-                              initialEntry: entry,
-                            ),
-                            fullscreenDialog: true,
-                          ),
-                        );
-                      },
-                      onDeletePressed: () {
-                        Navigator.pop(context);
-                        context.read<OverviewBloc>().add(
-                              OverviewEntryDeleted(entry),
-                            );
-                      },
-                    ).padding(
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-                    );
-                  },
-                ),
-                child: EntryComponent(entry: entry),
-              );
-            },
+          return Center(
+            child: Text(
+              'No Entries',
+              style: PassworthyTextStyle.titleText.copyWith(
+                color: PassworthyTextStyle.captionText.color,
+              ),
+            ).padding(const EdgeInsets.only(bottom: kToolbarHeight * 2)),
           );
-        },
-      ),
+        }
+
+        return ListView.builder(
+          itemCount: state.entries.length,
+          itemBuilder: (context, index) {
+            final entry = state.entries[index];
+            return GestureDetector(
+              onTap: () => showModalBottomSheet<void>(
+                context: context,
+                backgroundColor: PassworthyColors.backgroundLight,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
+                builder: (_) {
+                  return _BuildEntryDetails(
+                    entry: entry,
+                    onUpdatePressed: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => CreateEntryPage(
+                            initialEntry: entry,
+                          ),
+                          fullscreenDialog: true,
+                        ),
+                      );
+                    },
+                    onDeletePressed: () {
+                      Navigator.pop(context);
+                      context.read<OverviewBloc>().add(
+                            OverviewEntryDeleted(entry),
+                          );
+                    },
+                  ).padding(
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                  );
+                },
+              ),
+              child: EntryComponent(entry: entry),
+            );
+          },
+        );
+      },
     );
   }
 }

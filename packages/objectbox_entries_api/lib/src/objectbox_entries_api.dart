@@ -51,6 +51,37 @@ class ObjectboxEntriesApi extends EntriesApi {
   }
 
   @override
+  Stream<List<Entry>> getEntriesWithFilter(
+    String passkey,
+    String searchText,
+  ) async* {
+    final queryStream = store
+        .box<EntryDto>()
+        .query(
+          EntryDto_.platform
+              .contains(searchText)
+              .or(EntryDto_.identity.contains(searchText)),
+        )
+        .watch(
+          triggerImmediately: true,
+        );
+
+    yield* queryStream.asyncMap((query) async {
+      final entryDtoList = await query.findAsync();
+      final entryList = await Future.wait(
+        entryDtoList.map((entryDto) async {
+          final encryptedEntry = entryDto.toEntry();
+          return await applyDecryption(
+            passkey: passkey,
+            operation: () => encryptedEntry,
+          );
+        }),
+      );
+      return entryList;
+    });
+  }
+
+  @override
   FutureOr<void> saveEntry(Entry entry, String passkey) async {
     return applyEncryption(
       entry: entry,

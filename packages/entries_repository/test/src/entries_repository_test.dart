@@ -24,6 +24,9 @@ void main() {
       when(() => entriesApi.getEntries(any())).thenAnswer(
         (_) => Stream.value([entry]),
       );
+      when(() => entriesApi.getEntriesWithFilter(any(), any())).thenAnswer(
+        (_) => Stream.value([entry]),
+      );
     });
 
     test('can be instantiated', () {
@@ -33,6 +36,16 @@ void main() {
     test('getEntries makes correct api call', () {
       entriesRepository.getEntries(passkey: 'passkey');
       verify(() => entriesApi.getEntries('passkey')).called(1);
+    });
+
+    test('getEntriesWithFilter makes correct api call', () {
+      entriesRepository.getEntriesWithFilter(
+        passkey: 'passkey',
+        searchText: 'search',
+      );
+      verify(
+        () => entriesApi.getEntriesWithFilter('passkey', 'search'),
+      ).called(1);
     });
 
     test('saveEntry makes correct api call', () {
