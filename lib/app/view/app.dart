@@ -84,9 +84,9 @@ class AppView extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
             ),
-            side: BorderSide(color: Colors.red),
+            side: const BorderSide(color: PassworthyColors.dangerRed),
             textStyle: PassworthyTextStyle.buttonText,
-            foregroundColor: Colors.red,
+            foregroundColor: PassworthyColors.dangerRed,
           ),
         ),
         inputDecorationTheme: inputDecorationTheme.copyWith(

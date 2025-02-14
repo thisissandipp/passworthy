@@ -37,4 +37,7 @@ class PassworthyColors {
 
   /// Input cursor color in a text field, #635BFF
   static const inputCursor = Color(0xFF635BFF);
+
+  /// Danger red color (for delete, error), #CC3D3D
+  static const dangerRed = Color(0xFFCC3D3D);
 }

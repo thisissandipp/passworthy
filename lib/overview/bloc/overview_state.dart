@@ -15,7 +15,7 @@ final class OverviewState extends Equatable {
   final List<Entry> entries;
   final OverviewStatus status;
   final OverviewError? error;
-  
+
   @override
   List<Object?> get props => [entries, status, error];
 
