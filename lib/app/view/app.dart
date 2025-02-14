@@ -59,6 +59,8 @@ class AppView extends StatelessWidget {
         appBarTheme: appBarTheme.copyWith(
           elevation: 0,
           color: PassworthyColors.appBarDefault,
+          titleTextStyle: PassworthyTextStyle.titleText,
+          titleSpacing: 24,
         ),
         floatingActionButtonTheme: fabTheme.copyWith(
           backgroundColor: PassworthyColors.elevatedButtonBackground,

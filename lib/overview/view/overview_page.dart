@@ -31,7 +31,10 @@ class OverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('all entries'),
+        centerTitle: false,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(
           context,
@@ -66,11 +69,7 @@ class OverviewView extends StatelessWidget {
             itemCount: state.entries.length,
             itemBuilder: (context, index) {
               final entry = state.entries[index];
-              return Text(
-                'Platform: ${entry.platform}, identity: ${entry.identity}, '
-                'password: ${entry.password}',
-                style: PassworthyTextStyle.disclaimerText,
-              ).padding(const EdgeInsets.symmetric(horizontal: 24));
+              return EntryComponent(entry: entry);
             },
           );
         },
