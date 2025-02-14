@@ -22,7 +22,7 @@ abstract class EntriesApi {
   Stream<List<Entry>> getEntries(String passkey);
 
   /// Provides a [Stream] of entries that match the `searchText` filter.
-  /// 
+  ///
   /// The [passkey] is passed to decrypt the entries.
   Stream<List<Entry>> getEntriesWithFilter(String passkey, String searchText);
 
