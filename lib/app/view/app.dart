@@ -78,6 +78,17 @@ class AppView extends StatelessWidget {
                 PassworthyColors.elevatedButtonBackground.withAlpha(96),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            minimumSize: const Size.fromHeight(56),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(14),
+            ),
+            side: BorderSide(color: Colors.red),
+            textStyle: PassworthyTextStyle.buttonText,
+            foregroundColor: Colors.red,
+          ),
+        ),
         inputDecorationTheme: inputDecorationTheme.copyWith(
           hintStyle: PassworthyTextStyle.inputHintText,
           helperStyle: PassworthyTextStyle.disclaimerText,

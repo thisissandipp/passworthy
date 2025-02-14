@@ -1,7 +1,9 @@
+import 'package:entries_api/entries_api.dart';
 import 'package:entries_repository/entries_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passkey_repository/passkey_repository.dart';
+import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/overview/overview.dart';
@@ -39,7 +41,7 @@ class OverviewView extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute<void>(
-            builder: (_) => const CreateEntryPage(),
+            builder: (_) => const CreateEntryPage(initialEntry: null),
             fullscreenDialog: true,
           ),
         ),
@@ -69,11 +71,139 @@ class OverviewView extends StatelessWidget {
             itemCount: state.entries.length,
             itemBuilder: (context, index) {
               final entry = state.entries[index];
-              return EntryComponent(entry: entry);
+              return GestureDetector(
+                onTap: () => showModalBottomSheet<void>(
+                  context: context,
+                  backgroundColor: PassworthyColors.backgroundLight,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                  ),
+                  builder: (_) {
+                    return _BuildEntryDetails(
+                      entry: entry,
+                      onUpdatePressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => CreateEntryPage(
+                              initialEntry: entry,
+                            ),
+                            fullscreenDialog: true,
+                          ),
+                        );
+                      },
+                      onDeletePressed: () {
+                        Navigator.pop(context);
+                        context.read<OverviewBloc>().add(
+                              OverviewEntryDeleted(entry),
+                            );
+                      },
+                    ).padding(
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
+                    );
+                  },
+                ),
+                child: EntryComponent(entry: entry),
+              );
             },
           );
         },
       ),
+    );
+  }
+}
+
+class _BuildEntryDetails extends StatelessWidget {
+  const _BuildEntryDetails({
+    required this.entry,
+    required this.onUpdatePressed,
+    required this.onDeletePressed,
+  });
+
+  final Entry entry;
+  final VoidCallback onUpdatePressed;
+  final VoidCallback onDeletePressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 12,
+      children: [
+        _EntryInfoBuilder(name: 'Platform', value: entry.platform),
+        _EntryInfoBuilder(name: 'Identity', value: entry.identity),
+        _EntryInfoBuilder(name: 'Password', value: entry.password),
+        const SizedBox(height: 4),
+        Row(
+          spacing: 16,
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 45,
+                child: OutlinedButton(
+                  onPressed: onDeletePressed,
+                  child: const Text('Delete'),
+                ),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: 45,
+                child: ElevatedButton(
+                  onPressed: onUpdatePressed,
+                  child: const Text('Update'),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4),
+      ],
+    );
+  }
+}
+
+class _EntryInfoBuilder extends StatelessWidget {
+  const _EntryInfoBuilder({required this.name, required this.value});
+  final String name;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: 8,
+      children: [
+        Text(
+          name,
+          style: PassworthyTextStyle.disclaimerText.copyWith(
+            color: PassworthyColors.disclaimerHighlightText,
+            fontSize: 14,
+          ),
+        ).padding(
+          const EdgeInsets.symmetric(horizontal: 12),
+        ),
+        SelectableText(
+          value,
+          style: PassworthyTextStyle.inputText.copyWith(
+            fontSize: 14,
+          ),
+        )
+            .padding(
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            )
+            .decoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: PassworthyColors.backgroundDefault,
+              ),
+            ),
+      ],
     );
   }
 }

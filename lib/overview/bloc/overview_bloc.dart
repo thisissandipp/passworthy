@@ -17,6 +17,7 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
         _passkeyRepository = passkeyRepository,
         super(const OverviewState()) {
     on<OverviewSubscriptionRequested>(_onOverviewSubscriptionRequested);
+    on<OverviewEntryDeleted>(_onOverviewEntryDeleted);
   }
 
   final EntriesRepository _entriesRepository;
@@ -52,5 +53,12 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
         error: () => OverviewError.readEntries,
       ),
     );
+  }
+
+  FutureOr<void> _onOverviewEntryDeleted(
+    OverviewEntryDeleted event,
+    Emitter<OverviewState> emit,
+  ) async {
+    await _entriesRepository.deleteEntry(entry: event.entryToBeDeleted);
   }
 }
