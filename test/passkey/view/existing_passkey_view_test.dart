@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:passworthy/home/home.dart';
+import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
 import '../../helpers/helpers.dart';
@@ -101,7 +101,7 @@ void main() {
     });
 
     group('navigates', () {
-      testWidgets('to [HomePage] when form status is success', (tester) async {
+      testWidgets('to [OverviewPage] when status is success', (tester) async {
         whenListen(
           passkeyBloc,
           Stream.fromIterable([
@@ -111,7 +111,7 @@ void main() {
         await tester.pumpApp(ExistingPasskeyView(), passkeyBloc: passkeyBloc);
         await tester.pumpAndSettle();
 
-        expect(find.byType(HomePage), findsOneWidget);
+        expect(find.byType(OverviewPage), findsOneWidget);
       });
     });
   });
