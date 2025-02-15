@@ -35,13 +35,14 @@ class CreateEntryView extends StatelessWidget {
     final l10n = context.l10n;
 
     return BlocListener<CreateBloc, CreateState>(
-      listenWhen: (previous, current) => previous.status != current.status,
+      listenWhen: (previous, current) =>
+          previous.createStatus != current.createStatus,
       listener: (context, state) {
-        if (state.status == CreateEntryStatus.success) {
+        if (state.createStatus == CreateEntryStatus.success) {
           Navigator.pop(context);
         }
 
-        if (state.status == CreateEntryStatus.failure) {
+        if (state.createStatus == CreateEntryStatus.failure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -100,7 +101,7 @@ class _PlatformInputField extends StatelessWidget {
 
     return TextFormField(
       key: const Key('createEntryView_platformInput_textField'),
-      initialValue: state.platform,
+      initialValue: state.platform.value,
       onChanged: (value) => context.read<CreateBloc>().add(
             PlatformInputChanged(value),
           ),
@@ -134,7 +135,7 @@ class _IdentityInputField extends StatelessWidget {
 
     return TextFormField(
       key: const Key('createEntryView_identityInput_textField'),
-      initialValue: state.identity,
+      initialValue: state.identity.value,
       onChanged: (value) => context.read<CreateBloc>().add(
             IdentityInputChanged(value),
           ),
@@ -168,7 +169,7 @@ class _PasswordInputField extends StatelessWidget {
 
     return TextFormField(
       key: const Key('createEntryView_passwordInput_textField'),
-      initialValue: state.password,
+      initialValue: state.password.value,
       onChanged: (value) => context.read<CreateBloc>().add(
             PasswordInputChanged(value),
           ),
@@ -197,16 +198,15 @@ class _EntrySubmitted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final status = context.select(
-      (CreateBloc bloc) => bloc.state.status,
-    );
     final state = context.select((CreateBloc bloc) => bloc.state);
     final l10n = context.l10n;
 
     return ElevatedButton(
       key: const Key('createEntryView_entrySubmit_elevatedButton'),
-      onPressed: () => context.read<CreateBloc>().add(const EntrySubmitted()),
-      child: status.isLoadingOrSuccess
+      onPressed: state.isFormValid
+          ? () => context.read<CreateBloc>().add(const EntrySubmitted())
+          : null,
+      child: state.createStatus.isLoadingOrSuccess
           ? const CircularProgressIndicator.adaptive()
           : Text(
               state.isNewEntry
