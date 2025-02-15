@@ -75,5 +75,85 @@
   "wrongPasskeyError": "the secret password did not match,\nplease try again",
   "@wrongPasskeyError": {
     "description": "Error text shown in snackbar when the passkey do not match"
+  },
+  "overviewPageAppBarTitle": "all entries",
+  "@overviewPageAppBarTitle": {
+    "description": "Text shown in the appbar of the Overview Page"
+  },
+  "searchEntryHintText": "search entries",
+  "@searchEntryHintText": {
+    "description": "Text shown in the search bar as hint in the Overview Page"
+  },
+  "noEntriesText": "No Entries",
+  "@noEntriesText": {
+    "description": "Text show when there is no entries in the Overview Page"
+  },
+  "platformLabel": "Platform",
+  "@platformLabel": {
+    "description": "Text shown as the label for the Platform in Overview Page"
+  },
+  "identityLabel": "Identity",
+  "@identityLabel": {
+    "description": "Text shown as the label for the Identity in Overview Page"
+  },
+  "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Text shown as the label for the Password in Overview Page"
+  },
+  "updateButtonText": "Update",
+  "@updateButtonText": {
+    "description": "Button text for Editing entry in the Overview Page"
+  },
+  "deleteButtonText": "Delete",
+  "@deleteButtonText": {
+    "description": "Button text for Deleting entry in the Overview Page"
+  },
+  "passwordCopiedMessage": "password has been copied to clipboard",
+  "@passwordCopiedMessage": {
+    "description": "Text shown in the snackbar in Overview Page when password is copied"
+  },
+  "unknownErrorMessage": "Something went wrong. The operation has not completed",
+  "@unknownErrorMessage": {
+    "description": "Error text shown when the entry creation or updation fails in Create Entry page"
+  },
+  "newEntryPageTitle": "new entry",
+  "@newEntryPageTitle": {
+    "description": "Title text shown in Create Entry page for a new entry"
+  },
+  "updateEntryPageTitle": "update entry",
+  "@updateEntryPageTitle": {
+    "description": "Title text shown in Create Entry page for an exisiting entry"
+  },
+  "platformInputHintText": "which platform?",
+  "@platformInputHintText": {
+    "description": "Text shown in the hint placeholder for Platform in Create Entry page"
+  },
+  "platformInputHelperText": "example - gmail account, netflix, zomato",
+  "@platformInputHelperText": {
+    "description": "Text shown in the helper placeholder for Platform in Create Entry page"
+  },
+  "identityInputHintText": "account identity",
+  "@identityInputHintText": {
+    "description": "Text shown in the hint placeholder for Identity in Create Entry page"
+  },
+  "identityInputHelperText": "could be your email, username, phone",
+  "@identityInputHelperText": {
+    "description": "Text shown in the helper placeholder for Identity in Create Entry page"
+  },
+  "passwordInputHintText": "your password",
+  "@passwordInputHintText": {
+    "description": "Text shown in the hint placeholder for Password in Create Entry page"
+  },
+  "passwordInputHelperText": "text that you don't want to remember",
+  "@passwordInputHelperText": {
+    "description": "Text shown in the helper placeholder for Password in Create Entry page"
+  },
+  "addEntryButtonText": "add now",
+  "@addEntryButtonText": {
+    "description": "Button text for new entry in Create Entry page"
+  },
+  "updateEntryButtonText": "update it",
+  "@updateEntryButtonText": {
+    "description": "Button text for existing entry in Create Entry page"
   }
 }

@@ -6,6 +6,7 @@ import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
+import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/typography/typography.dart';
 
 class CreateEntryPage extends StatelessWidget {
@@ -31,6 +32,8 @@ class CreateEntryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final l10n = context.l10n;
+
     return BlocListener<CreateBloc, CreateState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
@@ -42,9 +45,9 @@ class CreateEntryView extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(
+              SnackBar(
                 content: Text(
-                  'Something went wrong!',
+                  l10n.unknownErrorMessage,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -78,8 +81,10 @@ class _BuildTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((CreateBloc bloc) => bloc.state);
+    final l10n = context.l10n;
+
     return Text(
-      state.isNewEntry ? 'new entry' : 'update entry',
+      state.isNewEntry ? l10n.newEntryPageTitle : l10n.updateEntryPageTitle,
       style: PassworthyTextStyle.titleText,
     ).padding(const EdgeInsets.symmetric(horizontal: 24));
   }
@@ -91,6 +96,7 @@ class _PlatformInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((CreateBloc bloc) => bloc.state);
+    final l10n = context.l10n;
 
     return TextFormField(
       key: const Key('createEntryView_platformInput_textField'),
@@ -100,15 +106,15 @@ class _PlatformInputField extends StatelessWidget {
           ),
       style: PassworthyTextStyle.inputText,
       cursorColor: PassworthyColors.inputCursor,
-      decoration: const InputDecoration(
-        hintText: 'which platform?',
-        helperText: 'example - google account, netflix, zomato',
-        enabledBorder: UnderlineInputBorder(
+      decoration: InputDecoration(
+        hintText: l10n.platformInputHintText,
+        helperText: l10n.platformInputHelperText,
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.inputHintText,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.inputHintText,
           ),
@@ -124,6 +130,7 @@ class _IdentityInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((CreateBloc bloc) => bloc.state);
+    final l10n = context.l10n;
 
     return TextFormField(
       key: const Key('createEntryView_identityInput_textField'),
@@ -133,15 +140,15 @@ class _IdentityInputField extends StatelessWidget {
           ),
       style: PassworthyTextStyle.inputText,
       cursorColor: PassworthyColors.inputCursor,
-      decoration: const InputDecoration(
-        hintText: 'account identity',
-        helperText: 'could be your email, username, phone',
-        enabledBorder: UnderlineInputBorder(
+      decoration: InputDecoration(
+        hintText: l10n.identityInputHintText,
+        helperText: l10n.identityInputHelperText,
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.inputHintText,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.inputHintText,
           ),
@@ -157,6 +164,7 @@ class _PasswordInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.select((CreateBloc bloc) => bloc.state);
+    final l10n = context.l10n;
 
     return TextFormField(
       key: const Key('createEntryView_passwordInput_textField'),
@@ -166,15 +174,15 @@ class _PasswordInputField extends StatelessWidget {
           ),
       style: PassworthyTextStyle.inputText,
       cursorColor: PassworthyColors.inputCursor,
-      decoration: const InputDecoration(
-        hintText: 'your password',
-        helperText: 'you know what to do',
-        enabledBorder: UnderlineInputBorder(
+      decoration: InputDecoration(
+        hintText: l10n.passwordInputHintText,
+        helperText: l10n.passwordInputHelperText,
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.inputHintText,
           ),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.inputHintText,
           ),
@@ -193,12 +201,18 @@ class _EntrySubmitted extends StatelessWidget {
       (CreateBloc bloc) => bloc.state.status,
     );
     final state = context.select((CreateBloc bloc) => bloc.state);
+    final l10n = context.l10n;
+
     return ElevatedButton(
       key: const Key('createEntryView_entrySubmit_elevatedButton'),
       onPressed: () => context.read<CreateBloc>().add(const EntrySubmitted()),
       child: status.isLoadingOrSuccess
           ? const CircularProgressIndicator.adaptive()
-          : Text(state.isNewEntry ? 'Add now' : 'Update it'),
+          : Text(
+              state.isNewEntry
+                  ? l10n.addEntryButtonText
+                  : l10n.updateEntryButtonText,
+            ),
     ).padding(const EdgeInsets.fromLTRB(24, 32, 24, 56));
   }
 }

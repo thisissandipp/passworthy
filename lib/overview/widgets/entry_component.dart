@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/decorators/decorators.dart';
+import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/typography/typography.dart';
 
 class EntryComponent extends StatelessWidget {
@@ -11,6 +12,7 @@ class EntryComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -53,8 +55,8 @@ class EntryComponent extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
-                const SnackBar(
-                  content: Text('password has been copied to clipboard'),
+                SnackBar(
+                  content: Text(l10n.passwordCopiedMessage),
                 ),
               );
           },

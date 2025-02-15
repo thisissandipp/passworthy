@@ -6,6 +6,7 @@ import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
+import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/typography/typography.dart';
 
@@ -32,9 +33,10 @@ class OverviewView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('all entries'),
+        title: Text(l10n.overviewPageAppBarTitle),
         centerTitle: false,
       ),
       floatingActionButton: FloatingActionButton(
@@ -64,6 +66,7 @@ class _SearchEntryInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return TextFormField(
       style: PassworthyTextStyle.inputText.copyWith(
         fontSize: 14,
@@ -73,7 +76,7 @@ class _SearchEntryInput extends StatelessWidget {
             OverviewSearchInputChanged(value),
           ),
       decoration: InputDecoration(
-        hintText: 'search entries',
+        hintText: l10n.searchEntryHintText,
         icon: const Icon(
           Icons.search,
           color: PassworthyColors.disclaimerText,
@@ -97,6 +100,7 @@ class _EntriesListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<OverviewBloc, OverviewState>(
       buildWhen: (previous, current) => previous.entries != current.entries,
       builder: (context, state) {
@@ -110,7 +114,7 @@ class _EntriesListViewBuilder extends StatelessWidget {
 
           return Center(
             child: Text(
-              'No Entries',
+              l10n.noEntriesText,
               style: PassworthyTextStyle.titleText.copyWith(
                 color: PassworthyTextStyle.captionText.color,
               ),
@@ -180,14 +184,24 @@ class _BuildEntryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       spacing: 12,
       children: [
-        _EntryInfoBuilder(name: 'Platform', value: entry.platform),
-        _EntryInfoBuilder(name: 'Identity', value: entry.identity),
-        _EntryInfoBuilder(name: 'Password', value: entry.password),
+        _EntryInfoBuilder(
+          name: l10n.platformLabel,
+          value: entry.platform,
+        ),
+        _EntryInfoBuilder(
+          name: l10n.identityLabel,
+          value: entry.identity,
+        ),
+        _EntryInfoBuilder(
+          name: l10n.passwordLabel,
+          value: entry.password,
+        ),
         const SizedBox(height: 4),
         Row(
           spacing: 16,
@@ -197,7 +211,7 @@ class _BuildEntryDetails extends StatelessWidget {
                 height: 45,
                 child: OutlinedButton(
                   onPressed: onDeletePressed,
-                  child: const Text('Delete'),
+                  child: Text(l10n.deleteButtonText),
                 ),
               ),
             ),
@@ -206,7 +220,7 @@ class _BuildEntryDetails extends StatelessWidget {
                 height: 45,
                 child: ElevatedButton(
                   onPressed: onUpdatePressed,
-                  child: const Text('Update'),
+                  child: Text(l10n.updateButtonText),
                 ),
               ),
             ),

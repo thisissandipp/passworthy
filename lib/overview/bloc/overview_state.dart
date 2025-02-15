@@ -30,7 +30,7 @@ final class OverviewState extends Equatable {
     return OverviewState(
       entries: entries != null ? entries() : this.entries,
       status: status != null ? status() : this.status,
-      searchText: searchText != null ? searchText(): this.searchText,
+      searchText: searchText != null ? searchText() : this.searchText,
       error: error != null ? error() : this.error,
     );
   }
