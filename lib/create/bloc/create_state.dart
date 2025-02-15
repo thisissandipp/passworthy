@@ -11,38 +11,42 @@ extension CreatedEntryStatusExt on CreateEntryStatus {
 
 final class CreateState extends Equatable {
   const CreateState({
-    this.status = CreateEntryStatus.initial,
+    this.createStatus = CreateEntryStatus.initial,
     this.initialEntry,
-    this.platform = '',
-    this.identity = '',
-    this.password = '',
+    this.platform = const Platform.pure(),
+    this.identity = const Identity.pure(),
+    this.password = const Password.pure(),
+    this.isFormValid = false,
   });
 
-  final CreateEntryStatus status;
+  final CreateEntryStatus createStatus;
   final Entry? initialEntry;
-  final String platform;
-  final String identity;
-  final String password;
+  final Platform platform;
+  final Identity identity;
+  final Password password;
+  final bool isFormValid;
 
   bool get isNewEntry => initialEntry == null;
 
   @override
   List<Object?> get props =>
-      [status, initialEntry, platform, identity, password];
+      [createStatus, initialEntry, platform, identity, password, isFormValid];
 
   CreateState copyWith({
-    CreateEntryStatus? status,
+    CreateEntryStatus? createStatus,
     Entry? initialEntry,
-    String? platform,
-    String? identity,
-    String? password,
+    Platform? platform,
+    Identity? identity,
+    Password? password,
+    bool? isFormValid,
   }) {
     return CreateState(
-      status: status ?? this.status,
+      createStatus: createStatus ?? this.createStatus,
       initialEntry: initialEntry ?? this.initialEntry,
       platform: platform ?? this.platform,
       identity: identity ?? this.identity,
       password: password ?? this.password,
+      isFormValid: isFormValid ?? this.isFormValid,
     );
   }
 }
