@@ -38,7 +38,7 @@ Below is a breakdown of the initial release features and upcoming enhancements. 
 - 🔹 Auto-lock and Biometric Authentication
 - 🔹 Improved UI/UX and Multiple Theme
 - 🔹 Folders, Categorization, or Tagging for better Organization
-- 🔹 Store Secure Notes and Sentitive Information (e.g., Bank Details, Recovery Codes)
+- 🔹 Store Secure Notes and Sensitive Information (e.g., Bank Details, Recovery Codes)
 - 🔹 Custom Filtering
 
 ### 👀 Long-Term Vision 
