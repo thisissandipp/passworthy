@@ -1,3 +1,4 @@
+// Ignore below specifics for testing environment.
 // ignore_for_file: prefer_const_constructors
 import 'package:entries_api/entries_api.dart';
 import 'package:entries_repository/entries_repository.dart';

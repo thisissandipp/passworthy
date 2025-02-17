@@ -109,7 +109,7 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
     try {
       await _entriesRepository.saveEntry(entry: entry, passkey: passkey);
       emit(state.copyWith(createStatus: CreateEntryStatus.success));
-    } catch (_) {
+    } on Exception catch (_) {
       emit(state.copyWith(createStatus: CreateEntryStatus.failure));
     }
   }

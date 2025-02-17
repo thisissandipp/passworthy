@@ -1,6 +1,3 @@
-/// A simple in-memory cache client made for Dart.
-library cache;
-
 /// {@template cache_client}
 /// An in-memory cache client made for Dart.
 /// {@endtemplate}
