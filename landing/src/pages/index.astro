@@ -1,17 +1,20 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Banner from "../components/Banner.astro";
+import Card from "../components/Card.astro";
 ---
 
 <Layout>
   <div class="bg-gray-950 text-white">
-    <div class="min-h-screen flex flex-col items-center justify-center text-center px-6 lg:px-8">
+    <Banner />
+    <div class="relative min-h-screen flex flex-col items-center justify-center text-center px-6 lg:px-8">
       <h1 class="text-4xl font-bold">Introducing Passworthy</h1>
       <p class="mt-4 text-xl text-gray-300">Simple, yet secured offline password manager application</p>
       <p class="mt-2 text-base text-gray-400">Subscribe to our waitlist to receive product updates</p>
 
-      <div class="mt-8 flex space-x-2">
-        <input type="email" placeholder="Your email address..." class="w-xs px-4 py-2 text-white rounded-md border border-gray-700">
-        <button class="bg-indigo-700 px-4 py-2 rounded-md cursor-pointer">Subscribe</button>
+      <div class="mt-8 flex space-x-2 flex-col sm:flex-row">
+        <input type="email" placeholder="Your email address..." class="w-sm px-4 py-2 text-white rounded-md border border-gray-700 outline-0 focus-within:border-gray-400" />
+        <button class="bg-indigo-700 px-4 py-2 rounded-md cursor-pointer mt-2 sm:mt-0">Subscribe</button>
       </div>
 
       <p class="mt-4 text-gray-500">Trusted by no one... (yet) 😉</p>
@@ -20,33 +23,26 @@ import Layout from "../layouts/Layout.astro";
       <div class="mx-auto max-w-3xl py-16">
         <h2 class="text-2xl font-bold">Passworthy</h2>
         <p class="mt-4 text-lg/6 text-gray-300">In a sentence - Simple yet secured password manager application.</p>
-        <p class="mt-2 text-lg/6 text-gray-300">Passworthy is an offline password manager designed for privacy-conscious users. It securely stores passwords locally on your device, ensuring that only you have access to your credentials.</p>
-        <p class="mt-2 text-lg/6 text-gray-300">Unlike cloud-based managers, Passworthy requires no logins, no accounts, and no internet connection - your passwords remain encrypted and protected, without compromise.</p>
+        <p class="mt-2 text-lg/6 text-gray-300">
+          Passworthy is an offline password manager designed for privacy-conscious users. It securely stores passwords locally on your device, ensuring that only you have access to
+          your credentials.
+        </p>
+        <p class="mt-2 text-lg/6 text-gray-300">
+          Unlike cloud-based managers, Passworthy requires no logins, no accounts, and no internet connection - your passwords remain encrypted and protected, without compromise.
+        </p>
 
         <h2 class="mt-8 text-2xl font-bold">Why Passworthy?</h2>
         <div class="grid grid-cols-2 gap-6 mt-6">
-          <div class="bg-zinc-800 p-6 rounded-lg">
-            <h3 class="text-lg/6 font-semibold">🔒 Offline & Secure</h3>
-            <p class="mt-2 text-base text-gray-300">Your passwords are stored only on your device, encrypted for maximum security.</p>
-          </div>
-          <div class="bg-zinc-800 p-6 rounded-lg">
-            <h3 class="text-lg/6 font-semibold">⚡ Fast & Lightweight</h3>
-            <p class="mt-2 text-base text-gray-300">No unnecessary bloat, just a simple and efficient password manager.</p>
-          </div>
-          <div class="bg-zinc-800 p-6 rounded-lg">
-            <h3 class="text-lg/6 font-semibold">🚫 No Tracking, No Ads</h3>
-            <p class="mt-2 text-base text-gray-300">Your data is yours. No hidden analytics, no profiling, no third-party access.</p>
-          </div>
-          <div class="bg-zinc-800 p-6 rounded-lg">
-            <h3 class="text-lg/6 font-semibold">🛠️ Open-Source & Transparent</h3>
-            <p class="mt-2 text-base text-gray-300">Built for privacy-first users, with source code available for review.</p>
-          </div>
+          <Card title="🔒 Offline & Secure" description="Your passwords are stored only on your device, encrypted for maximum security." />
+          <Card title="⚡ Fast & Lightweight" description="No unnecessary bloat, just a simple and efficient password manager." />
+          <Card title="🚫 No Tracking, No Ads" description="Your data is yours. No hidden analytics, no profiling, no third-party access." />
+          <Card title="🛠️ Open-Source & Transparent" description="Built for privacy-first users, with source code available for review." />
         </div>
       </div>
     </div>
 
     <footer class="py-12 text-center text-gray-500">
       <p>© 2025 Sandip Pramanik. All rights reserved.</p>
-  </footer>
+    </footer>
   </div>
 </Layout>
