@@ -29,6 +29,13 @@
       "type": "dart",
       "program": "lib/main_production.dart",
       "args": ["--flavor", "production", "--target", "lib/main_production.dart"]
+    },
+    {
+      "cwd": "${workspaceFolder}/landing",
+      "command": "./node_modules/.bin/astro dev",
+      "name": "Launch landing page",
+      "request": "launch",
+      "type": "node-terminal"
     }
   ]
 }

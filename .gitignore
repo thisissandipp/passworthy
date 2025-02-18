@@ -112,3 +112,8 @@ app.*.map.json
 !.idea/codeStyles/
 !.idea/dictionaries/
 !.idea/runConfigurations/
+
+# Landing page related
+dist/
+.astro/
+node_modules/
