@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Banner from "../components/Banner.astro";
 import Card from "../components/Card.astro";
+import Subscribe from "../components/Subscribe.astro";
 ---
 
 <Layout>
@@ -12,10 +13,7 @@ import Card from "../components/Card.astro";
       <p class="mt-4 text-xl text-gray-300">Simple, yet secured offline password manager application</p>
       <p class="mt-2 text-base text-gray-400">Subscribe to our waitlist to receive product updates</p>
 
-      <div class="mt-8 flex space-x-2 flex-col sm:flex-row">
-        <input type="email" placeholder="Your email address..." class="w-sm px-4 py-2 text-white rounded-md border border-gray-700 outline-0 focus-within:border-gray-400" />
-        <button class="bg-indigo-700 px-4 py-2 rounded-md cursor-pointer mt-2 sm:mt-0">Subscribe</button>
-      </div>
+      <Subscribe />
 
       <p class="mt-4 text-gray-500">Trusted by no one... (yet) 😉</p>
     </div>
