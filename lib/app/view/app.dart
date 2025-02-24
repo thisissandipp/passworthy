@@ -55,27 +55,26 @@ class AppView extends StatelessWidget {
 
     return MaterialApp(
       theme: ThemeData.dark(useMaterial3: false).copyWith(
-        scaffoldBackgroundColor: PassworthyColors.backgroundDefault,
+        scaffoldBackgroundColor: PassworthyColors.darkGrey,
         appBarTheme: appBarTheme.copyWith(
           elevation: 0,
-          color: PassworthyColors.appBarDefault,
+          color: PassworthyColors.transparent,
           titleTextStyle: PassworthyTextStyle.titleText,
           titleSpacing: 24,
         ),
         floatingActionButtonTheme: fabTheme.copyWith(
-          backgroundColor: PassworthyColors.elevatedButtonBackground,
-          foregroundColor: PassworthyColors.inputText,
+          backgroundColor: PassworthyColors.darkIndigo,
+          foregroundColor: PassworthyColors.white,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: PassworthyColors.elevatedButtonBackground,
+            backgroundColor: PassworthyColors.darkIndigo,
             minimumSize: const Size.fromHeight(56),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
             ),
             textStyle: PassworthyTextStyle.buttonText,
-            disabledBackgroundColor:
-                PassworthyColors.elevatedButtonBackground.withAlpha(96),
+            disabledBackgroundColor: PassworthyColors.darkIndigo.withAlpha(96),
           ),
         ),
         outlinedButtonTheme: OutlinedButtonThemeData(
@@ -84,9 +83,9 @@ class AppView extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
             ),
-            side: const BorderSide(color: PassworthyColors.dangerRed),
+            side: const BorderSide(color: PassworthyColors.redError),
             textStyle: PassworthyTextStyle.buttonText,
-            foregroundColor: PassworthyColors.dangerRed,
+            foregroundColor: PassworthyColors.redError,
           ),
         ),
         inputDecorationTheme: inputDecorationTheme.copyWith(
@@ -101,9 +100,9 @@ class AppView extends StatelessWidget {
             ),
           ),
           insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-          backgroundColor: PassworthyColors.backgroundLight,
+          backgroundColor: PassworthyColors.slateGrey,
           contentTextStyle: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.disclaimerHighlightText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
         textTheme: GoogleFonts.poppinsTextTheme(textTheme),

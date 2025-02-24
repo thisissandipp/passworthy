@@ -106,18 +106,18 @@ class _PlatformInputField extends StatelessWidget {
             PlatformInputChanged(value),
           ),
       style: PassworthyTextStyle.inputText,
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       decoration: InputDecoration(
         hintText: l10n.platformInputHintText,
         helperText: l10n.platformInputHelperText,
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: PassworthyColors.inputHintText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: PassworthyColors.inputHintText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
       ),
@@ -140,18 +140,18 @@ class _IdentityInputField extends StatelessWidget {
             IdentityInputChanged(value),
           ),
       style: PassworthyTextStyle.inputText,
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       decoration: InputDecoration(
         hintText: l10n.identityInputHintText,
         helperText: l10n.identityInputHelperText,
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: PassworthyColors.inputHintText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: PassworthyColors.inputHintText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
       ),
@@ -174,18 +174,18 @@ class _PasswordInputField extends StatelessWidget {
             PasswordInputChanged(value),
           ),
       style: PassworthyTextStyle.inputText,
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       decoration: InputDecoration(
         hintText: l10n.passwordInputHintText,
         helperText: l10n.passwordInputHelperText,
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: PassworthyColors.inputHintText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
-            color: PassworthyColors.inputHintText,
+            color: PassworthyColors.lightGrey,
           ),
         ),
       ),

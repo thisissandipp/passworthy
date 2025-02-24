@@ -107,7 +107,7 @@ class _PasskeyInputField extends StatelessWidget {
           ),
       style: PassworthyTextStyle.inputText,
       autofocus: true,
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       decoration: InputDecoration(
         hintText: l10n.passkeyTextFieldHint,
         errorMaxLines: 2,
@@ -147,7 +147,7 @@ class _ConfirmPasskeyInputField extends StatelessWidget {
             ConfirmPasskeyInputChanged(value),
           ),
       style: PassworthyTextStyle.inputText,
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       decoration: InputDecoration(
         hintText: l10n.confirmPasskeyTextFieldHint,
         errorText: errors == null ? null : l10n.confirmPasskeyDoNotMatchError,
@@ -180,7 +180,7 @@ class _PasskeySubmitButton extends StatelessWidget {
               TextSpan(
                 text: l10n.appDisclaimerHighlightedText,
                 style: PassworthyTextStyle.disclaimerText.copyWith(
-                  color: PassworthyColors.disclaimerHighlightText,
+                  color: PassworthyColors.lightGrey,
                 ),
               ),
             ],
@@ -200,7 +200,7 @@ class _PasskeySubmitButton extends StatelessWidget {
       ],
     ).padding(const EdgeInsets.fromLTRB(24, 32, 24, 56)).decoratedBox(
           decoration: const BoxDecoration(
-            color: PassworthyColors.backgroundLight,
+            color: PassworthyColors.slateGrey,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(32),
             ),

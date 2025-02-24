@@ -83,7 +83,7 @@ class OnboardingView extends StatelessWidget {
             ],
           ).padding(const EdgeInsets.fromLTRB(24, 32, 24, 56)).decoratedBox(
                 decoration: const BoxDecoration(
-                  color: PassworthyColors.backgroundLight,
+                  color: PassworthyColors.slateGrey,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(32),
                   ),

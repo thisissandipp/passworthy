@@ -2,42 +2,39 @@ import 'dart:ui';
 
 /// Defines the colors used in the Passworthy App UI.
 class PassworthyColors {
-  /// Default app bar color, transparent.
-  static const appBarDefault = Color(0x00000000);
+  /// transparent
+  static const transparent = Color(0x00000000);
 
-  /// Default scaffold background color, #0A0C14
-  static const backgroundDefault = Color(0xFF0A0C14);
+  /// black
+  static const black = Color(0xFF000000);
 
-  /// A lighter scaffold background color, #14141B
-  static const backgroundLight = Color(0xFF14141B);
+  /// white
+  static const white = Color(0xFFFFFFFF);
 
-  /// Background color for the elevated buttons, #4741B7
-  static const elevatedButtonBackground = Color(0xFF4741B7);
+  /// darkZinc
+  static const darkZinc = Color(0xFF18181B);
 
-  /// Text color for buttons, #C0CCFF
-  static const buttonText = Color(0xFFC0CCFF);
+  /// darkGrey
+  static const darkGrey = Color(0xFF030712);
 
-  /// Title text color, #A7B2E4
-  static const titleText = Color(0xFFA7B2E4);
+  /// slateGrey
+  static const slateGrey = Color(0xFF18181B);
 
-  /// Caption text color, #5B607C
-  static const captionText = Color(0xFF5B607C);
+  /// mediumGrey
+  static const mediumGrey = Color(0xFF6B7280);
 
-  /// Disclaimer text color, #5B607C
-  static const disclaimerText = Color(0xFF5B607C);
+  /// lightGrey
+  static const lightGrey = Color(0xFFD1D5DB);
 
-  /// Higlighted text color in a disclaimer, #FFFFFF with 60% opacity.
-  static const disclaimerHighlightText = Color(0x99FFFFFF);
+  /// darkIndigo
+  static const darkIndigo = Color(0xFF4338CA);
 
-  /// Hint text color in a text field, #2C2E3B
-  static const inputHintText = Color(0xFF2C2E3B);
+  /// mediumIndigo
+  static const mediumIndigo = Color(0xFF6366F1);
 
-  /// Text color in a text field, #FFFFFF
-  static const inputText = Color(0xFFFFFFFF);
+  /// lightIndigo
+  static const lightIndigo = Color(0xFFC7D2FE);
 
-  /// Input cursor color in a text field, #635BFF
-  static const inputCursor = Color(0xFF635BFF);
-
-  /// Danger red color (for delete, error), #CC3D3D
-  static const dangerRed = Color(0xFFCC3D3D);
+  /// redError
+  static const redError = Color(0xFFDC2626);
 }

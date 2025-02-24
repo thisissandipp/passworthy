@@ -115,7 +115,7 @@ class _PasskeyInputField extends StatelessWidget {
         ..add(ConfirmPasskeyInputChanged(value)),
       style: PassworthyTextStyle.inputText,
       autofocus: true,
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       decoration: InputDecoration(
         hintText: l10n.passkeyTextFieldHint,
         errorText: errors == null ? null : l10n.existingPasskeyInputError,

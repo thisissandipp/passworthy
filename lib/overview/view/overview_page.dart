@@ -71,7 +71,7 @@ class _SearchEntryInput extends StatelessWidget {
       style: PassworthyTextStyle.inputText.copyWith(
         fontSize: 14,
       ),
-      cursorColor: PassworthyColors.inputCursor,
+      cursorColor: PassworthyColors.mediumIndigo,
       onChanged: (value) => context.read<OverviewBloc>().add(
             OverviewSearchInputChanged(value),
           ),
@@ -79,7 +79,7 @@ class _SearchEntryInput extends StatelessWidget {
         hintText: l10n.searchEntryHintText,
         icon: const Icon(
           Icons.search,
-          color: PassworthyColors.disclaimerText,
+          color: PassworthyColors.lightGrey,
         ).padding(
           const EdgeInsets.only(left: 16),
         ),
@@ -88,7 +88,7 @@ class _SearchEntryInput extends StatelessWidget {
         .decoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: PassworthyColors.backgroundLight,
+            color: PassworthyColors.slateGrey,
           ),
         )
         .padding(const EdgeInsets.symmetric(horizontal: 16, vertical: 4));
@@ -129,7 +129,7 @@ class _EntriesListViewBuilder extends StatelessWidget {
             return GestureDetector(
               onTap: () => showModalBottomSheet<void>(
                 context: context,
-                backgroundColor: PassworthyColors.backgroundLight,
+                backgroundColor: PassworthyColors.slateGrey,
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12),
@@ -246,7 +246,7 @@ class _EntryInfoBuilder extends StatelessWidget {
         Text(
           name,
           style: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.disclaimerHighlightText,
+            color: PassworthyColors.lightGrey,
             fontSize: 14,
           ),
         ).padding(
@@ -264,7 +264,7 @@ class _EntryInfoBuilder extends StatelessWidget {
             .decoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: PassworthyColors.backgroundDefault,
+                color: PassworthyColors.darkGrey,
               ),
             ),
       ],
