@@ -155,5 +155,9 @@
   "updateEntryButtonText": "update it",
   "@updateEntryButtonText": {
     "description": "Button text for existing entry in Create Entry page"
+  },
+  "bannerText": "Passworthy should not be your sole password storage.",
+  "@bannerText": {
+    "description": "Banner text to be shown in the Overview page"
   }
 }
