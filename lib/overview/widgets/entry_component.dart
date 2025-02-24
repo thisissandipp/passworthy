@@ -26,7 +26,7 @@ class EntryComponent extends StatelessWidget {
               ),
             ).padding(const EdgeInsets.symmetric(horizontal: 16)).decoratedBox(
                   decoration: BoxDecoration(
-                    color: PassworthyColors.backgroundDefault,
+                    color: PassworthyColors.darkGrey,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -61,7 +61,7 @@ class EntryComponent extends StatelessWidget {
               );
           },
           icon: const Icon(Icons.copy_sharp),
-          color: PassworthyColors.buttonText,
+          color: PassworthyColors.lightGrey,
           iconSize: 18,
         ),
       ],
@@ -69,7 +69,7 @@ class EntryComponent extends StatelessWidget {
         .padding(const EdgeInsets.all(16))
         .decoratedBox(
           decoration: BoxDecoration(
-            color: PassworthyColors.backgroundLight,
+            color: PassworthyColors.slateGrey,
             borderRadius: BorderRadius.circular(12),
           ),
         )

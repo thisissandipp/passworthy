@@ -9,7 +9,7 @@ class PassworthyTextStyle {
   static TextStyle get titleText {
     return _baseTextStyle.copyWith(
       fontSize: 20,
-      color: PassworthyColors.titleText,
+      color: PassworthyColors.white,
       fontWeight: PassworthyFontWeight.semiBold,
     );
   }
@@ -18,7 +18,7 @@ class PassworthyTextStyle {
   static TextStyle get captionText {
     return _baseTextStyle.copyWith(
       fontSize: 14,
-      color: PassworthyColors.captionText,
+      color: PassworthyColors.mediumGrey,
       fontWeight: PassworthyFontWeight.medium,
     );
   }
@@ -27,7 +27,7 @@ class PassworthyTextStyle {
   static TextStyle get disclaimerText {
     return _baseTextStyle.copyWith(
       fontSize: 12,
-      color: PassworthyColors.disclaimerText,
+      color: PassworthyColors.mediumGrey,
       fontWeight: PassworthyFontWeight.medium,
     );
   }
@@ -36,7 +36,7 @@ class PassworthyTextStyle {
   static TextStyle get buttonText {
     return _baseTextStyle.copyWith(
       fontSize: 15,
-      color: PassworthyColors.buttonText,
+      color: PassworthyColors.lightIndigo,
       fontWeight: PassworthyFontWeight.bold,
     );
   }
@@ -44,7 +44,7 @@ class PassworthyTextStyle {
   /// Text style for hints inside text fields
   static TextStyle get inputHintText {
     return _baseTextStyle.copyWith(
-      color: PassworthyColors.inputHintText,
+      color: PassworthyColors.mediumGrey,
       fontWeight: FontWeight.w600,
     );
   }
@@ -53,7 +53,7 @@ class PassworthyTextStyle {
   static TextStyle get inputText {
     return _baseTextStyle.copyWith(
       fontSize: 22,
-      color: PassworthyColors.inputText,
+      color: PassworthyColors.white,
       fontWeight: FontWeight.w600,
     );
   }
