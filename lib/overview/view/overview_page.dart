@@ -3,6 +3,7 @@ import 'package:entries_repository/entries_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passkey_repository/passkey_repository.dart';
+import 'package:passworthy/banner/banner.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
@@ -52,6 +53,7 @@ class OverviewView extends StatelessWidget {
       body: const Column(
         children: [
           _SearchEntryInput(),
+          BannerView(),
           Expanded(
             child: _EntriesListViewBuilder(),
           ),
