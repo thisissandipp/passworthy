@@ -1,8 +1,11 @@
-name: Deploy to GitHub Pages
+name: deploy_landing
 
 on:
   push:
     branches: [main]
+    paths:
+      - "landing/**"
+      - "!landing/README.md"
   workflow_dispatch:
 
 permissions:
