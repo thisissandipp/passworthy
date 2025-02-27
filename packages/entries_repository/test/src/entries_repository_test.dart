@@ -21,6 +21,7 @@ void main() {
       entriesRepository = EntriesRepository(entriesApi: entriesApi);
 
       when(() => entry.id).thenReturn('id');
+      when(() => entriesApi.entriesCount()).thenReturn(20);
 
       when(() => entriesApi.getEntries(any())).thenAnswer(
         (_) => Stream.value([entry]),
@@ -47,6 +48,11 @@ void main() {
       verify(
         () => entriesApi.getEntriesWithFilter('passkey', 'search'),
       ).called(1);
+    });
+
+    test('entriesCount makes correct api call', () {
+      entriesRepository.entriesCount();
+      verify(() => entriesApi.entriesCount()).called(1);
     });
 
     test('saveEntry makes correct api call', () {
