@@ -43,7 +43,9 @@ class EntryComponent extends StatelessWidget {
                 Text(
                   entry.identity,
                   overflow: TextOverflow.ellipsis,
-                  style: PassworthyTextStyle.disclaimerText,
+                  style: PassworthyTextStyle.disclaimerText.copyWith(
+                    color: PassworthyColors.lightGrey,
+                  ),
                 ),
               ],
             ),

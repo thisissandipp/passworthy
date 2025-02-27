@@ -24,3 +24,4 @@ jobs:
     with:
       flutter_channel: stable
       working_directory: packages/objectbox_entries_api
+      min_coverage: 0

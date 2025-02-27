@@ -52,6 +52,7 @@ class AppView extends StatelessWidget {
     final inputDecorationTheme = Theme.of(context).inputDecorationTheme;
     final snackBarTheme = Theme.of(context).snackBarTheme;
     final fabTheme = Theme.of(context).floatingActionButtonTheme;
+    final progressIndicatorTheme = Theme.of(context).progressIndicatorTheme;
 
     return MaterialApp(
       theme: ThemeData.dark(useMaterial3: false).copyWith(
@@ -106,6 +107,9 @@ class AppView extends StatelessWidget {
           ),
         ),
         textTheme: GoogleFonts.poppinsTextTheme(textTheme),
+        progressIndicatorTheme: progressIndicatorTheme.copyWith(
+          color: PassworthyColors.white,
+        ),
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,

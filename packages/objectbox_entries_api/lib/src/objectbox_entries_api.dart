@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cache/cache.dart';
 import 'package:cryptography/cryptography.dart';
 import 'package:entries_api/entries_api.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:objectbox_entries_api/objectbox_entries_api.dart';
 
 /// {@template objectbox_entries_api}
@@ -12,22 +14,33 @@ class ObjectboxEntriesApi extends EntriesApi {
   ObjectboxEntriesApi._create({
     required super.passwordCryptography,
     required this.store,
-  });
+    required CacheClient cacheClient,
+  }) : _cacheClient = cacheClient;
 
   /// Initializes the store for the application.
   static Future<ObjectboxEntriesApi> init({
     required String storeDirectory,
+    required CacheClient cacheClient,
     PasswordCryptography? cryptography,
   }) async {
     final store = await openStore(directory: storeDirectory);
     return ObjectboxEntriesApi._create(
       passwordCryptography: cryptography ?? const PasswordCryptography(),
       store: store,
+      cacheClient: cacheClient,
     );
   }
 
+  final CacheClient _cacheClient;
+
   /// The store for the data.
   late final Store store;
+
+  /// The key used for storing the count of entries locally.
+  ///
+  /// This is only exposed for testing and shouldn't be used by consumers.
+  @visibleForTesting
+  static const kEntriesCountKey = '__entries_count_key__';
 
   @override
   Stream<List<Entry>> getEntries(String passkey) async* {
@@ -37,6 +50,13 @@ class ObjectboxEntriesApi extends EntriesApi {
 
     yield* queryStream.asyncMap((query) async {
       final entryDtoList = await query.findAsync();
+
+      // Update entries count in the cache
+      _cacheClient.write<int>(
+        key: kEntriesCountKey,
+        value: entryDtoList.length,
+      );
+
       final entryList = await Future.wait(
         entryDtoList.map((entryDto) async {
           final encryptedEntry = entryDto.toEntry();
@@ -79,6 +99,11 @@ class ObjectboxEntriesApi extends EntriesApi {
       );
       return entryList;
     });
+  }
+
+  @override
+  int entriesCount() {
+    return _cacheClient.read<int>(key: kEntriesCountKey) ?? 0;
   }
 
   @override
