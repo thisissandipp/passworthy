@@ -26,6 +26,9 @@ class EntriesRepository {
     return _entriesApi.getEntriesWithFilter(passkey, searchText);
   }
 
+  /// Returns total number of entries saved.
+  int entriesCount() => _entriesApi.entriesCount();
+
   /// Saves an [entry].
   ///
   /// If there's already an entry with the same id, it will be replaced.

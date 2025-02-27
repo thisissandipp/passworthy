@@ -15,10 +15,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final cacheClient = CacheClient();
-
   final appsDirectory = await path_provider.getApplicationDocumentsDirectory();
+
   final entriesApi = await ObjectboxEntriesApi.init(
     storeDirectory: path.join(appsDirectory.path, 'passworthy-dir-dev'),
+    cacheClient: cacheClient,
   );
 
   final onboardingRepository = OnboardingRepository(

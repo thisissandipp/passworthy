@@ -9,6 +9,7 @@ import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/overview/overview.dart';
+import 'package:passworthy/settings/view/settings_page.dart';
 import 'package:passworthy/typography/typography.dart';
 
 /// {@template overview_page}
@@ -39,6 +40,21 @@ class OverviewView extends StatelessWidget {
       appBar: AppBar(
         title: Text(l10n.overviewPageAppBarTitle),
         centerTitle: false,
+        actions: [
+          GestureDetector(
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(builder: (_) => const SettingsPage()),
+            ),
+            child: const Icon(Icons.settings)
+                .padding(const EdgeInsets.symmetric(horizontal: 8))
+                .decoratedBox(
+                  decoration: const BoxDecoration(
+                    color: PassworthyColors.slateGrey,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+          ).padding(const EdgeInsets.only(right: 16)),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.push(

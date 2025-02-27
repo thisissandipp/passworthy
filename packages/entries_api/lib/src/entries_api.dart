@@ -26,6 +26,9 @@ abstract class EntriesApi {
   /// The [passkey] is passed to decrypt the entries.
   Stream<List<Entry>> getEntriesWithFilter(String passkey, String searchText);
 
+  /// Returns total number of entries saved.
+  int entriesCount();
+
   /// Saves the [entry].
   ///
   /// If an [entry] already exists with the same id, it will be replaced.

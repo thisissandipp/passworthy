@@ -8,6 +8,8 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
+  cache:
+    path: ../cache
   cryptography:
     path: ../cryptography
   entries_api:

@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "appName": "Passworthy",
+  "@appName": {
+    "description": "Name of the app"
+  },
   "firstTimePasskeyTitle": "set up your\nsecret password",
   "@firstTimePasskeyTitle": {
     "description": "Text shown in the title of the Passkey Page for first time users"
@@ -159,5 +163,25 @@
   "bannerText": "Passworthy should not be your sole password storage.",
   "@bannerText": {
     "description": "Banner text to be shown in the Overview page"
+  },
+  "settingsPageTitle": "settings",
+  "@settingsPageTitle" : {
+    "description": "Title for the Settings Page"
+  },
+  "supportCardLabel": "help &\nsupport tickets",
+  "@supportCardLabel": {
+    "description": "Label for the support card in Settings Page"
+  },
+  "totalEntriesCardLabel": "total entries",
+  "@totalEntriesCardLabel": {
+    "description": "Label for the entries count card in Settings Page"
+  },
+  "licensesCardLabel": "open-source\nlicenses",
+  "@licensesCardLabel": {
+    "description": "Label for the licenses card in Settings Page"
+  },
+  "urlLaunchErrorMessage": "sorry, we couldn't open the Support page",
+  "@urlLaunchErrorMessage": {
+    "description": "Error message shown when launch url fails for Support in Settings Page"
   }
 }
