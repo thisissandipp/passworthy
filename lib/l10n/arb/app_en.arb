@@ -183,5 +183,13 @@
   "urlLaunchErrorMessage": "sorry, we couldn't open the Support page",
   "@urlLaunchErrorMessage": {
     "description": "Error message shown when launch url fails for Support in Settings Page"
+  },
+  "copyButtonText": "Copy",
+  "@copyButtonText": {
+    "description": "Button text for the Copy option in Overview Page"
+  },
+  "copiedButtonText": "Copied",
+  "@copiedButtonText": {
+    "description": "Button text for the Copy button after it's copied in Overview Page"
   }
 }

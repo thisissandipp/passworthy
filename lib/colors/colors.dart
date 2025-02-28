@@ -37,4 +37,7 @@ class PassworthyColors {
 
   /// redError
   static const redError = Color(0xFFDC2626);
+
+  /// greenSuccess
+  static const greenSuccess = Color(0xFF4ADE80);
 }
