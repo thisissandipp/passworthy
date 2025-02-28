@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/l10n/l10n.dart';
+import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/typography/typography.dart';
 
 class EntryComponent extends StatelessWidget {
@@ -15,43 +16,50 @@ class EntryComponent extends StatelessWidget {
     final l10n = context.l10n;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      spacing: 16,
       children: [
-        Row(
-          spacing: 24,
-          children: [
-            Text(
-              entry.platform[0].toUpperCase(),
-              style: PassworthyTextStyle.inputText.copyWith(
-                fontSize: 26,
+        Expanded(
+          child: Row(
+            spacing: 16,
+            children: [
+              Text(
+                entry.platform[0].toUpperCase(),
+                style: PassworthyTextStyle.inputText.copyWith(
+                  fontSize: 26,
+                ),
+              )
+                  .padding(const EdgeInsets.symmetric(horizontal: 16))
+                  .decoratedBox(
+                    decoration: BoxDecoration(
+                      color: PassworthyColors.darkGrey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      entry.platform,
+                      overflow: TextOverflow.ellipsis,
+                      style: PassworthyTextStyle.titleText.copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      entry.identity,
+                      overflow: TextOverflow.ellipsis,
+                      style: PassworthyTextStyle.disclaimerText.copyWith(
+                        color: PassworthyColors.lightGrey,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ).padding(const EdgeInsets.symmetric(horizontal: 16)).decoratedBox(
-                  decoration: BoxDecoration(
-                    color: PassworthyColors.darkGrey,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  entry.platform,
-                  overflow: TextOverflow.ellipsis,
-                  style: PassworthyTextStyle.titleText.copyWith(
-                    fontSize: 14,
-                  ),
-                ),
-                Text(
-                  entry.identity,
-                  overflow: TextOverflow.ellipsis,
-                  style: PassworthyTextStyle.disclaimerText.copyWith(
-                    color: PassworthyColors.lightGrey,
-                  ),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
-        IconButton(
+        CopyPasswordButton(
           onPressed: () {
             Clipboard.setData(ClipboardData(text: entry.password));
             ScaffoldMessenger.of(context)
@@ -62,9 +70,6 @@ class EntryComponent extends StatelessWidget {
                 ),
               );
           },
-          icon: const Icon(Icons.copy_sharp),
-          color: PassworthyColors.lightGrey,
-          iconSize: 18,
         ),
       ],
     )

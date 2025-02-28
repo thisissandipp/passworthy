@@ -30,6 +30,7 @@ class BannerWidget extends StatelessWidget {
           return const SizedBox.shrink();
         }
         return Row(
+          key: const Key('bannerView_bannerWidget_row'),
           spacing: 12,
           children: [
             Expanded(

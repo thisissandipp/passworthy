@@ -4,6 +4,7 @@ import 'package:form_inputs/form_inputs.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
+import 'package:passworthy/banner/banner.dart';
 import 'package:passworthy/onboarding/onboarding.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
@@ -22,3 +23,5 @@ class MockPasskey extends Mock implements Passkey {}
 class MockConfirmPasskey extends Mock implements ConfirmPasskey {}
 
 class MockEntriesRepository extends Mock implements EntriesRepository {}
+
+class MockBannerCubit extends MockCubit<BannerState> implements BannerCubit {}
