@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/typography/typography.dart';
 
@@ -58,8 +57,8 @@ class PassworthyTextStyle {
     );
   }
 
-  static final _baseTextStyle = GoogleFonts.poppins(
-    fontWeight: PassworthyFontWeight.regular,
+  static const _baseTextStyle = TextStyle(
+    fontFamily: 'Poppins',
     letterSpacing: 0.72,
     height: 1.6,
   );
