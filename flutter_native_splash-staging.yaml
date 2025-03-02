@@ -1,0 +1,13 @@
+# Generate using the below command
+# dart run flutter_native_splash:create --flavor staging
+flutter_native_splash:
+  color: "#030712"
+  image: assets/splash/splash.png
+  android_12:
+    color: "#030712"
+    image: assets/splash/splash-a12.png
+  image_ios: assets/splash/splash-ios.png
+
+  android: true
+  ios: true
+  web: false
