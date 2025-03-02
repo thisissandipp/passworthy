@@ -10,6 +10,9 @@
 		015013ED01276196452FCDF2 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECEBBBA02781A83063CD14C4 /* Pods_RunnerTests.framework */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
+		398153A02D74EA64006810BD /* LaunchScreenDevelopment.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3981539A2D74EA64006810BD /* LaunchScreenDevelopment.storyboard */; };
+		398153A12D74EA64006810BD /* LaunchScreenStaging.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3981539C2D74EA64006810BD /* LaunchScreenStaging.storyboard */; };
+		398153A22D74EA64006810BD /* LaunchScreenProduction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3981539E2D74EA64006810BD /* LaunchScreenProduction.storyboard */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		96A6365200FD8A2401F13E58 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9072E7F81E7475EEA14E8C62 /* Pods_Runner.framework */; };
@@ -49,6 +52,9 @@
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		37430BC6D6266328EDC2E6F0 /* Pods-RunnerTests.release-development.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release-development.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release-development.xcconfig"; sourceTree = "<group>"; };
+		3981539B2D74EA64006810BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenDevelopment.storyboard; sourceTree = "<group>"; };
+		3981539D2D74EA64006810BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenStaging.storyboard; sourceTree = "<group>"; };
+		3981539F2D74EA64006810BD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreenProduction.storyboard; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		3BB8B010C1B741B19DE01C82 /* Pods-RunnerTests.release-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release-staging.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release-staging.xcconfig"; sourceTree = "<group>"; };
 		3E4E7C0C7EA04E4B15BF08DC /* Pods-RunnerTests.profile-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.profile-staging.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.profile-staging.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +148,9 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				3981539A2D74EA64006810BD /* LaunchScreenDevelopment.storyboard */,
+				3981539E2D74EA64006810BD /* LaunchScreenProduction.storyboard */,
+				3981539C2D74EA64006810BD /* LaunchScreenStaging.storyboard */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -284,9 +293,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
+				398153A22D74EA64006810BD /* LaunchScreenProduction.storyboard in Resources */,
+				398153A12D74EA64006810BD /* LaunchScreenStaging.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+				398153A02D74EA64006810BD /* LaunchScreenDevelopment.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +428,30 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3981539A2D74EA64006810BD /* LaunchScreenDevelopment.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3981539B2D74EA64006810BD /* Base */,
+			);
+			name = LaunchScreenDevelopment.storyboard;
+			sourceTree = "<group>";
+		};
+		3981539C2D74EA64006810BD /* LaunchScreenStaging.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3981539D2D74EA64006810BD /* Base */,
+			);
+			name = LaunchScreenStaging.storyboard;
+			sourceTree = "<group>";
+		};
+		3981539E2D74EA64006810BD /* LaunchScreenProduction.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3981539F2D74EA64006810BD /* Base */,
+			);
+			name = LaunchScreenProduction.storyboard;
+			sourceTree = "<group>";
+		};
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -501,6 +537,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = Passworthy;
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProduction;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -596,6 +633,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = Passworthy;
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProduction;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -686,6 +724,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = Passworthy;
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenProduction;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -781,6 +820,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Passworthy";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -874,6 +914,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Passworthy";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -966,6 +1007,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] Passworthy";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenDevelopment;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1061,6 +1103,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Passworthy";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStaging;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1156,6 +1199,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Passworthy";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStaging;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1246,6 +1290,7 @@
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] Passworthy";
 				INFOPLIST_FILE = Runner/Info.plist;
+				LAUNCH_SCREEN_STORYBOARD = LaunchScreenStaging;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
