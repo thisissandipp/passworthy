@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "dev.thecodexhub.passworthy" "\0"
+            VALUE "CompanyName", "com.thisissandipp.passworthy" "\0"
             VALUE "FileDescription", "passworthy" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "passworthy" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 dev.thecodexhub.passworthy. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.thisissandipp.passworthy. All rights reserved." "\0"
             VALUE "OriginalFilename", "passworthy.exe" "\0"
             VALUE "ProductName", "Passworthy" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
