@@ -117,3 +117,8 @@ app.*.map.json
 dist/
 .astro/
 node_modules/
+
+# Environment variables
+.env.*
+!.env.example
+**_env.g.dart
