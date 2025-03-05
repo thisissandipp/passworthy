@@ -8,6 +8,7 @@ import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/app/app.dart';
 import 'package:passworthy/bootstrap.dart';
+import 'package:passworthy/env/env.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,10 +16,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final cacheClient = CacheClient();
+  final environment = PassworthyEnv();
+
   final appsDirectory = await path_provider.getApplicationDocumentsDirectory();
 
   final entriesApi = await ObjectboxEntriesApi.init(
-    storeDirectory: path.join(appsDirectory.path, 'passworthy-dir-stg'),
+    storeDirectory: path.join(
+      appsDirectory.path,
+      environment.kObjectBoxStoreDirectoryPath,
+    ),
     cacheClient: cacheClient,
   );
 
@@ -26,7 +32,11 @@ Future<void> main() async {
     plugin: await SharedPreferences.getInstance(),
   );
 
-  final passkeyRepository = PasskeyRepository(cacheClient: cacheClient);
+  final passkeyRepository = PasskeyRepository(
+    cacheClient: cacheClient,
+    passkeyStorageKey: environment.kPasskeyStorageKey,
+  );
+
   final entriesRepository = EntriesRepository(
     entriesApi: entriesApi,
   );
