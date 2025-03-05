@@ -33,24 +33,19 @@ class PasskeyRepository {
   /// {@macro passkey_repository}
   PasskeyRepository({
     required CacheClient cacheClient,
+    required String passkeyStorageKey,
     PasskeyCryptography? passkeyCryptography,
     FlutterSecureStorage? secureStorage,
   })  : _cacheClient = cacheClient,
+        _passkeyStorageKey = passkeyStorageKey,
         _passkeyCryptography = passkeyCryptography ?? PasskeyCryptography(),
         _secureStorage = secureStorage ?? const FlutterSecureStorage();
 
   final PasskeyCryptography _passkeyCryptography;
   final FlutterSecureStorage _secureStorage;
   final CacheClient _cacheClient;
+  final String _passkeyStorageKey;
 
-  // TODO(thecodexhub): find a way to get the value from environment variable.
-  /// The key used for storing the passkey locally.
-  ///
-  /// This is only exposed for testing and shouldn't be used by consumers.
-  @visibleForTesting
-  static const kPasskeyStorageKey = '__passkey_storage_key__';
-
-  // TODO(thecodexhub): find a way to get the value from environment variable.
   /// The key used for storing the passkey in memory/cache.
   ///
   /// This is only exposed for testing and shouldn't be used by consumers.
@@ -68,15 +63,7 @@ class PasskeyRepository {
     _cacheClient.write<String>(key: kPasskeyCacheKey, value: encrypted);
 
     // Securely store the user's passkey locally.
-    await _secureStorage.write(key: kPasskeyStorageKey, value: encrypted);
-  }
-
-  // TODO(thecodexhub): This is not an ideal way, find a better solution.
-  /// Returns true if the user is first time user. This method searches
-  /// for saved keypass, if not found, the user is first time user.
-  Future<bool> isFirstTimeUser() async {
-    final encrypted = await _secureStorage.read(key: kPasskeyStorageKey);
-    return encrypted == null;
+    await _secureStorage.write(key: _passkeyStorageKey, value: encrypted);
   }
 
   /// Retrieves cached passkey from the point when users verified their
@@ -92,7 +79,7 @@ class PasskeyRepository {
   /// Defaults to `false` if encrypted passkey is not found
   /// in the local storage.
   Future<bool> verifyPasskey(String input) async {
-    final encrypted = await _secureStorage.read(key: kPasskeyStorageKey);
+    final encrypted = await _secureStorage.read(key: _passkeyStorageKey);
     if (encrypted == null) return false;
 
     final result = await runInBackground<bool>(
@@ -126,7 +113,7 @@ class PasskeyRepository {
       () => _passkeyCryptography.hash(newPasskey),
     );
     // save the encrypted new passkey in the storage
-    await _secureStorage.write(key: kPasskeyStorageKey, value: newEncrypted);
+    await _secureStorage.write(key: _passkeyStorageKey, value: newEncrypted);
   }
 
   /// Common method to run an isolate with complex computation.
