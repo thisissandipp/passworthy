@@ -19,6 +19,7 @@ class MockCacheClient extends Mock implements CacheClient {}
 class PasskeyRepositoryTest extends PasskeyRepository {
   PasskeyRepositoryTest({
     required super.cacheClient,
+    required super.passkeyStorageKey,
     super.passkeyCryptography,
     super.secureStorage,
   });
@@ -38,6 +39,8 @@ void main() {
   });
 
   group('PasskeyRepository', () {
+    const passkeyStorageKey = '__passkey_storage_key__';
+
     late MockPasskeyCryptography passkeyCryptography;
     late MockFlutterSecureStorage secureStorage;
     late PasskeyRepository passkeyRepository;
@@ -52,6 +55,7 @@ void main() {
         passkeyCryptography: passkeyCryptography,
         secureStorage: secureStorage,
         cacheClient: cacheClient,
+        passkeyStorageKey: passkeyStorageKey,
       );
 
       when(() => passkeyCryptography.hash(any())).thenReturn('encrypted');
@@ -76,7 +80,7 @@ void main() {
       verify(() => passkeyCryptography.hash('mysecurepasskey')).called(1);
       verify(
         () => secureStorage.write(
-          key: PasskeyRepository.kPasskeyStorageKey,
+          key: passkeyStorageKey,
           value: 'encrypted',
         ),
       ).called(1);
@@ -86,24 +90,6 @@ void main() {
           value: 'encrypted',
         ),
       ).called(1);
-    });
-
-    group('isFirstTimeUser', () {
-      test('returns true when there is no saved encrypted keypass', () async {
-        when(
-          () => secureStorage.read(key: any(named: 'key')),
-        ).thenAnswer((_) async => null);
-        final actual = await passkeyRepository.isFirstTimeUser();
-        expect(actual, isTrue);
-      });
-
-      test('returns false when there is a saved encrypted keypass', () async {
-        when(
-          () => secureStorage.read(key: any(named: 'key')),
-        ).thenAnswer((_) async => 'something');
-        final actual = await passkeyRepository.isFirstTimeUser();
-        expect(actual, isFalse);
-      });
     });
 
     group('verifyPasskey', () {
@@ -121,7 +107,7 @@ void main() {
         final result = await passkeyRepository.verifyPasskey('mypasskey');
         expect(result, isFalse);
         verify(
-          () => secureStorage.read(key: PasskeyRepository.kPasskeyStorageKey),
+          () => secureStorage.read(key: passkeyStorageKey),
         ).called(1);
       });
 
@@ -131,7 +117,7 @@ void main() {
         expect(result, isFalse);
 
         verify(
-          () => secureStorage.read(key: PasskeyRepository.kPasskeyStorageKey),
+          () => secureStorage.read(key: passkeyStorageKey),
         ).called(1);
         verify(
           () => passkeyCryptography.verify('mypasskey', 'encryptedpasskey'),
@@ -143,9 +129,7 @@ void main() {
         final result = await passkeyRepository.verifyPasskey('mypasskey');
         expect(result, isTrue);
 
-        verify(
-          () => secureStorage.read(key: PasskeyRepository.kPasskeyStorageKey),
-        ).called(1);
+        verify(() => secureStorage.read(key: passkeyStorageKey)).called(1);
         verify(
           () => passkeyCryptography.verify('mypasskey', 'encryptedpasskey'),
         ).called(1);
@@ -196,16 +180,12 @@ void main() {
 
         await passkeyRepository.updatePasskey('oldPasskey', 'newPasskey');
 
-        verify(
-          () => secureStorage.read(
-            key: PasskeyRepository.kPasskeyStorageKey,
-          ),
-        ).called(1);
+        verify(() => secureStorage.read(key: passkeyStorageKey)).called(1);
         verify(() => passkeyCryptography.hash('newPasskey')).called(1);
 
         verify(
           () => secureStorage.write(
-            key: PasskeyRepository.kPasskeyStorageKey,
+            key: passkeyStorageKey,
             value: 'newencrypted',
           ),
         ).called(1);
@@ -225,7 +205,10 @@ void main() {
 
     group('runInBackground', () {
       test('executes computation in isolate and returns result', () async {
-        final repository = PasskeyRepository(cacheClient: cacheClient);
+        final repository = PasskeyRepository(
+          cacheClient: cacheClient,
+          passkeyStorageKey: passkeyStorageKey,
+        );
         Future<int> computation() async => 42;
 
         final result = await repository.runInBackground(computation);
