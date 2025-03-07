@@ -3,11 +3,15 @@
 [![License: BSD-3-Clause][license_badge]][license_link]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 
+![Passworthy Banner][passworthy_banner]
+
 In a sentence - Simple yet secured password manager application.
 
 Passworthy is a no-frills, offline password manager designed for privacy-conscious users. It securely stores passwords locally on your device, ensuring that only you have access to your credentials.
 
 Unlike cloud-based managers, Passworthy requires no logins, no accounts, and no internet connection — your passwords remain encrypted and protected, without compromise.
+
+_\*\* Password icon by [Solar Icons][solar_icons] from [SVG Repo][svg_repo], licensed under CC Attribution License._
 
 ## Mission
 
@@ -87,7 +91,7 @@ $ dart run build_runner build --delete-conflicting-outputs
 
 ---
 
-## Running Tests 🧪
+## Running Tests
 
 To run all unit and widget tests use the following command:
 
@@ -107,7 +111,7 @@ $ open coverage/index.html
 
 ---
 
-## Working with Translations 🌐
+## Working with Translations
 
 This project relies on [flutter_localizations][flutter_localizations_link] and follows the [official internationalization guide for Flutter][internationalization_link].
 
@@ -121,6 +125,9 @@ This project is licensed under the BSD 3-Clause License - see the [LICENSE][lice
 
 If you discover a security vulnerability within this project, please check the [SECURITY][security_link] for more information.
 
+[passworthy_banner]: ./design/passworthy_banner.jpg
+[solar_icons]: https://www.figma.com/community/file/1166831539721848736?ref=svgrepo.com
+[svg_repo]: https://www.svgrepo.com/
 [license_badge]: https://img.shields.io/github/license/thisissandipp/passworthy
 [license_link]: https://github.com/thisissandipp/passworthy/blob/main/LICENSE
 [security_link]: https://github.com/thisissandipp/passworthy/blob/main/SECURITY.md
