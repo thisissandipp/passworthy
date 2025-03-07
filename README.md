@@ -78,7 +78,7 @@ Copy `.env.example` to `.env.development`, `.env.staging`, `.env.production` and
 
 ```env
 # The ObjectBox is going to use this directory to keep the user defined entries
-OBJECTBOX_STORE_DIRECTORY_PATH = objectbox_store_diretory
+OBJECTBOX_STORE_DIRECTORY_PATH = objectbox_store_directory
 # Flutter Secure Storage is going to use this key to persist the encrypted passkey
 PASSKEY_STORAGE_KEY = passworthy_storage_key
 ```
