@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
+import 'package:passworthy/assets/assets.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/decorators/decorators.dart';
 import 'package:passworthy/l10n/l10n.dart';
@@ -48,15 +50,18 @@ class OnboardingView extends StatelessWidget {
       appBar: AppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
         children: [
+          SvgPicture.asset(
+            PassworthyAssets.passworthyIconPath,
+            height: 56,
+          ).padding(const EdgeInsets.symmetric(horizontal: 24)),
           Text(
-            'Passworthy',
+            l10n.appName,
             style: PassworthyTextStyle.titleText.copyWith(
               fontSize: 28,
             ),
-          ).padding(
-            const EdgeInsets.symmetric(horizontal: 24),
-          ),
+          ).padding(const EdgeInsets.symmetric(horizontal: 24)),
           if (size.height < 640) const SizedBox(height: 48),
           if (size.height >= 640) const Spacer(),
           Column(
@@ -64,7 +69,7 @@ class OnboardingView extends StatelessWidget {
             spacing: 32,
             children: [
               Text(
-                'secure all of your\npasswords. simplify your life.',
+                l10n.onboardingCaption,
                 style: PassworthyTextStyle.titleText.copyWith(
                   fontSize: 16,
                   height: 1.84,
@@ -78,7 +83,21 @@ class OnboardingView extends StatelessWidget {
                     builder: (_) => const FirstTimePasskeyPage(),
                   ),
                 ),
-                child: Text(l10n.passkeySubmitButtonText),
+                child: Row(
+                  spacing: 16,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(l10n.onboardingButtonText),
+                    SvgPicture.asset(
+                      PassworthyAssets.arrowRightIconPath,
+                      colorFilter: const ColorFilter.mode(
+                        PassworthyColors.white,
+                        BlendMode.srcIn,
+                      ),
+                      width: 20,
+                    ),
+                  ],
+                ),
               ),
             ],
           ).padding(const EdgeInsets.fromLTRB(24, 32, 24, 56)).decoratedBox(

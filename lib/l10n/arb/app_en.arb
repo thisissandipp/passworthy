@@ -4,6 +4,14 @@
   "@appName": {
     "description": "Name of the app"
   },
+  "onboardingCaption": "secure all of your\npasswords. zero headaches.",
+  "@onboardingCaption": {
+    "description": "Caption text for Onboarding Page"
+  },
+  "onboardingButtonText": "Get Started",
+  "@onboardingButtonText": {
+    "description": "Button text for the Onboarding Page"
+  },
   "firstTimePasskeyTitle": "set up your\nsecret password",
   "@firstTimePasskeyTitle": {
     "description": "Text shown in the title of the Passkey Page for first time users"
@@ -88,9 +96,13 @@
   "@searchEntryHintText": {
     "description": "Text shown in the search bar as hint in the Overview Page"
   },
-  "noEntriesText": "No Entries",
-  "@noEntriesText": {
-    "description": "Text show when there is no entries in the Overview Page"
+  "noEntriesTitle": "you have no entries yet",
+  "@noEntriesTitle": {
+    "description": "Title for the Overview Page when there is no entries"
+  },
+  "noEntriesCaption": "start creating new entries by\nclicking the + icon",
+  "@noEntriesCaption": {
+    "description": "Caption text for the Overview Page when there is no entries"
   },
   "platformLabel": "Platform",
   "@platformLabel": {
@@ -148,7 +160,7 @@
   "@passwordInputHintText": {
     "description": "Text shown in the hint placeholder for Password in Create Entry page"
   },
-  "passwordInputHelperText": "text that you don't want to remember",
+  "passwordInputHelperText": "password that you don't want to remember",
   "@passwordInputHelperText": {
     "description": "Text shown in the helper placeholder for Password in Create Entry page"
   },
@@ -160,7 +172,7 @@
   "@updateEntryButtonText": {
     "description": "Button text for existing entry in Create Entry page"
   },
-  "bannerText": "Passworthy should not be your sole password storage.",
+  "bannerText": "Under active development, do not use it as the only way to store your passwords!",
   "@bannerText": {
     "description": "Banner text to be shown in the Overview page"
   },
