@@ -118,7 +118,6 @@ class _EntriesListViewBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocBuilder<OverviewBloc, OverviewState>(
       buildWhen: (previous, current) => previous.entries != current.entries,
       builder: (context, state) {
@@ -130,14 +129,7 @@ class _EntriesListViewBuilder extends StatelessWidget {
             return const SizedBox();
           }
 
-          return Center(
-            child: Text(
-              l10n.noEntriesText,
-              style: PassworthyTextStyle.titleText.copyWith(
-                color: PassworthyTextStyle.captionText.color,
-              ),
-            ).padding(const EdgeInsets.only(bottom: kToolbarHeight * 2)),
-          );
+          return const EmptyEntriesWidget();
         }
 
         return ListView.builder(
