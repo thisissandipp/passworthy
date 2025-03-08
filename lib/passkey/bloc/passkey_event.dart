@@ -26,3 +26,7 @@ final class ConfirmPasskeyInputChanged extends PasskeyEvent {
 final class PasskeyInputSubmitted extends PasskeyEvent {
   const PasskeyInputSubmitted();
 }
+
+final class PassworthyTermsRequested extends PasskeyEvent {
+  const PassworthyTermsRequested();
+}

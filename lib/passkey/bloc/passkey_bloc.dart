@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 part 'passkey_event.dart';
 part 'passkey_state.dart';
@@ -20,6 +22,7 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     on<PasskeyInputChanged>(_onPasskeyInputChanged);
     on<ConfirmPasskeyInputChanged>(_onConfirmPasskeyInputChanged);
     on<PasskeyInputSubmitted>(_onPasskeyInputSubmitted);
+    on<PassworthyTermsRequested>(_onPassworthyTermsRequested);
   }
 
   final OnboardingRepository _onboardingRepository;
@@ -84,5 +87,15 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
         ),
       );
     }
+  }
+
+  FutureOr<void> _onPassworthyTermsRequested(
+    PassworthyTermsRequested event,
+    Emitter<PasskeyState> emit,
+  ) async {
+    final supportUri = Uri.https('passworthy.thisissandipp.com', '/terms');
+    try {
+      await url_launcher.launchUrl(supportUri);
+    } on PlatformException catch (_) {}
   }
 }

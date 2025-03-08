@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_inputs/form_inputs.dart';
@@ -182,6 +183,10 @@ class _PasskeySubmitButton extends StatelessWidget {
                 style: PassworthyTextStyle.disclaimerText.copyWith(
                   color: PassworthyColors.lightGrey,
                 ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => context
+                      .read<PasskeyBloc>()
+                      .add(const PassworthyTermsRequested()),
               ),
             ],
           ),
