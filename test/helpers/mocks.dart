@@ -6,6 +6,7 @@ import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/banner/banner.dart';
 import 'package:passworthy/onboarding/onboarding.dart';
+import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
 class MockOnboardingRepository extends Mock implements OnboardingRepository {}
@@ -25,3 +26,8 @@ class MockConfirmPasskey extends Mock implements ConfirmPasskey {}
 class MockEntriesRepository extends Mock implements EntriesRepository {}
 
 class MockBannerCubit extends MockCubit<BannerState> implements BannerCubit {}
+
+class MockOverviewBloc extends MockBloc<OverviewEvent, OverviewState>
+    implements OverviewBloc {}
+
+class MockOverviewState extends Mock implements OverviewState {}

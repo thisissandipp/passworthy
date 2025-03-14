@@ -104,6 +104,10 @@
   "@noEntriesCaption": {
     "description": "Caption text for the Overview Page when there is no entries"
   },
+  "entryDetailsTitle": "entry details",
+  "@entryDetailsTitle": {
+    "description": "Text shown in entry details dialog in Overview Page"
+  },
   "platformLabel": "Platform",
   "@platformLabel": {
     "description": "Text shown as the label for the Platform in Overview Page"
@@ -116,13 +120,25 @@
   "@passwordLabel": {
     "description": "Text shown as the label for the Password in Overview Page"
   },
-  "updateButtonText": "Update",
+  "updateButtonText": "Update Password",
   "@updateButtonText": {
     "description": "Button text for Editing entry in the Overview Page"
   },
-  "deleteButtonText": "Delete",
-  "@deleteButtonText": {
-    "description": "Button text for Deleting entry in the Overview Page"
+  "deleteTitle": "delete",
+  "@deleteTitle": {
+    "description": "Delete Confirmation dialog title in the Overview Page"
+  },
+  "deleteCaption": "are you sure you want to delete this entry?",
+  "@deleteCaption": {
+    "description": "Delete Confirmation dialog caption in the Overview Page"
+  },
+  "deleteCancelButtonText": "Cancel",
+  "@deleteCancelButtonText": {
+    "description": "Delete Confirmation cancel button text in the Overview Page"
+  },
+  "deleteConfirmButtonText": "Confirm Delete",
+  "@deleteConfirmButtonText": {
+    "description": "Delete Confirmation Confirm button text in the Overview Page"
   },
   "passwordCopiedMessage": "password has been copied to clipboard",
   "@passwordCopiedMessage": {
