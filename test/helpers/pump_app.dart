@@ -7,6 +7,7 @@ import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/banner/banner.dart';
 import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/onboarding/onboarding.dart';
+import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/passkey/passkey.dart';
 
 import 'helpers.dart';
@@ -20,6 +21,7 @@ extension PumpApp on WidgetTester {
     OnboardingBloc? onboardingBloc,
     PasskeyBloc? passkeyBloc,
     BannerCubit? bannerCubit,
+    OverviewBloc? overviewBloc,
   }) {
     return pumpWidget(
       MultiRepositoryProvider(
@@ -44,6 +46,9 @@ extension PumpApp on WidgetTester {
             ),
             BlocProvider<BannerCubit>.value(
               value: bannerCubit ?? MockBannerCubit(),
+            ),
+            BlocProvider<OverviewBloc>.value(
+              value: overviewBloc ?? MockOverviewBloc(),
             ),
           ],
           child: MaterialApp(

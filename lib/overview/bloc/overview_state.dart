@@ -4,7 +4,7 @@ enum OverviewStatus { initial, loading, success, failure }
 
 enum OverviewError { nullPasskey, readEntries }
 
-final class OverviewState extends Equatable {
+class OverviewState extends Equatable {
   const OverviewState({
     this.entries = const <Entry>[],
     this.status = OverviewStatus.initial,

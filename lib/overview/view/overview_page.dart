@@ -1,5 +1,6 @@
 import 'package:entries_api/entries_api.dart';
 import 'package:entries_repository/entries_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passkey_repository/passkey_repository.dart';
@@ -68,10 +69,10 @@ class OverviewView extends StatelessWidget {
       ),
       body: const Column(
         children: [
-          _SearchEntryInput(),
+          SearchEntryInput(),
           BannerView(),
           Expanded(
-            child: _EntriesListViewBuilder(),
+            child: EntriesListViewBuilder(),
           ),
         ],
       ),
@@ -79,8 +80,8 @@ class OverviewView extends StatelessWidget {
   }
 }
 
-class _SearchEntryInput extends StatelessWidget {
-  const _SearchEntryInput();
+class SearchEntryInput extends StatelessWidget {
+  const SearchEntryInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -113,8 +114,8 @@ class _SearchEntryInput extends StatelessWidget {
   }
 }
 
-class _EntriesListViewBuilder extends StatelessWidget {
-  const _EntriesListViewBuilder();
+class EntriesListViewBuilder extends StatelessWidget {
+  const EntriesListViewBuilder({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -146,31 +147,46 @@ class _EntriesListViewBuilder extends StatelessWidget {
                     topRight: Radius.circular(12),
                   ),
                 ),
-                builder: (_) {
-                  return _BuildEntryDetails(
-                    entry: entry,
-                    onUpdatePressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (_) => CreateEntryPage(
-                            initialEntry: entry,
-                          ),
-                          fullscreenDialog: true,
+                builder: (_) => BuildEntryDetails(
+                  entry: entry,
+                  onUpdatePressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => CreateEntryPage(initialEntry: entry),
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  },
+                  onDeletePressed: () {
+                    Navigator.pop(context);
+                    showModalBottomSheet<void>(
+                      context: context,
+                      backgroundColor: PassworthyColors.slateGrey,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
                         ),
-                      );
-                    },
-                    onDeletePressed: () {
-                      Navigator.pop(context);
-                      context.read<OverviewBloc>().add(
-                            OverviewEntryDeleted(entry),
-                          );
-                    },
-                  ).padding(
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
-                  );
-                },
+                      ),
+                      builder: (_) => DeleteConfirmationDialog(
+                        entryDetails: '${entry.platform}\n${entry.identity}',
+                        onDeleteCanceled: () {
+                          Navigator.pop(context);
+                        },
+                        onDeleteConfirmed: () {
+                          Navigator.pop(context);
+                          context.read<OverviewBloc>().add(
+                                OverviewEntryDeleted(entry),
+                              );
+                        },
+                      ),
+                    );
+                  },
+                ).padding(
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                ),
               ),
               child: EntryComponent(entry: entry),
             );
@@ -181,11 +197,12 @@ class _EntriesListViewBuilder extends StatelessWidget {
   }
 }
 
-class _BuildEntryDetails extends StatelessWidget {
-  const _BuildEntryDetails({
+class BuildEntryDetails extends StatelessWidget {
+  const BuildEntryDetails({
     required this.entry,
     required this.onUpdatePressed,
     required this.onDeletePressed,
+    super.key,
   });
 
   final Entry entry;
@@ -195,22 +212,128 @@ class _BuildEntryDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       spacing: 12,
       children: [
-        _EntryInfoBuilder(
-          name: l10n.platformLabel,
-          value: entry.platform,
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                l10n.entryDetailsTitle,
+                style: PassworthyTextStyle.titleText,
+              ),
+            ),
+            IconButton(
+              key: const Key('buildEntryDetails_delete_iconButton'),
+              onPressed: onDeletePressed,
+              constraints: const BoxConstraints(maxHeight: 24, minWidth: 24),
+              splashRadius: 24,
+              color: PassworthyColors.redError,
+              padding: EdgeInsets.zero,
+              icon: const Icon(CupertinoIcons.delete_solid),
+            ),
+          ],
+        ).padding(const EdgeInsets.symmetric(horizontal: 4, vertical: 4)),
+        Column(
+          spacing: 2,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.platformLabel,
+              style: PassworthyTextStyle.disclaimerText,
+            ),
+            SelectableText(
+              entry.platform,
+              style: PassworthyTextStyle.captionText.copyWith(
+                color: PassworthyColors.lightGrey,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.identityLabel,
+              style: PassworthyTextStyle.disclaimerText,
+            ),
+            SelectableText(
+              entry.identity,
+              style: PassworthyTextStyle.captionText.copyWith(
+                color: PassworthyColors.lightGrey,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.passwordLabel,
+              style: PassworthyTextStyle.disclaimerText,
+            ),
+            SelectableText(
+              entry.password,
+              style: PassworthyTextStyle.captionText.copyWith(
+                color: PassworthyColors.lightGrey,
+              ),
+            ),
+          ],
+        )
+            .padding(
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            )
+            .decoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: PassworthyColors.darkGrey,
+              ),
+            ),
+        SizedBox(
+          height: 45,
+          child: ElevatedButton(
+            onPressed: onUpdatePressed,
+            child: Text(l10n.updateButtonText),
+          ),
         ),
-        _EntryInfoBuilder(
-          name: l10n.identityLabel,
-          value: entry.identity,
+        const SizedBox(height: 4),
+      ],
+    ).wrapScrollableConditionally(size.height);
+  }
+}
+
+class DeleteConfirmationDialog extends StatelessWidget {
+  const DeleteConfirmationDialog({
+    required this.entryDetails,
+    required this.onDeleteCanceled,
+    required this.onDeleteConfirmed,
+    super.key,
+  });
+
+  final String entryDetails;
+  final VoidCallback onDeleteCanceled;
+  final VoidCallback onDeleteConfirmed;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      spacing: 12,
+      children: [
+        Text(
+          l10n.deleteTitle,
+          style: PassworthyTextStyle.titleText,
         ),
-        _EntryInfoBuilder(
-          name: l10n.passwordLabel,
-          value: entry.password,
+        Text(
+          l10n.deleteCaption,
+          style: PassworthyTextStyle.disclaimerText.copyWith(
+            color: PassworthyColors.lightGrey,
+            fontSize: 14,
+          ),
+        ),
+        Text(
+          entryDetails,
+          style: PassworthyTextStyle.disclaimerText.copyWith(
+            color: PassworthyColors.mediumGrey,
+            fontSize: 14,
+          ),
         ),
         const SizedBox(height: 4),
         Row(
@@ -220,17 +343,25 @@ class _BuildEntryDetails extends StatelessWidget {
               child: SizedBox(
                 height: 45,
                 child: OutlinedButton(
-                  onPressed: onDeletePressed,
-                  child: Text(l10n.deleteButtonText),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: PassworthyColors.mediumGrey),
+                    foregroundColor: PassworthyColors.lightGrey,
+                  ),
+                  onPressed: onDeleteCanceled,
+                  child: Text(l10n.deleteCancelButtonText),
                 ),
               ),
             ),
             Expanded(
+              flex: 2,
               child: SizedBox(
                 height: 45,
                 child: ElevatedButton(
-                  onPressed: onUpdatePressed,
-                  child: Text(l10n.updateButtonText),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: PassworthyColors.redError,
+                  ),
+                  onPressed: onDeleteConfirmed,
+                  child: Text(l10n.deleteConfirmButtonText),
                 ),
               ),
             ),
@@ -238,46 +369,8 @@ class _BuildEntryDetails extends StatelessWidget {
         ),
         const SizedBox(height: 4),
       ],
-    );
-  }
-}
-
-class _EntryInfoBuilder extends StatelessWidget {
-  const _EntryInfoBuilder({required this.name, required this.value});
-  final String name;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 8,
-      children: [
-        Text(
-          name,
-          style: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.lightGrey,
-            fontSize: 14,
-          ),
-        ).padding(
-          const EdgeInsets.symmetric(horizontal: 12),
-        ),
-        SelectableText(
-          value,
-          style: PassworthyTextStyle.inputText.copyWith(
-            fontSize: 14,
-          ),
-        )
-            .padding(
-              const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            )
-            .decoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: PassworthyColors.darkGrey,
-              ),
-            ),
-      ],
+    ).padding(
+      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
     );
   }
 }

@@ -12,6 +12,7 @@ dependencies:
   bloc_concurrency: ^0.2.5
   cache:
     path: packages/cache
+  cupertino_icons: ^1.0.8
   entries_api:
     path: packages/entries_api
   entries_repository:
