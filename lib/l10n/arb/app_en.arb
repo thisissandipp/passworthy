@@ -48,31 +48,35 @@
   "@existingPasskeyCaption": {
     "description": "Text shown in the caption of the Passkey Page for exisitng users"
   },
-  "passkeyCharactersLengthError": "passkey must be at least 12 characters long",
-  "@passkeyCharactersLengthError": {
-    "description": "Error text shown when the passkey is length is less than 12 characters"
+  "passkeyCriteriaButtonText": "check passkey criteria here >",
+  "@passkeyCriteriaButtonText": {
+    "description": "Button text for passkey criteria for First Time users"
   },
-  "passkeyUppercaseMissingError": "passkey must contain an uppercase letter",
-  "@passkeyUppercaseMissingError": {
-    "description": "Error text shown when the passkey does not contain an uppercase letter"
+  "passkeyCriteriaModalTitle": "passkey criteria",
+  "@passkeyCriteriaModalTitle": {
+    "description": "Title for the passkey criteria modal in first time users passkey page"
   },
-  "passkeyLowercaseMissingError": "passkey must contain a lowercase letter",
-  "@passkeyLowercaseMissingError": {
-    "description": "Error text shown when the passkey does not contain a lowercase letter"
+  "passkeyCharactersLengthRule": "must contain at least 12 characters",
+  "@passkeyCharactersLengthRule": {
+    "description": "Rule text shown in the passkey criteria modal"
   },
-  "passkeyNumberMissingError": "passkey must contain a number",
-  "@passkeyNumberMissingError": {
-    "description": "Error text shown when the passkey does not contain a number"
+  "passkeyUppercaseRule": "must contain at least one uppercase letter",
+  "@passkeyUppercaseRule": {
+    "description": "Rule text shown in the passkey criteria modal"
   },
-  "passkeySpecialCharacterMissingError": "passkey must contain a special character\n@ ! # $ % ^ & * ( ) _ - + = {opencurly} {closecurly} [ ] : ; < > , . ? / | \\ ~",
-  "@passkeySpecialCharacterMissingError": {
-    "description": "Error text shown when the passkey does not contain a special character",
-    "placeholders": {
-      "opencurly": {},
-      "closecurly": {}
-    }
+  "passkeyLowercaseRule": "must contain at least one lowercase letter",
+  "@passkeyLowercaseRule": {
+    "description": "Rule text shown in the passkey criteria modal"
   },
-  "passkeyInvalidError": "passkey must not contain invalid characters",
+  "passkeyNumberRule": "must contain at least a number",
+  "@passkeyNumberRule": {
+    "description": "Rule text shown in the passkey criteria modal"
+  },
+  "passkeySpecialCharacterRule": "must contain at least one special character",
+  "@passkeySpecialCharacterRule": {
+    "description": "Rule text shown in the passkey criteria modal"
+  },
+  "passkeyInvalidError": "invalid passkey, please check passkey criteria",
   "@passkeyInvalidError": {
     "description": "Error text shown when the passkey contains an invalid character"
   },

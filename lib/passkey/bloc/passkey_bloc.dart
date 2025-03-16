@@ -33,10 +33,12 @@ class PasskeyBloc extends Bloc<PasskeyEvent, PasskeyState> {
     Emitter<PasskeyState> emit,
   ) async {
     final passkey = Passkey.dirty(event.value);
-    final confirmPasskey = ConfirmPasskey.dirty(
-      passkey: passkey.value,
-      value: state.confirmPasskey.value,
-    );
+    final confirmPasskey = state.confirmPasskey.value.isEmpty
+        ? ConfirmPasskey.pure(passkey: passkey.value)
+        : ConfirmPasskey.dirty(
+            passkey: passkey.value,
+            value: state.confirmPasskey.value,
+          );
 
     emit(
       state.copyWith(
