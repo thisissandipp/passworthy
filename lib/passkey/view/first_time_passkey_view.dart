@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_inputs/form_inputs.dart';
 import 'package:formz/formz.dart';
 import 'package:onboarding_repository/onboarding_repository.dart';
 import 'package:passkey_repository/passkey_repository.dart';
@@ -37,6 +36,10 @@ class FirstTimePasskeyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final passkeyErrors = context.select(
+      (PasskeyBloc bloc) => bloc.state.passkey.error,
+    );
+
     return BlocListener<PasskeyBloc, PasskeyState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
@@ -55,6 +58,7 @@ class FirstTimePasskeyView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const _BuildTitleAndCaption(),
+            PasskeyCriteriaInfo(passkeyErrors: passkeyErrors),
             const _PasskeyInputField(),
             const _ConfirmPasskeyInputField(),
             if (size.height < 640) const SizedBox(height: 48),
@@ -112,21 +116,7 @@ class _PasskeyInputField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: l10n.passkeyTextFieldHint,
         errorMaxLines: 2,
-        errorText: errors == null
-            ? null
-            : switch (errors.prioritized) {
-                PasskeyValidationError.characterLength =>
-                  l10n.passkeyCharactersLengthError,
-                PasskeyValidationError.missingUppercaseLetter =>
-                  l10n.passkeyUppercaseMissingError,
-                PasskeyValidationError.missingLowercaseLetter =>
-                  l10n.passkeyLowercaseMissingError,
-                PasskeyValidationError.missingNumber =>
-                  l10n.passkeyNumberMissingError,
-                PasskeyValidationError.missingSpecialCharacter =>
-                  l10n.passkeySpecialCharacterMissingError('{', '}'),
-                _ => l10n.passkeyInvalidError,
-              },
+        errorText: errors != null ? l10n.passkeyInvalidError : null,
       ),
     ).padding(const EdgeInsets.symmetric(horizontal: 24));
   }

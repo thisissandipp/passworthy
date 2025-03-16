@@ -54,7 +54,7 @@ void main() {
         expect: () => [
           PasskeyState(
             passkey: Passkey.dirty('a'),
-            confirmPasskey: ConfirmPasskey.dirty(passkey: 'a'),
+            confirmPasskey: ConfirmPasskey.pure(passkey: 'a'),
           ),
         ],
       );
