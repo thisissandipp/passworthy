@@ -184,6 +184,23 @@
   "@passwordInputHelperText": {
     "description": "Text shown in the helper placeholder for Password in Create Entry page"
   },
+  "additionalNotesHintText": "additional notes",
+  "@additionalNotesHintText": {
+    "description": "Text shown in the hint placeholder for Additional Notes in Create Entry page"
+  },
+  "additionaNotesHelperText": "any notes you want to add to this entry",
+  "@additionaNotesHelperText": {
+    "description": "Text shown in the helper placeholder for Additional Notes in Create Entry page"
+  },
+  "createdOn": "Created on: {time}",
+  "@createdOn": {
+    "description": "Creation time shown in Create Entry page",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "addEntryButtonText": "add now",
   "@addEntryButtonText": {
     "description": "Button text for new entry in Create Entry page"

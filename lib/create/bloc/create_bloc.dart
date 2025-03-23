@@ -30,11 +30,13 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
             password: initialEntry != null
                 ? Password.dirty(initialEntry.password)
                 : const Password.pure(),
+            additionalNotes: initialEntry?.additionalNotes ?? '',
           ),
         ) {
     on<PlatformInputChanged>(_onPlatformInputChanged);
     on<IdentityInputChanged>(_onIdentityInputChanged);
     on<PasswordInputChanged>(_onPasswordInputChanged);
+    on<AdditionalNotesChanged>(_onAdditionalNotesChanged);
     on<EntrySubmitted>(_onEntrySubmitted);
   }
 
@@ -80,6 +82,20 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
     );
   }
 
+  FutureOr<void> _onAdditionalNotesChanged(
+    AdditionalNotesChanged event,
+    Emitter<CreateState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        additionalNotes: event.value,
+        isFormValid: Formz.validate(
+          [state.platform, state.identity, state.password],
+        ),
+      ),
+    );
+  }
+
   FutureOr<void> _onEntrySubmitted(
     EntrySubmitted event,
     Emitter<CreateState> emit,
@@ -98,12 +114,13 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
             platform: state.platform.value,
             identity: state.identity.value,
             password: state.password.value,
-            createdAt: DateTime.now(),
+            additionalNotes: state.additionalNotes,
           )
         : state.initialEntry!.copyWith(
             platform: state.platform.value,
             identity: state.identity.value,
             password: state.password.value,
+            additionalNotes: state.additionalNotes,
           );
 
     try {

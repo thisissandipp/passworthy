@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:6100215952033375227",
-      "lastPropertyId": "7:7747267446288063515",
+      "lastPropertyId": "9:7773246911931077714",
       "name": "EntryDto",
       "properties": [
         {
@@ -45,6 +45,16 @@
           "id": "7:7747267446288063515",
           "name": "isFavorite",
           "type": 1
+        },
+        {
+          "id": "8:5905347997896330786",
+          "name": "lastUpdatedAt",
+          "type": 12
+        },
+        {
+          "id": "9:7773246911931077714",
+          "name": "additionalNotes",
+          "type": 9
         }
       ],
       "relations": []

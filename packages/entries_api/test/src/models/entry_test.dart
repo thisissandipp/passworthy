@@ -8,6 +8,7 @@ void main() {
   group('Entry', () {
     const defaultId = '32b2ea3c-275b-4cde-876d-ecb3ef947920';
     final defaultCreatedAt = DateTime.parse('2012-02-27T14+00:00');
+    final defaultLastUpdatedAt = DateTime.parse('2012-02-27T14+00:00');
 
     Entry createSubject({
       String? id = defaultId,
@@ -15,7 +16,9 @@ void main() {
       String identity = 'test@test.com',
       String password = 'test',
       DateTime? createdAt,
+      DateTime? lastUpdatedAt,
       bool isFavorite = false,
+      String additionalNotes = 'notes',
     }) {
       return Entry(
         id: id,
@@ -23,7 +26,9 @@ void main() {
         identity: identity,
         password: password,
         createdAt: createdAt ?? defaultCreatedAt,
+        lastUpdatedAt: lastUpdatedAt ?? defaultLastUpdatedAt,
         isFavorite: isFavorite,
+        additionalNotes: additionalNotes,
       );
     }
 
@@ -62,7 +67,9 @@ void main() {
           'test@test.com', // identifier
           'test', // password
           defaultCreatedAt, // createdAt
+          defaultLastUpdatedAt, // lastUpdatedAt
           false, // isFavorite
+          'notes', // additionalNotes
         ]),
       );
     });
@@ -83,7 +90,9 @@ void main() {
             identity: null,
             password: null,
             createdAt: null,
+            lastUpdatedAt: null,
             isFavorite: null,
+            additionalNotes: null,
           ),
           equals(createSubject()),
         );
@@ -92,6 +101,7 @@ void main() {
       test('replaces every non-null parameter', () {
         const newId = '543f5820-fa5e-4a59-9572-776d3404d156';
         final newCreatedAt = DateTime.parse('2024-05-12T07+00:00');
+        final newLastUpdatedAt = DateTime.parse('2024-05-12T07+00:00');
 
         expect(
           createSubject().copyWith(
@@ -100,7 +110,9 @@ void main() {
             identity: 'test@gmail.com',
             password: 'testgmail',
             createdAt: newCreatedAt,
+            lastUpdatedAt: newLastUpdatedAt,
             isFavorite: true,
+            additionalNotes: 'notes-2',
           ),
           equals(
             createSubject(
@@ -109,7 +121,9 @@ void main() {
               identity: 'test@gmail.com',
               password: 'testgmail',
               createdAt: newCreatedAt,
+              lastUpdatedAt: newLastUpdatedAt,
               isFavorite: true,
+              additionalNotes: 'notes-2',
             ),
           ),
         );

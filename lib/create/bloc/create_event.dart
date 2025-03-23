@@ -31,6 +31,14 @@ final class PasswordInputChanged extends CreateEvent {
   List<Object> get props => [value];
 }
 
+final class AdditionalNotesChanged extends CreateEvent {
+  const AdditionalNotesChanged(this.value);
+  final String value;
+
+  @override
+  List<Object> get props => [value];
+}
+
 final class EntrySubmitted extends CreateEvent {
   const EntrySubmitted();
 }
