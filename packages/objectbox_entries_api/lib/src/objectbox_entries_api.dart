@@ -44,9 +44,11 @@ class ObjectboxEntriesApi extends EntriesApi {
 
   @override
   Stream<List<Entry>> getEntries(String passkey) async* {
-    final queryStream = store.box<EntryDto>().query().watch(
-          triggerImmediately: true,
-        );
+    final queryStream = store
+        .box<EntryDto>()
+        .query()
+        .order(EntryDto_.createdAt, flags: Order.descending)
+        .watch(triggerImmediately: true);
 
     yield* queryStream.asyncMap((query) async {
       final entryDtoList = await query.findAsync();
@@ -78,13 +80,12 @@ class ObjectboxEntriesApi extends EntriesApi {
     final queryStream = store
         .box<EntryDto>()
         .query(
-          EntryDto_.platform
-              .contains(searchText)
-              .or(EntryDto_.identity.contains(searchText)),
+          EntryDto_.platform.contains(searchText).or(
+                EntryDto_.identity.contains(searchText),
+              ),
         )
-        .watch(
-          triggerImmediately: true,
-        );
+        .order(EntryDto_.createdAt, flags: Order.descending)
+        .watch(triggerImmediately: true);
 
     yield* queryStream.asyncMap((query) async {
       final entryDtoList = await query.findAsync();
