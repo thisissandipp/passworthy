@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 6100215952033375227),
       name: 'EntryDto',
-      lastPropertyId: const obx_int.IdUid(7, 7747267446288063515),
+      lastPropertyId: const obx_int.IdUid(9, 7773246911931077714),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -60,6 +60,16 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(7, 7747267446288063515),
             name: 'isFavorite',
             type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 5905347997896330786),
+            name: 'lastUpdatedAt',
+            type: 12,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 7773246911931077714),
+            name: 'additionalNotes',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -127,7 +137,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final platformOffset = fbb.writeString(object.platform);
           final identityOffset = fbb.writeString(object.identity);
           final passwordOffset = fbb.writeString(object.password);
-          fbb.startTable(8);
+          final additionalNotesOffset = fbb.writeString(object.additionalNotes);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, uidOffset);
           fbb.addOffset(2, platformOffset);
@@ -135,6 +146,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(4, passwordOffset);
           fbb.addInt64(5, object.createdAt.microsecondsSinceEpoch * 1000);
           fbb.addBool(6, object.isFavorite);
+          fbb.addInt64(7, object.lastUpdatedAt.microsecondsSinceEpoch * 1000);
+          fbb.addOffset(8, additionalNotesOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -153,18 +166,27 @@ obx_int.ModelDefinition getObjectBoxModel() {
               (const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0) /
                       1000)
                   .round());
+          final lastUpdatedAtParam = DateTime.fromMicrosecondsSinceEpoch(
+              (const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0) /
+                      1000)
+                  .round());
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final isFavoriteParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 16, false);
+          final additionalNotesParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 20, '');
           final object = EntryDto(
               uid: uidParam,
               platform: platformParam,
               identity: identityParam,
               password: passwordParam,
               createdAt: createdAtParam,
+              lastUpdatedAt: lastUpdatedAtParam,
               id: idParam,
-              isFavorite: isFavoriteParam);
+              isFavorite: isFavoriteParam,
+              additionalNotes: additionalNotesParam);
 
           return object;
         })
@@ -202,4 +224,12 @@ class EntryDto_ {
   /// See [EntryDto.isFavorite].
   static final isFavorite =
       obx.QueryBooleanProperty<EntryDto>(_entities[0].properties[6]);
+
+  /// See [EntryDto.lastUpdatedAt].
+  static final lastUpdatedAt =
+      obx.QueryDateNanoProperty<EntryDto>(_entities[0].properties[7]);
+
+  /// See [EntryDto.additionalNotes].
+  static final additionalNotes =
+      obx.QueryStringProperty<EntryDto>(_entities[0].properties[8]);
 }

@@ -1,7 +1,9 @@
 import 'package:entries_api/entries_api.dart';
 import 'package:entries_repository/entries_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:passkey_repository/passkey_repository.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
@@ -31,8 +33,11 @@ class CreateEntryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     final l10n = context.l10n;
+    final initialEntry = context.select(
+      (CreateBloc bloc) => bloc.state.initialEntry,
+    );
+    final dateFormat = DateFormat.yMMMMd('en_US').add_jm();
 
     return BlocListener<CreateBloc, CreateState>(
       listenWhen: (previous, current) =>
@@ -58,19 +63,39 @@ class CreateEntryView extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 16,
-          children: [
-            const _BuildTitle(),
-            const _PlatformInputField(),
-            const _IdentityInputField(),
-            const _PasswordInputField(),
-            if (size.height < 640) const SizedBox(height: 48),
-            if (size.height >= 640) const Spacer(),
-            const _EntrySubmitted(),
-          ],
-        ).wrapScrollableConditionally(size.height),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 16,
+            children: [
+              const _BuildTitle(),
+              const _PlatformInputField(),
+              const _IdentityInputField(),
+              const _PasswordInputField(),
+              const AdditionalNotesInputField(),
+              if (initialEntry != null) ...[
+                const SizedBox(height: 8),
+                Row(
+                  spacing: 8,
+                  children: [
+                    const Icon(
+                      CupertinoIcons.info,
+                      size: 18,
+                      color: PassworthyColors.lightGrey,
+                    ),
+                    Text(
+                      l10n.createdOn(dateFormat.format(initialEntry.createdAt)),
+                      style: PassworthyTextStyle.disclaimerText.copyWith(
+                        color: PassworthyColors.lightGrey,
+                      ),
+                    ),
+                  ],
+                ).padding(const EdgeInsets.symmetric(horizontal: 24)),
+              ],
+              const _EntrySubmitted(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -178,6 +203,41 @@ class _PasswordInputField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: l10n.passwordInputHintText,
         helperText: l10n.passwordInputHelperText,
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: PassworthyColors.lightGrey,
+          ),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: PassworthyColors.lightGrey,
+          ),
+        ),
+      ),
+    ).padding(const EdgeInsets.symmetric(horizontal: 24));
+  }
+}
+
+class AdditionalNotesInputField extends StatelessWidget {
+  const AdditionalNotesInputField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.select((CreateBloc bloc) => bloc.state);
+    final l10n = context.l10n;
+    return TextFormField(
+      key: const Key('createEntryView_additionalNotes_textField'),
+      initialValue: state.additionalNotes,
+      onChanged: (value) => context.read<CreateBloc>().add(
+            AdditionalNotesChanged(value),
+          ),
+      style: PassworthyTextStyle.inputText,
+      cursorColor: PassworthyColors.mediumIndigo,
+      keyboardType: TextInputType.multiline,
+      maxLines: 3,
+      decoration: InputDecoration(
+        hintText: l10n.additionalNotesHintText,
+        helperText: l10n.additionaNotesHelperText,
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
             color: PassworthyColors.lightGrey,

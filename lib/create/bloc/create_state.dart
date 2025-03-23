@@ -16,6 +16,7 @@ final class CreateState extends Equatable {
     this.platform = const Platform.pure(),
     this.identity = const Identity.pure(),
     this.password = const Password.pure(),
+    this.additionalNotes = '',
     this.isFormValid = false,
   });
 
@@ -24,13 +25,21 @@ final class CreateState extends Equatable {
   final Platform platform;
   final Identity identity;
   final Password password;
+  final String additionalNotes;
   final bool isFormValid;
 
   bool get isNewEntry => initialEntry == null;
 
   @override
-  List<Object?> get props =>
-      [createStatus, initialEntry, platform, identity, password, isFormValid];
+  List<Object?> get props => [
+        createStatus,
+        initialEntry,
+        platform,
+        identity,
+        password,
+        additionalNotes,
+        isFormValid,
+      ];
 
   CreateState copyWith({
     CreateEntryStatus? createStatus,
@@ -38,6 +47,7 @@ final class CreateState extends Equatable {
     Platform? platform,
     Identity? identity,
     Password? password,
+    String? additionalNotes,
     bool? isFormValid,
   }) {
     return CreateState(
@@ -46,6 +56,7 @@ final class CreateState extends Equatable {
       platform: platform ?? this.platform,
       identity: identity ?? this.identity,
       password: password ?? this.password,
+      additionalNotes: additionalNotes ?? this.additionalNotes,
       isFormValid: isFormValid ?? this.isFormValid,
     );
   }

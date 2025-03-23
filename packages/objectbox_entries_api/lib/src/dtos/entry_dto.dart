@@ -13,8 +13,10 @@ class EntryDto {
     required this.identity,
     required this.password,
     required this.createdAt,
+    required this.lastUpdatedAt,
     this.id = 0,
     this.isFavorite = false,
+    this.additionalNotes = '',
   });
 
   /// Creates an [EntryDto] object from [entry].
@@ -25,7 +27,9 @@ class EntryDto {
       identity: entry.identity,
       password: entry.password,
       createdAt: entry.createdAt,
+      lastUpdatedAt: entry.lastUpdatedAt,
       isFavorite: entry.isFavorite,
+      additionalNotes: entry.additionalNotes,
     );
   }
 
@@ -37,7 +41,9 @@ class EntryDto {
       identity: identity,
       password: password,
       createdAt: createdAt,
+      lastUpdatedAt: lastUpdatedAt,
       isFavorite: isFavorite,
+      additionalNotes: additionalNotes,
     );
   }
 
@@ -63,6 +69,13 @@ class EntryDto {
   @Property(type: PropertyType.dateNano)
   final DateTime createdAt;
 
+  /// The timestamp defining when the password was last updated.
+  @Property(type: PropertyType.dateNano)
+  final DateTime lastUpdatedAt;
+
   /// Whether this entry is marked as a favorite.
   final bool isFavorite;
+
+  /// Any associated additional notes for the entry.
+  final String additionalNotes;
 }

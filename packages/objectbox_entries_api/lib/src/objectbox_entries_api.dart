@@ -112,7 +112,16 @@ class ObjectboxEntriesApi extends EntriesApi {
       entry: entry,
       passkey: passkey,
       operation: (encrypted) {
-        store.box<EntryDto>().putAsync(EntryDto.fromEntry(encrypted));
+        final entryBox = store.box<EntryDto>();
+        final query = EntryDto_.uid.equals(entry.id);
+        final entryToPut = entryBox.query(query).build().findFirst();
+
+        if (entryToPut != null) {
+          // TODO(thisissandipp): Update `lastUpdatedAt` if the password has changed.
+          encrypted = encrypted.copyWith(lastUpdatedAt: DateTime.now());
+        }
+
+        entryBox.putAsync(EntryDto.fromEntry(encrypted));
       },
     );
   }
