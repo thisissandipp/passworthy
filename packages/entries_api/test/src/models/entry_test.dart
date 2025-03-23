@@ -49,6 +49,16 @@ void main() {
         expect(entry.id, isNotEmpty);
         expect(Uuid.isValidUUID(fromString: entry.id), isTrue);
       });
+
+      test('sets [createdAt] and [lastUpdatedAt] when not passed', () {
+        final entry = Entry(
+          platform: 'platform',
+          identity: 'identity',
+          password: 'password',
+        );
+        expect(entry.createdAt, isA<DateTime>());
+        expect(entry.lastUpdatedAt, isA<DateTime>());
+      });
     });
 
     test('supports value equality', () {

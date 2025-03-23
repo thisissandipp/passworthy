@@ -108,6 +108,7 @@ class ObjectboxEntriesApi extends EntriesApi {
 
   @override
   FutureOr<void> saveEntry(Entry entry, String passkey) async {
+    // TODO(thisissandipp): Update `lastUpdatedAt` if the password has changed.
     return applyEncryption(
       entry: entry,
       passkey: passkey,
@@ -117,7 +118,6 @@ class ObjectboxEntriesApi extends EntriesApi {
         final entryToPut = entryBox.query(query).build().findFirst();
 
         if (entryToPut != null) {
-          // TODO(thisissandipp): Update `lastUpdatedAt` if the password has changed.
           encrypted = encrypted.copyWith(lastUpdatedAt: DateTime.now());
         }
 
