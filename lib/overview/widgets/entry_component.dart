@@ -1,4 +1,5 @@
 import 'package:entries_api/entries_api.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:passworthy/colors/colors.dart';
@@ -39,8 +40,23 @@ class EntryComponent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      entry.platform,
+                    Text.rich(
+                      TextSpan(
+                        text: entry.platform,
+                        children: [
+                          const TextSpan(text: '  '),
+                          if (entry.isFavorite)
+                            const WidgetSpan(
+                              baseline: TextBaseline.alphabetic,
+                              alignment: PlaceholderAlignment.baseline,
+                              child: Icon(
+                                CupertinoIcons.star_fill,
+                                color: PassworthyColors.amberHighlight,
+                                size: 14,
+                              ),
+                            ),
+                        ],
+                      ),
                       overflow: TextOverflow.ellipsis,
                       style: PassworthyTextStyle.titleText.copyWith(
                         fontSize: 14,

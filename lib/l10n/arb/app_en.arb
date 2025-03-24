@@ -124,9 +124,9 @@
   "@passwordLabel": {
     "description": "Text shown as the label for the Password in Overview Page"
   },
-  "updateButtonText": "Update Password",
+  "updateButtonText": "Update the entry",
   "@updateButtonText": {
-    "description": "Button text for Editing entry in the Overview Page"
+    "description": "Button text for Editing entry in the Entry Details Page"
   },
   "deleteTitle": "delete",
   "@deleteTitle": {
@@ -240,5 +240,21 @@
   "copiedButtonText": "Copied",
   "@copiedButtonText": {
     "description": "Button text for the Copy button after it's copied in Overview Page"
+  },
+  "showPasswordButtonText": "Show Password",
+  "@showPasswordButtonText": {
+    "description": "Button text for Show Password button in Entry Details page"
+  },
+  "addToFavoriteButtonText": "Add to favorites",
+  "@addToFavoriteButtonText": {
+    "description": "Button text for Add to favorite button in Entry Details page"
+  },
+  "removeFromFavoriteButtonText": "Remove from favorites",
+  "@removeFromFavoriteButtonText": {
+    "description": "Button text for Remove from favorite button in Entry Details page"
+  },
+  "deleteEntryButtonText": "I don't need it anymore",
+  "@deleteEntryButtonText": {
+    "description": "Button text for Delete button in Entry Details page"
   }
 }

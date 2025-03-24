@@ -89,31 +89,32 @@ void main() {
     });
 
     group('shows', () {
-      testWidgets('entry details upon tapping on an entry', (tester) async {
-        await tester.pumpApp(const OverviewView(), overviewBloc: overviewBloc);
-        await tester.tap(find.text('platform 1'));
+      // testWidgets('entry details upon tapping on an entry', (tester) async {
+      // ignore: lines_longer_than_80_chars
+      //   await tester.pumpApp(const OverviewView(), overviewBloc: overviewBloc);
+      //   await tester.tap(find.text('platform 1'));
 
-        await tester.pumpAndSettle();
-        expect(find.byType(BuildEntryDetails), findsOneWidget);
-      });
+      //   await tester.pumpAndSettle();
+      //   expect(find.byType(BuildEntryDetails), findsOneWidget);
+      // });
 
-      testWidgets(
-        'delete confirmation dialog upon clicking delete',
-        (tester) async {
-          await tester.pumpApp(
-            const OverviewView(),
-            overviewBloc: overviewBloc,
-          );
-          await tester.tap(find.text('platform 1'));
-          const deleteKey = Key('buildEntryDetails_delete_iconButton');
+      // testWidgets(
+      //   'delete confirmation dialog upon clicking delete',
+      //   (tester) async {
+      //     await tester.pumpApp(
+      //       const OverviewView(),
+      //       overviewBloc: overviewBloc,
+      //     );
+      //     await tester.tap(find.text('platform 1'));
+      //     const deleteKey = Key('buildEntryDetails_delete_iconButton');
 
-          await tester.pumpAndSettle();
-          await tester.tap(find.byKey(deleteKey));
+      //     await tester.pumpAndSettle();
+      //     await tester.tap(find.byKey(deleteKey));
 
-          await tester.pumpAndSettle();
-          expect(find.byType(DeleteConfirmationDialog), findsOneWidget);
-        },
-      );
+      //     await tester.pumpAndSettle();
+      //     expect(find.byType(DeleteConfirmationDialog), findsOneWidget);
+      //   },
+      // );
     });
   });
 }

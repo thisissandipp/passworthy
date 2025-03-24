@@ -40,4 +40,7 @@ class PassworthyColors {
 
   /// greenSuccess
   static const greenSuccess = Color(0xFF4ADE80);
+
+  /// amberHighlight
+  static const amberHighlight = Color(0xFFFFC107);
 }

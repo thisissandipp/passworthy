@@ -1,6 +1,4 @@
-import 'package:entries_api/entries_api.dart';
 import 'package:entries_repository/entries_repository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:passkey_repository/passkey_repository.dart';
@@ -8,6 +6,7 @@ import 'package:passworthy/banner/banner.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
+import 'package:passworthy/details/details.dart';
 import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/settings/view/settings_page.dart';
@@ -147,230 +146,13 @@ class EntriesListViewBuilder extends StatelessWidget {
                     topRight: Radius.circular(12),
                   ),
                 ),
-                builder: (_) => BuildEntryDetails(
-                  entry: entry,
-                  onUpdatePressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => CreateEntryPage(initialEntry: entry),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
-                  onDeletePressed: () {
-                    Navigator.pop(context);
-                    showModalBottomSheet<void>(
-                      context: context,
-                      backgroundColor: PassworthyColors.slateGrey,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                      ),
-                      builder: (_) => DeleteConfirmationDialog(
-                        entryDetails: '${entry.platform}\n${entry.identity}',
-                        onDeleteCanceled: () {
-                          Navigator.pop(context);
-                        },
-                        onDeleteConfirmed: () {
-                          Navigator.pop(context);
-                          context.read<OverviewBloc>().add(
-                                OverviewEntryDeleted(entry),
-                              );
-                        },
-                      ),
-                    );
-                  },
-                ).padding(
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                ),
+                builder: (_) => EntryDetailsView(entry: entry),
               ),
               child: EntryComponent(entry: entry),
             );
           },
         );
       },
-    );
-  }
-}
-
-class BuildEntryDetails extends StatelessWidget {
-  const BuildEntryDetails({
-    required this.entry,
-    required this.onUpdatePressed,
-    required this.onDeletePressed,
-    super.key,
-  });
-
-  final Entry entry;
-  final VoidCallback onUpdatePressed;
-  final VoidCallback onDeletePressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      spacing: 12,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                l10n.entryDetailsTitle,
-                style: PassworthyTextStyle.titleText,
-              ),
-            ),
-            IconButton(
-              key: const Key('buildEntryDetails_delete_iconButton'),
-              onPressed: onDeletePressed,
-              constraints: const BoxConstraints(maxHeight: 24, minWidth: 24),
-              splashRadius: 24,
-              color: PassworthyColors.redError,
-              padding: EdgeInsets.zero,
-              icon: const Icon(CupertinoIcons.delete_solid),
-            ),
-          ],
-        ).padding(const EdgeInsets.symmetric(horizontal: 4, vertical: 4)),
-        Column(
-          spacing: 2,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.platformLabel,
-              style: PassworthyTextStyle.disclaimerText,
-            ),
-            SelectableText(
-              entry.platform,
-              style: PassworthyTextStyle.captionText.copyWith(
-                color: PassworthyColors.lightGrey,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.identityLabel,
-              style: PassworthyTextStyle.disclaimerText,
-            ),
-            SelectableText(
-              entry.identity,
-              style: PassworthyTextStyle.captionText.copyWith(
-                color: PassworthyColors.lightGrey,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.passwordLabel,
-              style: PassworthyTextStyle.disclaimerText,
-            ),
-            SelectableText(
-              entry.password,
-              style: PassworthyTextStyle.captionText.copyWith(
-                color: PassworthyColors.lightGrey,
-              ),
-            ),
-          ],
-        )
-            .padding(
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            )
-            .decoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: PassworthyColors.darkGrey,
-              ),
-            ),
-        SizedBox(
-          height: 45,
-          child: ElevatedButton(
-            onPressed: onUpdatePressed,
-            child: Text(l10n.updateButtonText),
-          ),
-        ),
-        const SizedBox(height: 4),
-      ],
-    ).wrapScrollableConditionally(size.height);
-  }
-}
-
-class DeleteConfirmationDialog extends StatelessWidget {
-  const DeleteConfirmationDialog({
-    required this.entryDetails,
-    required this.onDeleteCanceled,
-    required this.onDeleteConfirmed,
-    super.key,
-  });
-
-  final String entryDetails;
-  final VoidCallback onDeleteCanceled;
-  final VoidCallback onDeleteConfirmed;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 12,
-      children: [
-        Text(
-          l10n.deleteTitle,
-          style: PassworthyTextStyle.titleText,
-        ),
-        Text(
-          l10n.deleteCaption,
-          style: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.lightGrey,
-            fontSize: 14,
-          ),
-        ),
-        Text(
-          entryDetails,
-          style: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.mediumGrey,
-            fontSize: 14,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Row(
-          spacing: 16,
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: PassworthyColors.mediumGrey),
-                    foregroundColor: PassworthyColors.lightGrey,
-                  ),
-                  onPressed: onDeleteCanceled,
-                  child: Text(l10n.deleteCancelButtonText),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: SizedBox(
-                height: 45,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PassworthyColors.redError,
-                  ),
-                  onPressed: onDeleteConfirmed,
-                  child: Text(l10n.deleteConfirmButtonText),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-      ],
-    ).padding(
-      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
     );
   }
 }
