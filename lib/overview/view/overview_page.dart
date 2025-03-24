@@ -8,6 +8,7 @@ import 'package:passworthy/banner/banner.dart';
 import 'package:passworthy/colors/colors.dart';
 import 'package:passworthy/create/create.dart';
 import 'package:passworthy/decorators/decorators.dart';
+import 'package:passworthy/details/details.dart';
 import 'package:passworthy/l10n/l10n.dart';
 import 'package:passworthy/overview/overview.dart';
 import 'package:passworthy/settings/view/settings_page.dart';
@@ -147,46 +148,7 @@ class EntriesListViewBuilder extends StatelessWidget {
                     topRight: Radius.circular(12),
                   ),
                 ),
-                builder: (_) => BuildEntryDetails(
-                  entry: entry,
-                  onUpdatePressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => CreateEntryPage(initialEntry: entry),
-                        fullscreenDialog: true,
-                      ),
-                    );
-                  },
-                  onDeletePressed: () {
-                    Navigator.pop(context);
-                    showModalBottomSheet<void>(
-                      context: context,
-                      backgroundColor: PassworthyColors.slateGrey,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                      ),
-                      builder: (_) => DeleteConfirmationDialog(
-                        entryDetails: '${entry.platform}\n${entry.identity}',
-                        onDeleteCanceled: () {
-                          Navigator.pop(context);
-                        },
-                        onDeleteConfirmed: () {
-                          Navigator.pop(context);
-                          context.read<OverviewBloc>().add(
-                                OverviewEntryDeleted(entry),
-                              );
-                        },
-                      ),
-                    );
-                  },
-                ).padding(
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                ),
+                builder: (_) => EntryDetailsView(entry: entry),
               ),
               child: EntryComponent(entry: entry),
             );
@@ -294,83 +256,5 @@ class BuildEntryDetails extends StatelessWidget {
         const SizedBox(height: 4),
       ],
     ).wrapScrollableConditionally(size.height);
-  }
-}
-
-class DeleteConfirmationDialog extends StatelessWidget {
-  const DeleteConfirmationDialog({
-    required this.entryDetails,
-    required this.onDeleteCanceled,
-    required this.onDeleteConfirmed,
-    super.key,
-  });
-
-  final String entryDetails;
-  final VoidCallback onDeleteCanceled;
-  final VoidCallback onDeleteConfirmed;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      spacing: 12,
-      children: [
-        Text(
-          l10n.deleteTitle,
-          style: PassworthyTextStyle.titleText,
-        ),
-        Text(
-          l10n.deleteCaption,
-          style: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.lightGrey,
-            fontSize: 14,
-          ),
-        ),
-        Text(
-          entryDetails,
-          style: PassworthyTextStyle.disclaimerText.copyWith(
-            color: PassworthyColors.mediumGrey,
-            fontSize: 14,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Row(
-          spacing: 16,
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 45,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: PassworthyColors.mediumGrey),
-                    foregroundColor: PassworthyColors.lightGrey,
-                  ),
-                  onPressed: onDeleteCanceled,
-                  child: Text(l10n.deleteCancelButtonText),
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: SizedBox(
-                height: 45,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PassworthyColors.redError,
-                  ),
-                  onPressed: onDeleteConfirmed,
-                  child: Text(l10n.deleteConfirmButtonText),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-      ],
-    ).padding(
-      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-    );
   }
 }
