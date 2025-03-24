@@ -34,6 +34,7 @@ class EntryDetailsSetup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final entry = context.select((DetailsBloc bloc) => bloc.state.entry);
+    final l10n = context.l10n;
     return Column(
       spacing: 8,
       mainAxisSize: MainAxisSize.min,
@@ -98,7 +99,7 @@ class EntryDetailsSetup extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Update the entry',
+                    l10n.updateButtonText,
                     style: PassworthyTextStyle.captionText.copyWith(
                       color: PassworthyColors.lightGrey,
                     ),
@@ -121,7 +122,7 @@ class EntryDetailsSetup extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "I don't need it anymore",
+                    l10n.deleteEntryButtonText,
                     style: PassworthyTextStyle.captionText.copyWith(
                       color: PassworthyColors.redError,
                     ),
@@ -153,6 +154,7 @@ class PasswordToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<DetailsBloc, DetailsState>(
       buildWhen: (previous, current) =>
           previous.showPassword != current.showPassword,
@@ -173,7 +175,7 @@ class PasswordToggle extends StatelessWidget {
                 )
               else
                 Text(
-                  'Show Password',
+                  l10n.showPasswordButtonText,
                   overflow: TextOverflow.ellipsis,
                   style: PassworthyTextStyle.captionText.copyWith(
                     color: PassworthyColors.lightGrey,
@@ -202,6 +204,7 @@ class FavoriteStatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final isFavorite = context.select(
       (DetailsBloc bloc) => bloc.state.entry.isFavorite,
     );
@@ -213,7 +216,9 @@ class FavoriteStatusView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            isFavorite ? 'Remove from favorites' : 'Add to favorites',
+            isFavorite
+                ? l10n.removeFromFavoriteButtonText
+                : l10n.addToFavoriteButtonText,
             style: PassworthyTextStyle.captionText.copyWith(
               color: PassworthyColors.lightGrey,
             ),
