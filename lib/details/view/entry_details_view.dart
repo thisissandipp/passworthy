@@ -226,7 +226,9 @@ class FavoriteStatusView extends StatelessWidget {
           Icon(
             isFavorite ? Icons.star : Icons.star_border,
             size: 18,
-            color: isFavorite ? Colors.amber : PassworthyColors.lightGrey,
+            color: isFavorite
+                ? PassworthyColors.amberHighlight
+                : PassworthyColors.lightGrey,
           ),
         ],
       ),
