@@ -47,6 +47,7 @@ class ObjectboxEntriesApi extends EntriesApi {
     final queryStream = store
         .box<EntryDto>()
         .query()
+        .order(EntryDto_.isFavorite, flags: Order.descending)
         .order(EntryDto_.createdAt, flags: Order.descending)
         .watch(triggerImmediately: true);
 
@@ -84,6 +85,7 @@ class ObjectboxEntriesApi extends EntriesApi {
                 EntryDto_.identity.contains(searchText),
               ),
         )
+        .order(EntryDto_.isFavorite, flags: Order.descending)
         .order(EntryDto_.createdAt, flags: Order.descending)
         .watch(triggerImmediately: true);
 
